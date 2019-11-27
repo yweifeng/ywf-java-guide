@@ -19,7 +19,7 @@
     - [kafka面试题](doc/kafka/kafka面试题.md)
     - [kafka集群](doc/kafka/kafka集群.md)
 - [zookeeper](#)
-    - [zookeeper基础](doc/zookeeper/zookeeper/zookeeper面试专题及答案.pdf)
+    - [zookeeper基础](doc/zookeeper/zookeeper面试专题及答案.pdf)
 - [mysql](#)
     - [mysql主从复制](doc/mysql/mysql主从复制.md)
     - [mycat读写分离](doc/mysql/mycat读写分离.md)
