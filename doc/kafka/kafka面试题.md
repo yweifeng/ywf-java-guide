@@ -44,7 +44,7 @@ AR = ISR + OSR
 
 ## 6 kafka数据存储
 
- ![img](https://img2018.cnblogs.com/blog/825887/201903/825887-20190326213243306-1041822201.png) 
+ ![img](img/kafka01.png) 
 
 
 
@@ -52,11 +52,11 @@ segment段中有两个核心的文件一个是log,一个是index。 当log文件
 
  通过下图中的数据，可以看到一个segment段差不多会存储70万条数据。
 
-![img](https://img2018.cnblogs.com/blog/825887/201903/825887-20190326213413911-47805803.png)
+![img](img/kafka02.png)
 
 ## 7 kafka查询机制
 
- ![img](https://img2018.cnblogs.com/blog/825887/201903/825887-20190326213733942-1697756102.png) 
+ ![img](img/kafka03.png) 
 
 ## 8 kafka producer发布消息
 
@@ -76,7 +76,7 @@ producer把消息push到broker.broker将消息append到partition。属于顺序�
 
 ### 8.3 写入流程
 
- ![img](https://images2015.cnblogs.com/blog/897247/201610/897247-20161012131406546-202763949.png) 
+ ![img](img/kafka04.png) 
 
 流程说明：
 
