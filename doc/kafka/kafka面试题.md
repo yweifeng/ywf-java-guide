@@ -14,10 +14,9 @@
         - [写入流程](#写入流程)
 
 <!-- /TOC -->
+# kafka面试题
 
-# 1. kafka面试题
-
-## 1.1. 消息队列的优缺点
+## 消息队列的优缺点
 
 | 优点 | 缺点       |
 | ---- | ---------- |
@@ -25,7 +24,7 @@
 | 解耦 | 一致性     |
 | 削峰 |            |
 
-## 1.2. kafka如何保证消息不丢失
+## kafka如何保证消息不丢失
 
 生产者端：
 
@@ -41,15 +40,15 @@
 
 ​		关闭自动提交功能，只有消息成功消费才提交。	
 
-## 1.3. kafka如何保证消息不重复
+## kafka如何保证消息不重复
 
 ​		这个只考虑消费端进行消息去重，可以使用redis或者去重表去重。
 
-## 1.4. kafka如何保证消息有顺序
+## kafka如何保证消息有顺序
 
 ​		kafka只能保证每个partiton内部是有序的，而生产消息到kafka中，如果指定了消息的key，那么kafka会根据key的hashcode去取模得到要生产到哪个partition。我们可以设置同一个业务逻辑的数据为同一个key值。但是现在为止只是保证了到partition是有序的。在消费端，我们要确保针对同一个partion是单线程消费，才能保证消息的顺序性。
 
-## 1.5. AR和ISR
+## AR和ISR
 
 AR是(assigned replicas)指partition中的所有副本。
 
@@ -59,7 +58,7 @@ OSR(out sync replicas) 跟不上leader同步的副本。
 
 AR = ISR + OSR
 
-## 1.6. kafka数据存储
+## kafka数据存储
 
  ![img](img/kafka01.png) 
 
@@ -71,19 +70,19 @@ segment段中有两个核心的文件一个是log,一个是index。 当log文件
 
 ![img](img/kafka02.png)
 
-## 1.7. kafka查询机制
+## kafka查询机制
 
  ![img](img/kafka03.png) 
 
-## 1.8. kafka producer发布消息
+## kafka producer发布消息
 
-### 1.8.1. 写入方式
+### 写入方式
 
 ```
 producer把消息push到broker.broker将消息append到partition。属于顺序写入磁盘。
 ```
 
-### 1.8.2. 消息路由方式
+### 消息路由方式
 
 ```
 1、指定partition，则push到指定partition。
@@ -91,7 +90,7 @@ producer把消息push到broker.broker将消息append到partition。属于顺序�
 3、未指定partition和key,使用轮询选出partition。
 ```
 
-### 1.8.3. 写入流程
+### 写入流程
 
  ![img](img/kafka04.png) 
 
