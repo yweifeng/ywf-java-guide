@@ -4,7 +4,7 @@
 
 Java虚拟机在执行Java程序的过程中会把它管理的内存分为若干个不同的数据区域。这些区域有着各自的用途，一级创建和销毁的时间，有的区域随着虚拟机进程的启动而存在，有些区域则依赖用户线程的启动和结束而建立和销毁。根据《Java虚拟机规范》中规定，jvm所管理的内存大致包括以下几个运行时数据区域，如图所示：
 
-![img](https://images2018.cnblogs.com/blog/1326194/201804/1326194-20180426163347176-898005313.png)
+![img](img/jvm01.png)
 
  
 
@@ -138,7 +138,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 句柄访问图示：
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181020153401412-2104714256.png)
+![img](img/jvm02.png)
 
 #### 4.1.2 **指针访问**
 
@@ -148,7 +148,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 指针访问图示：
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181020153538630-2040743166.png)
+![img](img/jvm03.png)
 
 
 
@@ -173,7 +173,12 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 　　**缺点**：很难解决对象之间循环引用的问题。例如下面这个例子
 
 ```java
-`Object a = ``new` `Object();``Object b = ``new` `Object();``a=b;``b=a;``a=b=``null``; ``//这样就导致gc无法回收他们。　`
+Object a = new Object();
+Object b = new Object();
+a=b;
+b=a;
+a=b=null;
+//这样就导致gc无法回收他们。　`
 ```
 
 ### 1.2 可达性分析算法
@@ -184,7 +189,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 　　通过下图来清晰的感受gc root与对象展示的联系。所示灰色区域对象是存活的，Object5/6/7均是可回收的对象
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181016113034799-549761027.png) 
+![img](img/jvm04.png) 
 
 　**在Java语言中，可作为GC Roots 的对象包括下面几种**
 
@@ -280,7 +285,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 　　执行过程如下：
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181016211110981-747164417.png)
+![img](img/jvm05.png)
 
 　　**优点**：基础最基础的可达性算法，后续的收集算法都是基于这种思想实现的
 
@@ -292,7 +297,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 　　复制算法执行过程如下：
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181016212130158-934403846.png)
+![img](img/jvm06.png)
 
 　　**优点**：实现简单，效率高。解决了标记-清除算法导致的内存碎片问题。
 
@@ -345,7 +350,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 ​	 标记-整理算法示意图
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181016222516407-1839539051.png)
+![img](img/jvm07.png)
 
 　　**优点**：不会像复制算法那样随着存活对象的升高而降低效率，不像标记-清除算法那样产生不连续的内存碎片
 
@@ -363,7 +368,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 ​    HotSpot JVM把年轻代分为了三部分：1个Eden区和2个Survivor区（分别叫from和to）。默认比例为8：1,为啥默认会是这个比例，接下来我们会聊到。一般情况下，新创建的对象都会被分配到Eden区(一些大对象特殊处理),这些对象经过第一次Minor GC后，如果仍然存活，将会被移到Survivor区。对象在Survivor区中每熬过一次Minor GC（young GC），年龄就会增加1岁，当它的年龄增加到一定程度（15岁）时，就会被移动到年老代中。
 
- ![img](https://img-blog.csdn.net/20180629135346448?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTg0MzkxOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70) 
+ ![img](img/jvm08.png) 
 
     因为年轻代中的对象基本都是朝生夕死的(80%以上)，所以在年轻代的垃圾回收算法使用的是复制整理算法，复制整理算法的基本思想就是将内存分为两块，每次只用其中一块，当这一块内存用完，就将还活着的对象复制到另外一块上面。
 
@@ -373,11 +378,11 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 缺点：（1）会开辟新的空间也就是 To survivor，用来保存有用对象（2）复制对象会花费一些时间
     在GC开始的时候，对象只会存在于Eden区和名为“From”的Survivor区，Survivor区“To”是空的。紧接着进行GC，Eden区中所有存活的对象都会被复制到“To”，而在“From”区中，仍存活的对象会根据他们的年龄值来决定去向。年龄达到一定值(年龄阈值，可以通过-XX:MaxTenuringThreshold来设置)的对象会被移动到年老代中，没有达到阈值的对象会被复制到“To”区域。经过这次GC后，Eden区和From区已经被清空。这个时候，“From”和“To”会交换他们的角色，也就是新的“To”就是上次GC前的“From”，新的“From”就是上次GC前的“To”。不管怎样，都会保证名为To的Survivor区域是空的。Minor GC会一直重复这样的过程，直到“To”区被填满，“To”区被填满之后，会将所有对象移动到年老代中。 
 
- ![img](https://img-blog.csdn.net/20180629140559506?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTg0MzkxOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70) 
+ ![img](img/jvm09.png) 
 
 ### 3、老年代
 
- ![img](https://img-blog.csdn.net/20180629140614305?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTg0MzkxOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70) 
+ ![img](img/jvm10.png) 
 
 当年轻带随着不断地Minor GC ，from survivor中的对象会不断成长，当from survivor中的对象成长大15岁的时候，就会进入老年代，随着Minor GC的持续进行，老年代中对象也会持续增长，最终老年代的空间也会不够用，此时就会执行老年代的GC-->Major GC。Major GC使用的算法是标记清除算法或者标记-压缩算法。
 
@@ -394,7 +399,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 **标记压缩**：和标记清除算法基本相同，唯一不同的就是，在清除完成之后，会把存活的对象向内存的一边进行压缩，这样就可以解决内存碎片问题。 
 
 
-​                   ![img](https://img-blog.csdn.net/20180629142315789?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTg0MzkxOA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70) 
+​                   ![img](img/jvm11.png) 
 
 ### 4、有关年轻代的配置参数
 
@@ -421,7 +426,7 @@ Java堆中划分出一块内存来作为句柄池，reference中存储的就是�
 
 **正式进入前先看下图解HotSpot虚拟机所包含的收集器：**
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181017145352803-1499680295.png)
+![img](img/jvm12.png)
 
 图中展示了7种作用于不同分代的收集器，如果两个收集器之间存在连线，则说明它们可以搭配使用。虚拟机所处的区域则表示它是属于新生代还是老年代收集器。
 
@@ -453,7 +458,7 @@ Serial收集器是最基本的、发展历史最悠久的收集器。
 
 **Serial / Serial Old收集器运行示意图**
 
-**![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181017164151556-1187071653.png)**
+**![img](img/jvm13.png)**
 
  
 
@@ -471,7 +476,7 @@ ParNew收集器其实就是Serial收集器的多线程版本。
 
 **ParNew/Serial Old组合收集器运行示意图如下：**
 
- ![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181017170542230-1929674942.png)
+ ![img](img/jvm14.png)
 
  
 
@@ -505,7 +510,7 @@ Server模式下主要的两大用途（在后续中详细讲解···）：
 
 Serial / Serial Old收集器工作过程图（Serial收集器图示相同）：
 
-**![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181017164151556-1187071653.png)**
+**![img](img/jvm15.png)**
 
 ## **五：Parallel Old 收集器**
 
@@ -517,7 +522,7 @@ Serial / Serial Old收集器工作过程图（Serial收集器图示相同）：
 
 **Parallel Scavenge/Parallel Old收集器工作过程图：**
 
-**![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181017215237165-1960446438.png)**
+**![img](img/jvm16.png)**
 
 ## 六：CMS收集器
 
@@ -541,7 +546,7 @@ Serial / Serial Old收集器工作过程图（Serial收集器图示相同）：
 
  CMS收集器的工作过程图：
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181017221500926-2071899824.png)
+![img](img/jvm17.png)
 
 CMS收集器的缺点：
 
@@ -591,7 +596,7 @@ Region不可能是孤立的，分配在Region中的对象可以与Java堆中的�
 
 **G1收集器运行示意图：**
 
-![img](https://img2018.cnblogs.com/blog/1326194/201810/1326194-20181017225802481-709835773.png)
+![img](img/jvm18.png)
 
 
 
@@ -648,7 +653,7 @@ Full GC执行频率不算频繁，不低于10分钟1次
 ### 6. 不断分析和调整
 
  通过不断的试验和试错，分析并找到最合适的参数，如果找到了最合适的参数，则将这些参数应用到所有服务器。
-![cms参数优化步流程](https://img-blog.csdnimg.cn/20181218153836796.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTMwMzAwODY=,size_16,color_FFFFFF,t_70) 
+![cms参数优化步流程](img/jvm19.jpg) 
 
 
 
@@ -664,7 +669,7 @@ GC为了释放很小的空间却耗费了太多的时间，其原因一般有两
 
 使用ps -ef |grep "java"查看，发现：
 
-  ![img](http://dl2.iteye.com/upload/attachment/0101/0366/af00bbf9-50dc-3127-a917-e78aced45e01.png) 
+  ![img](img/jvm20.png) 
 
 
 
@@ -672,7 +677,7 @@ GC为了释放很小的空间却耗费了太多的时间，其原因一般有两
 
 通过上面的情况判断，只需要改变堆中各区域的大小设置即可，于是改成下面的情况：
 
-  ![img](http://dl2.iteye.com/upload/attachment/0101/0368/196da884-1c12-3b4e-9d5a-08300587d5e4.png) 
+  ![img](img/jvm21.png) 
 
 跟踪运行情况发现，相关异常没有再出现；
 
@@ -702,7 +707,7 @@ S0     S1    E     O       P        YGC YGCT FGC FGCT  GCT
 
 一应用在性能测试过程中，发现内存占用率很高，Full GC频繁，使用sudo -u admin -H  jmap -dump:format=b,file=文件名.hprof pid 来dump内存，生成dump文件，并使用Eclipse下的mat差距进行分析，发现：
 
- ![img](http://dl2.iteye.com/upload/attachment/0101/0370/a61f0f4e-9d89-35a9-b7c9-501b52b2de08.png) 
+ ![img](img/jvm22.png) 
 
 
 从图中可以看出，这个线程存在问题，队列LinkedBlockingQueue所引用的大量对象并未释放，导致整个线程占用内存高达378m，此时通知开发人员进行代码优化，将相关对象释放掉即可
@@ -871,7 +876,7 @@ JVM给了三种选择：串行收集器、并行收集器、并发收集器，�
 
 ### 3. 回收器搭配方案
 
- ![img](https://images0.cnblogs.com/blog/406312/201312/31174951-5fbdb6c81c75430eada33d6e208e094b.jpg) 
+ ![img](img/jvm23.jpg) 
 
 #### 1）年轻代收集器
 
