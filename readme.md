@@ -12,6 +12,7 @@
         - [SpringBoot拦截器](doc/springboot/SpringBoot拦截器.md)
         - [SpringBoot使用AOP](/doc/springboot/SpringBoot使用AOP.md)
         - [SpringBoot集成ehcache](doc/springboot/springboot集成ehcache.md)
+        - [SpringBoot整合Swagger2](doc/springboot/SpringBoot整合Swagger2.md)
     - [数据库](#)
         - [SpringBoot使用数据库](doc/springboot/SpringBoot使用数据库.md)
         - [SpringBoot整合Mybatis](doc/springboot/SpringBoot整合Mybatis.md)
