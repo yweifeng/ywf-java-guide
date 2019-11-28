@@ -2,19 +2,6 @@
 
 在实际开发中，总存在着这样的场景，比如拦截请求的ip地址，或者在所有的请求都返回相同的数据，如果每一个方法都写出相同数据固然可以实现，但是随着项目的变大，重复的代码会越来越多，所以在这种情况我们可以用拦截器来实现。
 
-最近一直在研究thymeleaf，越发的感觉这个很好用，所以这篇文章也选择结合这个来使用。
-
-
-
-**pom.xml 新增thymeleaf依赖**
-
-```xml
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-</dependency>
-```
-
 
 
 **新建一个拦截器CommonInterceptor，继承HandlerInterceptorAdapter。**
