@@ -8,6 +8,7 @@
     - [入门](#)
         - [使用Idea新建SpringBoot项目](doc/springboot/使用Idea新建SpringBoot项目.md)
         - [SpringBoot定时任务](doc/springboot/SpringBoot定时任务.md)
+        - [SpringBoot统一处理异常](doc/springboot/SpringBoot统一处理异常.md)
 - [springcloud(未完)](#)
 - [redis](#)
     - [aof和rdb对比](doc/redis/aof和rdb对比.md)
