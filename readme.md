@@ -16,6 +16,7 @@
     - [数据库](#)
         - [SpringBoot使用数据库](doc/springboot/SpringBoot使用数据库.md)
         - [SpringBoot整合Mybatis](doc/springboot/SpringBoot整合Mybatis.md)
+        - [SpringBoot整合MybatisPlus](doc/springboot/SpringBoot整合MybatisPlus.md)
         - [SpringBoot整合Druid监控](doc/springboot/SpringBoot整合Druid监控.md)
         - [SpringBoot使用事务](doc/springboot/SpringBoot使用事务.md)
 - [springcloud(未完)](#)
