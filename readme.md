@@ -15,6 +15,7 @@
     - [数据库](#)
         - [SpringBoot使用数据库](doc/springboot/SpringBoot使用数据库.md)
         - [SpringBoot整合Mybatis](doc/springboot/SpringBoot整合Mybatis.md)
+        - [SpringBoot整合Druid监控](doc/springboot/SpringBoot整合Druid监控.md)
 - [springcloud(未完)](#)
 - [redis](#)
     - [aof和rdb对比](doc/redis/aof和rdb对比.md)
