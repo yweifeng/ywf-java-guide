@@ -20,6 +20,8 @@
         - [SpringBoot整合Mybatis-PageHelper](doc/springboot/SpringBoot整合Mybatis-PageHelper.md)
         - [SpringBoot整合Druid监控](doc/springboot/SpringBoot整合Druid监控.md)
         - [SpringBoot使用事务](doc/springboot/SpringBoot使用事务.md)
+    - [中间件](#中间件)
+        - [SpringBoot整合redis](doc/springboot/SpringBoot整合redis.md)
 - [springcloud(未完)](#)
 - [redis](#)
     - [aof和rdb对比](doc/redis/aof和rdb对比.md)
