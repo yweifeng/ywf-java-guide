@@ -10,6 +10,7 @@
     - [aof和rdb对比](doc/redis/aof和rdb对比.md)
     - [redis分布式锁 vs zk分布式锁](doc/redis/redis分布式锁vszk分布式锁.md)
     - [redis集群部署](doc/redis/redis集群部署.md)
+    - [redis面试题](doc/redis/redis面试题.md)
 - [ehache](#)
     - [ehcache基础](doc/ehcache/ehcache基础.md)
 - [rocketmq](#)
