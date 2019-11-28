@@ -8,7 +8,7 @@
 
 Service Url 是Spring官方提供的Spring Initializr工具地址。
 
-![img](E:\ywf-java-guide\doc\springboot\img\sb01.png)
+![img](img\sb01.png)
 
  然后点击Next，进入下面页面，其中以下各项内容与创建maven项目填写相同。 
 
