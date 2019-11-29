@@ -26,6 +26,7 @@
         - [SpringBoot使用事务](doc/springboot/SpringBoot使用事务.md)
     - [中间件](#中间件)
         - [SpringBoot整合redis](doc/springboot/SpringBoot整合redis.md)
+        - [SpringBoot整合elasticsearch](doc/springboot/SpringBoot整合elasticsearch.md)
 - [springcloud(未完)](#)
 - [redis](#)
     - [aof和rdb对比](doc/redis/aof和rdb对比.md)
