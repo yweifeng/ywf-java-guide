@@ -50,6 +50,7 @@
 - [nginx(未完)](#)
 - [linux](#)
     - [jdk安装](doc/linux/jdk安装.md)
+    - [node安装](doc/linux/node安装.md)
     - [jps安装](doc/linux/jps安装.md)
     - [scp命令](doc/linux/scp命令.md)
 
