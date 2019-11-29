@@ -46,6 +46,7 @@
     - [mycat分库分表](doc/mysql/mycat分库分表.md)
 - [elasticsearch](#)
     - [elasticsearch概念篇](doc/elasticsearch/elasticsearch概念篇.md)
+    - [elasticsearch集群搭建](doc/elasticsearch/elasticsearch集群搭建.md)
 - [hadoop](doc/hadoop/hadoop.md)
 - [nginx(未完)](#)
 - [linux](#)
