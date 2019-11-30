@@ -1,3 +1,10 @@
+<!-- TOC -->
+
+- [SpringCloud整合Hystrix](#springcloud整合hystrix)
+    - [Ribbon整合Hystrix](#ribbon整合hystrix)
+    - [Feign整合Hystrix](#feign整合hystrix)
+
+<!-- /TOC -->
 # SpringCloud整合Hystrix
 
 ## Ribbon整合Hystrix
