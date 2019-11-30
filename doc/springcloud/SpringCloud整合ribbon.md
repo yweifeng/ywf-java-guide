@@ -95,8 +95,8 @@ public class RibbonController {
     RestTemplate restTemplate;
 
     @GetMapping("/hi-ribbon")
-    public String hiResttemplate(){
-        return restTemplate.getForObject("http://nacos-provider/hi?name=ribbon",String.class);
+    public String hiResttemplate(String name){
+        return restTemplate.getForObject("http://nacos-provider/hi?name=" + name,String.class);
     }
 }
 ```
