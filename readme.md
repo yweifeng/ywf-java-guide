@@ -35,7 +35,6 @@
     - [SpringCloud整合Hystrix(熔断器)](/doc/springcloud/SpringCloud整合Hystrix.md)
     - [SpringCloud整合gateway(服务网关)](/doc/springcloud/SpringCloud整合gateway(服务网关).md)
     - [SpringCloud整合zuul(服务网关)](/doc/springcloud/SpringCloud整合zuul.md)
-    - [SpringCloud整合SpringCloudBus(消息总线)](/doc/springcloud/SpringCloud整合SpringCloudBus(消息总线).md)
     - [SpringCloud整合Sleuth(服务链路追踪)](/doc/springcloud/SpringCloud整合Sleuth(服务链路追踪).md)
     - [SpringCloud整合Admin(监控)](/doc/springcloud/SpringCloud整合Admin(监控).md)
 - [redis](#)
