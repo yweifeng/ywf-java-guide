@@ -30,7 +30,7 @@
         - [SpringBoot整合kafka](doc/springboot/SpringBoot整合kafka.md)
 - [springcloud]( https://www.springcloud.cc/spring-cloud-dalston.html )
     - [SpringCloud整合nacos](doc/springcloud/SpringCloud整合nacos.md)
-    - [SpringCloud整合ribbon(负载均衡)](/doc/springcloud/SpringCloud整合ribbon(负载均衡).md)
+    - [SpringCloud整合ribbon(负载均衡)](/doc/springcloud/SpringCloud整合ribbon.md)
     - [SpringCloud整合Feign(声明式调用)](/doc/springcloud/SpringCloud整合Feign(声明式调用).md)
     - [SpringCloud整合Hystrix(熔断器)](/doc/springcloud/SpringCloud整合Hystrix(熔断器).md)
     - [SpringCloud整合gateway(服务网关)](/doc/springcloud/SpringCloud整合gateway(服务网关).md)
