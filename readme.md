@@ -50,7 +50,7 @@
     - [kafka集群](doc/kafka/kafka集群.md)
 - [zookeeper](#)
     - [zookeeper基础](doc/zookeeper/zookeeper面试专题及答案.pdf)
-- [canal](#)
+- [canal](https://github.com/alibaba/canal)
 - [elasticsearch](#)
     - [elasticsearch概念篇](doc/elasticsearch/elasticsearch概念篇.md)
     - [elasticsearch集群搭建](doc/elasticsearch/elasticsearch集群搭建.md)
