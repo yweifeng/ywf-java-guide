@@ -1,5 +1,4 @@
 - [Java](#java)
-    - [基础(未完)](#基础)
     - [容器](#)
         - [源码](#)
             - [HashMap源码学习](doc/collection/HashMap源码学习.md)
@@ -10,7 +9,6 @@
         - [基础篇](doc/jvm/基础篇.md)
         - [终结篇](doc/jvm/终结篇.md)
         - [调优篇](doc/jvm/调优篇.md)
-    - [I/O(未完)](#io)
 - [springboot](#)
     - [入门](#)
         - [使用Idea新建SpringBoot项目](doc/springboot/使用Idea新建SpringBoot项目.md)
