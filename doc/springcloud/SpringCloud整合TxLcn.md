@@ -535,7 +535,7 @@ public class TxLcnServiceImpl implements ITxLcnService {
         u.setUser_name("txlcn-service-b:" + new Date());
         u.setUser_password("1");
         userMapper.insertUser(u);
-        // txlcn-service-a 发生异常
+        // txlcn-service-b 发生异常
         if (Objects.equals(flag, "2")) {
             int i = 1/0;
         }
@@ -620,7 +620,7 @@ public class TxLcnServiceImpl implements ITxLcnService {
         u.setUser_name("txlcn-service-c:" + new Date());
         u.setUser_password("1");
         userMapper.insertUser(u);
-        // txlcn-service-a 发生异常
+        // txlcn-service-c 发生异常
         if (Objects.equals(flag, "3")) {
             int i = 1/0;
         }
