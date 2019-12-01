@@ -65,7 +65,7 @@ uniqueInstance 采用 volatile 关键字修饰也是很有必要的， uniqueIns
 
 **① synchronized 同步语句块的情况**
 
-```
+```java
 public class SynchronizedDemo {
 	public void method() {
 		synchronized (this) {
