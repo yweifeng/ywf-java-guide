@@ -16,19 +16,19 @@ JDK1.8 之前 HashMap 底层是 **数组和链表** 结合在一起使用也就�
 
 JDK 1.8 的 hash方法 相比于 JDK 1.7 hash 方法更加简化，但是原理不变。
 
-```
-    static final int hash(Object key) {
-      int h;
-      // key.hashCode()：返回散列值也就是hashcode
-      // ^ ：按位异或
-      // >>>:无符号右移，忽略符号位，空位都以0补齐
-      return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
-  }
+```java
+static final int hash(Object key) {
+    int h;
+    // key.hashCode()：返回散列值也就是hashcode
+    // ^ ：按位异或
+    // >>>:无符号右移，忽略符号位，空位都以0补齐
+    return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+}
 ```
 
 对比一下 JDK1.7的 HashMap 的 hash 方法源码.
 
-```
+```java
 static int hash(int h) {
     // This function ensures that hashCodes that differ only by
     // constant multiples at each bit position have a bounded
