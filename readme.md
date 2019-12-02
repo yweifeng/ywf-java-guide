@@ -61,6 +61,7 @@
     - [elasticsearch整合拼音分词](doc/elasticsearch/elasticsearch整合拼音分词.md)
     - [elasticsearch简单CRUD](doc/elasticsearch/elasticsearch简单CRUD.md)
     - [elasticsearch多种搜索方式](doc/elasticsearch/elasticsearch多种搜索方式.md)
+    - [elasticsearch使用reindex进行数据迁移](doc/elasticsearch/elasticsearch使用reindex进行数据迁移.md)
 - [hadoop](doc/hadoop/hadoop.md)
 - [mysql](#)
     - [mysql主从复制](doc/mysql/mysql主从复制.md)
