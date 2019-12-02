@@ -26,6 +26,8 @@ server.host: "192.168.111.128"
  
 # 一定要加http
 elasticsearch.hosts: ["http://192.168.111.128:9200","http://192.168.111.129:9200","http://192.168.111.130:9200"]
+# kibana.index：原来默认是".kibana"，但是新版本的kibana启动之后发现无法访问，访问之后抛出一个异常：kibana server is not ready yet，那么回来把配置更改成".newkibana"，然后重启kibana，再次访问，即可成功。
+kibana.index: ".newkibana"
 ```
 
 ## 启动kibana
