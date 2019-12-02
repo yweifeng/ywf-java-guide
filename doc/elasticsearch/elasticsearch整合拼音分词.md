@@ -35,8 +35,8 @@ cd /opt/elk/es/bin
 ```java
 GET /_analyze
 {
-  "text":"刘德华",
-  "analyzer": "pinyin"
+  "analyzer": "pinyin",
+  "text":["王者荣耀"]
 }
 ```
 
