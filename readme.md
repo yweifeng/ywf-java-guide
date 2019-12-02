@@ -55,6 +55,7 @@
 - [elasticsearch](#)
     - [elasticsearch概念篇](doc/elasticsearch/elasticsearch概念篇.md)
     - [elasticsearch集群搭建](doc/elasticsearch/elasticsearch集群搭建.md)
+    - [kibana部署](doc/elasticsearch/kibana部署.md)
 - [hadoop](doc/hadoop/hadoop.md)
 - [mysql](#)
     - [mysql主从复制](doc/mysql/mysql主从复制.md)

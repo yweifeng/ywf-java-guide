@@ -1,0 +1,46 @@
+# kibana部署
+
+## 下载
+
+从官网[https://www.elastic.co/cn/downloads/kibana](https://www.elastic.co/cn/downloads/kibana)下载与elasticsearch版本一致的kibana。
+
+历史版本可以点击[past releases](https://www.elastic.co/downloads/past-releases#kibana).进行选择。
+
+## 安装
+
+```shell
+# 解压缩
+tar -zxvf kibana-6.8.5-linux-x86_64.tar.gz
+# 重命名
+mv kibana-6.8.5-linux-x86_64 kibana
+```
+
+## 修改配置文件
+
+**vim config/kibana.yml**
+
+```properties
+server.port: 5601
+
+server.host: "192.168.111.128"
+ 
+# 一定要加http
+elasticsearch.hosts: ["http://192.168.111.128:9200","192.168.111.129:9200","192.168.111.130:9200"]
+```
+
+## 启动kibana
+
+```shell
+cd bin
+nohup ./kibana &
+```
+
+## 浏览器访问
+
+![img](img/es06.png)
+
+点击**Dev Tool** 可以进行es语句操作
+
+## 查询集群状态
+
+![img](img/es07.png)
