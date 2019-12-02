@@ -111,9 +111,17 @@ scp -r /opt/elk/es root@192.168.111.129:/opt/elk
 scp -r /opt/elk/es root@192.168.111.130:/opt/elk
 ```
 
-vim/opt/elk/es/config/elasticsearch.yml
+```shell
+vim /opt/elk/es/config/elasticsearch.yml
+```
 
-修改elasticsearch配置文件 **node.name**分别为**node-2**、**node-3**
+修改elasticsearch配置文件 
+
+**node.name**分别为**node-2**、**node-3**
+
+**network.host**分别为**192.168.111.129、192.168.111.130**
+
+
 
 ##  建立用户并授权
 
@@ -132,3 +140,12 @@ chown -R es:es /opt/elk/es
 su es
 bin/elasticsearch -d
 ```
+
+## 验证
+
+浏览器访问 
+
+[[http://192.168.111.128:9200](http://192.168.111.128:9200/)]([http://192.168.111.128:9200](http://192.168.111.128:9200/))
+
+![img](img/es08.png)
+
