@@ -10,9 +10,9 @@
 
 ```shell
 # 解压缩
-tar -zxvf kibana-6.8.5-linux-x86_64.tar.gz
+tar -zxvf kibana-6.7.1-linux-x86_64.tar.gz
 # 重命名
-mv kibana-6.8.5-linux-x86_64 kibana
+mv kibana-6.7.1-linux-x86_64 kibana
 ```
 
 ## 修改配置文件

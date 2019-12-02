@@ -1,6 +1,6 @@
 # ES集群搭建
 
-虚拟机环境 **centos7**、**Elasticsearch6.8.5**  
+虚拟机环境 **centos7**、**Elasticsearch6.7.1**  
 
 **cluster.name: ywf-es**
 
@@ -17,9 +17,9 @@
 # 创建目录
 mkdir /opt/elk
 # 解压到/opt/elk
-tar -zxvf elasticsearch-6.8.5.tar.gz
+tar -zxvf elasticsearch-6.7.1.tar.gz
 # 重命名
-mv elasticsearch-6.8.5 es
+mv elasticsearch-6.7.1 es
 ```
 
 ## 创建目录
