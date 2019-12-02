@@ -32,3 +32,12 @@ cd /opt/elk/es/bin
 
 ## 验证拼音搜索
 
+```java
+GET /_analyze
+{
+  "text":"刘德华",
+  "analyzer": "pinyin"
+}
+```
+
+![img](img/es12.png)
