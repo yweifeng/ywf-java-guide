@@ -57,6 +57,7 @@
     - [elasticsearch集群搭建](doc/elasticsearch/elasticsearch集群搭建.md)
     - [elasticsearch-head插件安装](doc/elasticsearch/elasticsearch-head插件安装.md)
     - [kibana部署](doc/elasticsearch/kibana部署.md)
+    - [elasticsearch整合Ik分词](doc/elasticsearch/elasticsearch整合Ik分词.md)
 - [hadoop](doc/hadoop/hadoop.md)
 - [mysql](#)
     - [mysql主从复制](doc/mysql/mysql主从复制.md)
