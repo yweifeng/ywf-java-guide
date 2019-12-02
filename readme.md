@@ -59,6 +59,8 @@
     - [kibana部署](doc/elasticsearch/kibana部署.md)
     - [elasticsearch整合Ik分词](doc/elasticsearch/elasticsearch整合Ik分词.md)
     - [elasticsearch整合拼音分词](doc/elasticsearch/elasticsearch整合拼音分词.md)
+    - [elasticsearch简单CRUD](doc/elasticsearch/elasticsearch简单CRUD.md)
+    - [elasticsearch多种搜索方式](doc/elasticsearch/elasticsearch多种搜索方式.md)
 - [hadoop](doc/hadoop/hadoop.md)
 - [mysql](#)
     - [mysql主从复制](doc/mysql/mysql主从复制.md)
