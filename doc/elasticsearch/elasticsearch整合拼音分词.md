@@ -1,4 +1,4 @@
-# elasticsearch整合拼音搜索
+# elasticsearch整合拼音分词
 
 ## 插件安装
 
