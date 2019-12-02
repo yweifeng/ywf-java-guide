@@ -69,6 +69,7 @@
     - [node安装](doc/linux/node安装.md)
     - [jps安装](doc/linux/jps安装.md)
     - [scp命令](doc/linux/scp命令.md)
+    - [关闭指定端口](doc/linux/关闭指定端口.md)
 
 
 
