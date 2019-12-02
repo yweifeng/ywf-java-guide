@@ -8,6 +8,8 @@ ElasticSearch（以下简称ES）默认的分词器是标准分词器Standard，
 
 github 下载与es相同版本的zip安装包[https://github.com/medcl/elasticsearch-analysis-ik/releases](https://github.com/medcl/elasticsearch-analysis-ik/releases)
 
+或者
+
 ```shell
 ./bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.7.1/elasticsearch-analysis-ik-6.7.1.zip
 ```
