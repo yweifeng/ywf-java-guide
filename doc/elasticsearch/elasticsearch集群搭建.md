@@ -34,7 +34,7 @@ mkdir logs
 
 ## 修改elasticsearch配置文件 
 
-- **vim/opt/elk/es/config/elasticsearch.yml**
+- **vim /opt/elk/es/config/elasticsearch.yml**
 
 ```properties
 #集群的名称
