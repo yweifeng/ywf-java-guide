@@ -21,7 +21,7 @@
 
 创建 school索引，设置3个**主分片**（number_of_shards），每个主分片有3个**副本**（number_of_replicas）
 
-```http
+```
 PUT /goods
 {
 	"settings": {
@@ -48,7 +48,7 @@ PUT /goods
 
 ## 修改索引副本数量
 
-```http
+```
 PUT /goods/_settings
 {
 	"number_of_replicas": 2
@@ -59,9 +59,11 @@ PUT /goods/_settings
 
 ## 查询索引分片信息
 
-```http
+```
 GET /goods/_search_shards
 ```
+
+**返回值**
 
 ```json
 {
@@ -217,7 +219,7 @@ GET /goods/_search_shards
 
 ## 查看索引mapping
 
-```http
+```
 GET /goods/_mapping
 ```
 
@@ -237,7 +239,7 @@ GET /goods/_mapping
 
 ## 新建索引mapping
 
-```http
+```
 POST goods/product/_mapping?pretty
 {
 	"product": {
@@ -275,7 +277,7 @@ POST goods/product/_mapping?pretty
 
 ### 新增数据
 
-```http
+```
 PUT /goods/product/1
 {
 	"title": "goods 001",
@@ -310,7 +312,7 @@ PUT /goods/product/1
 
 ### 查询数据
 
-```http
+```
 GET /goods/product/1
 ```
 
@@ -342,7 +344,7 @@ GET /goods/product/1
 
 #### **方式一：全量替换**
 
-```http
+```
 PUT /goods/product/1
 {
 	"title": "goods 001",
@@ -377,7 +379,7 @@ PUT /goods/product/1
 
 #### **方式二：局部修改**
 
-```http
+```
 POST /goods/product/1/_update
 {
   "doc": {
@@ -409,7 +411,7 @@ POST /goods/product/1/_update
 
 ### 删除数据
 
-```http
+```
 DELETE /goods/product/1
 ```
 
