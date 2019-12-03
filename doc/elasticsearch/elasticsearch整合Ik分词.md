@@ -110,7 +110,104 @@ scp -r /opt/elk/es/plugins/analysis-ik root@192.168.111.129:/opt/elk/es/plugins
 scp -r /opt/elk/es/plugins/analysis-ik root@192.168.111.129:/opt/elk/es/plugins
 ```
 
+
+
 ## 测试自定义IK分词
 
-![img](img/es11.png)
+**创建索引和设置mappings**
+
+```bash
+PUT /game_index
+{
+  "mappings": {
+    "game_type": {
+      "properties": {
+        "text": {
+          "type": "text",
+          "analyzer": "ik_max_word"
+        }
+      }
+    }
+  }
+}
+```
+
+
+
+**测试IK分词全文检索功能**
+
+```bash
+GET /game_index/_analyze
+{
+  "text": " 王者荣耀好不好玩",
+  "analyzer": "ik_max_word"
+}
+```
+
+
+
+**返回值**
+
+```bash
+{
+  "tokens" : [
+    {
+      "token" : "王者荣耀",
+      "start_offset" : 1,
+      "end_offset" : 5,
+      "type" : "CN_WORD",
+      "position" : 0
+    },
+    {
+      "token" : "王者",
+      "start_offset" : 1,
+      "end_offset" : 3,
+      "type" : "CN_WORD",
+      "position" : 1
+    },
+    {
+      "token" : "荣耀",
+      "start_offset" : 3,
+      "end_offset" : 5,
+      "type" : "CN_WORD",
+      "position" : 2
+    },
+    {
+      "token" : "好不好",
+      "start_offset" : 5,
+      "end_offset" : 8,
+      "type" : "CN_WORD",
+      "position" : 3
+    },
+    {
+      "token" : "好不",
+      "start_offset" : 5,
+      "end_offset" : 7,
+      "type" : "CN_WORD",
+      "position" : 4
+    },
+    {
+      "token" : "不好玩",
+      "start_offset" : 6,
+      "end_offset" : 9,
+      "type" : "CN_WORD",
+      "position" : 5
+    },
+    {
+      "token" : "不好",
+      "start_offset" : 6,
+      "end_offset" : 8,
+      "type" : "CN_WORD",
+      "position" : 6
+    },
+    {
+      "token" : "好玩",
+      "start_offset" : 7,
+      "end_offset" : 9,
+      "type" : "CN_WORD",
+      "position" : 7
+    }
+  ]
+}
+```
 
