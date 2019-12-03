@@ -1,21 +1,4 @@
-<!-- TOC -->
-
-- [elasticsearch索引管理和简单CRUD](#elasticsearch索引管理和简单crud)
-    - [创建索引](#创建索引)
-    - [修改索引副本数量](#修改索引副本数量)
-    - [查询索引分片信息](#查询索引分片信息)
-    - [查看索引mapping](#查看索引mapping)
-    - [新建索引mapping](#新建索引mapping)
-    - [简单的CRUD](#简单的crud)
-        - [新增数据](#新增数据)
-        - [查询数据](#查询数据)
-        - [修改数据](#修改数据)
-            - [**方式一：全量替换**](#方式一全量替换)
-            - [**方式二：局部修改**](#方式二局部修改)
-        - [删除数据](#删除数据)
-
-<!-- /TOC -->
-# elasticsearch索引管理和简单CRUD
+# elasticsearch简单的CRUD
 
 ## 创建索引
 
@@ -308,7 +291,7 @@ PUT /goods/product/1
 
 
 
-### 查询数据
+## 查询数据
 
 ```http
 GET /goods/product/1
@@ -430,4 +413,20 @@ DELETE /goods/product/1
   "_seq_no" : 3,
   "_primary_term" : 1
 }
+```
+
+
+
+## 刪除或者更新原理
+
+```
+如果是删除操作，commit的时候会生成一个 .del文件，里面将某个doc标识为 deleted状态，那么搜索的时候根据 .del文件就知道这个doc是否被删除了。
+
+如果是更新操作，就是将原来的doc标识为deleted状态，然后重新写入一条数据。
+
+buffer 每refresh一次，就会产生一个segment file，所以默认情况下是1秒钟一个segment file，这样下来segment file会越来越多，此时会定期执行merge。
+
+每次merge的时候，会将多个segment file合并成一个，同时这里会将标识为 deleted的doc给物理删除掉，然后将新的segment file写入磁盘，这里会写一个
+
+commit point，标识所有新的 segment file，然后打开segment file供搜索使用，同时删除旧的segment file。
 ```
