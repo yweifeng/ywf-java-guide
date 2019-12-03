@@ -1,3 +1,14 @@
+<!-- TOC -->
+
+- [elasticsearch使用reindex进行数据迁移](#elasticsearch使用reindex进行数据迁移)
+    - [应用背景](#应用背景)
+    - [Reindex](#reindex)
+    - [数据迁移步骤](#数据迁移步骤)
+    - [提升数据迁移效率](#提升数据迁移效率)
+        - [1）提升批量写入大小值](#1提升批量写入大小值)
+        - [2）借助scroll的sliced提升写入效率](#2借助scroll的sliced提升写入效率)
+
+<!-- /TOC -->
 # elasticsearch使用reindex进行数据迁移
 
 ## 应用背景
@@ -49,7 +60,7 @@ POST _reindex
 
 
 
-## 数据迁移效率
+## 提升数据迁移效率
 
 问题发现：
 
