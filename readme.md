@@ -59,7 +59,7 @@
     - [kibana部署](doc/elasticsearch/kibana部署.md)
     - [elasticsearch整合Ik分词](doc/elasticsearch/elasticsearch整合Ik分词.md)
     - [elasticsearch整合拼音分词](doc/elasticsearch/elasticsearch整合拼音分词.md)
-    - [elasticsearch简单CRUD](doc/elasticsearch/elasticsearch简单CRUD.md)
+    - [elasticsearch索引管理和简单CRUD](doc/elasticsearch/elasticsearch索引管理和简单CRUD.md)
     - [elasticsearch多种搜索方式](doc/elasticsearch/elasticsearch多种搜索方式.md)
     - [elasticsearch Mapping](doc/elasticsearch/elasticsearchMapping.md)
     - [elasticsearch使用reindex进行数据迁移](doc/elasticsearch/elasticsearch使用reindex进行数据迁移.md)

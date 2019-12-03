@@ -1,4 +1,4 @@
-# elasticsearch简单的CRUD
+# elasticsearch索引管理和简单CRUD
 
 ## 创建索引
 
