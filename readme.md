@@ -62,7 +62,6 @@
     - [elasticsearch索引管理和简单CRUD](doc/elasticsearch/elasticsearch索引管理和简单CRUD.md)
     - [elasticsearch使用bulk批量增删改和mget批量查询](doc/elasticsearch/elasticsearch使用bulk批量增删改和mget批量查询.md)
     - [elasticsearch多种搜索方式](doc/elasticsearch/elasticsearch多种搜索方式.md)
-    - [elasticsearch Mapping](doc/elasticsearch/elasticsearchMapping.md)
     - [elasticsearch使用reindex进行数据迁移](doc/elasticsearch/elasticsearch使用reindex进行数据迁移.md)
     - [elasticsearch悲观锁和乐观锁的使用](doc/elasticsearch/elasticsearch悲观锁和乐观锁的使用.md)
 - [hadoop](doc/hadoop/hadoop.md)
