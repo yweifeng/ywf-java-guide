@@ -1,3 +1,11 @@
+<!-- TOC -->
+
+- [elasticsearch使用bulk批量增删改和mget批量查询](#elasticsearch使用bulk批量增删改和mget批量查询)
+    - [bulk批量增删改](#bulk批量增删改)
+    - [bulk size最佳大小](#bulk-size最佳大小)
+    - [mget批量查询](#mget批量查询)
+
+<!-- /TOC -->
 # elasticsearch使用bulk批量增删改和mget批量查询
 
 
