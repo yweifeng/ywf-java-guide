@@ -4,7 +4,7 @@
 
 创建 school索引，设置3个**主分片**（number_of_shards），每个主分片有3个**副本**（number_of_replicas）
 
-```http
+```bash
 PUT /goods
 {
 	"settings": {
@@ -31,7 +31,7 @@ PUT /goods
 
 ## 修改索引副本数量
 
-```http
+```bash
 PUT /goods/_settings
 {
 	"number_of_replicas": 2
@@ -42,7 +42,7 @@ PUT /goods/_settings
 
 ## 查询索引分片信息
 
-```http
+```bash
 GET /goods/_search_shards
 ```
 
@@ -200,7 +200,7 @@ GET /goods/_search_shards
 
 ## 查看索引mapping
 
-```http
+```bash
 GET /goods/_mapping
 ```
 
@@ -220,7 +220,7 @@ GET /goods/_mapping
 
 ## 新建索引mapping
 
-```http
+```bash
 POST goods/product/_mapping?pretty
 {
 	"product": {
@@ -258,7 +258,7 @@ POST goods/product/_mapping?pretty
 
 ### 新增数据
 
-```http
+```bash
 PUT /goods/product/1
 {
 	"title": "goods 001",
@@ -293,7 +293,7 @@ PUT /goods/product/1
 
 ## 查询数据
 
-```http
+```bash
 GET /goods/product/1
 ```
 
@@ -325,7 +325,7 @@ GET /goods/product/1
 
 #### **方式一：全量替换**
 
-```http
+```bash
 PUT /goods/product/1
 {
 	"title": "goods 001",
@@ -360,7 +360,7 @@ PUT /goods/product/1
 
 #### **方式二：局部修改**
 
-```http
+```bash
 POST /goods/product/1/_update
 {
   "doc": {
@@ -392,7 +392,7 @@ POST /goods/product/1/_update
 
 ### 删除数据
 
-```http
+```bash
 DELETE /goods/product/1
 ```
 
@@ -413,20 +413,4 @@ DELETE /goods/product/1
   "_seq_no" : 3,
   "_primary_term" : 1
 }
-```
-
-
-
-## 刪除或者更新原理
-
-```
-如果是删除操作，commit的时候会生成一个 .del文件，里面将某个doc标识为 deleted状态，那么搜索的时候根据 .del文件就知道这个doc是否被删除了。
-
-如果是更新操作，就是将原来的doc标识为deleted状态，然后重新写入一条数据。
-
-buffer 每refresh一次，就会产生一个segment file，所以默认情况下是1秒钟一个segment file，这样下来segment file会越来越多，此时会定期执行merge。
-
-每次merge的时候，会将多个segment file合并成一个，同时这里会将标识为 deleted的doc给物理删除掉，然后将新的segment file写入磁盘，这里会写一个
-
-commit point，标识所有新的 segment file，然后打开segment file供搜索使用，同时删除旧的segment file。
 ```
