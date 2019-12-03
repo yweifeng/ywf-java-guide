@@ -20,6 +20,7 @@
     - [ES的核心机制](#es的核心机制)
         - [主备机制](#主备机制)
         - [容错机制](#容错机制)
+        - [刪除或者更新原理](#刪除或者更新原理)
     - [ES的并发控制](#es的并发控制)
         - [并发解决方案](#并发解决方案)
 
@@ -203,6 +204,22 @@ a、原来node1是一个master，假如因为某种原因node1宕机了，node�
 b、进行master选举，自动选举另外一个node成为新的master，承担起master的责任来，例如现在全部选举了node2为master。
 c、新的master，将丢失的primary shard的某个replica shard提升为primary  shard。此时集群的状态就会变为yellow，原因是虽然目前所有的primary  shard全部变成active，但是replice shard少了，也就并不是所有的replica  shard都是active。
 d、重启故障的node1，新的master(node2)会将缺失的副本都copy一份到这个node1上面去，而且这个node1会使用之前已经有的shard数据，只是同步一下宕机之后发生的修改，此时，集群是status再次变回green。
+```
+
+
+
+### 刪除或者更新原理
+
+```
+如果是删除操作，commit的时候会生成一个 .del文件，里面将某个doc标识为 deleted状态，那么搜索的时候根据 .del文件就知道这个doc是否被删除了。
+
+如果是更新操作，就是将原来的doc标识为deleted状态，然后重新写入一条数据。
+
+buffer 每refresh一次，就会产生一个segment file，所以默认情况下是1秒钟一个segment file，这样下来segment file会越来越多，此时会定期执行merge。
+
+每次merge的时候，会将多个segment file合并成一个，同时这里会将标识为 deleted的doc给物理删除掉，然后将新的segment file写入磁盘，这里会写一个
+
+commit point，标识所有新的 segment file，然后打开segment file供搜索使用，同时删除旧的segment file。
 ```
 
 
