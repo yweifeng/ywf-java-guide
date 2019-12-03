@@ -271,9 +271,9 @@ http request body：请求体，可以用json的格式来构建查询语法，�
 ```bash
 GET /goods/product/_search
 {
-	"query":{
-		"match_all":{}
-	}
+  "query": {
+    "match_all": {}
+  }
 }
 ```
 
@@ -284,14 +284,16 @@ GET /goods/product/_search
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"match": {
-			"name": "shoes"
-		}
-	},
-	"sort": [{
-		"price": "desc"
-	}]
+  "query": {
+    "match": {
+      "name": "shoes"
+    }
+  },
+  "sort": [
+    {
+      "price": "desc"
+    }
+  ]
 }
 ```
 
@@ -302,14 +304,16 @@ GET /goods/product/_search
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"match_all": {}
-	},
-	"sort":[{
-		"price": "desc"
-	}],
-	"from": 0,
-	"size": 3
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "price": "desc"
+    }
+  ],
+  "from": 0,
+  "size": 3
 }
 ```
 
@@ -319,11 +323,15 @@ GET /goods/product/_search
 
 ```bash
 GET /goods/product/_search
+GET /goods/product/_search
 {
-	"query": {
-		"match_all": {}
-	},
-	"_source": ["name","price"]
+  "query": {
+    "match_all": {}
+  },
+  "_source": [
+    "name",
+    "price"
+  ]
 }
 ```
 
@@ -417,17 +425,17 @@ GET /goods/product/_search
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"bool": {
-            "filter": {
-                "range": {
-                    "price": {
-                        "gt": 100
-                    }
-                }
-            }
-		}
-	}
+  "query": {
+    "bool": {
+      "filter": {
+        "range": {
+          "price": {
+            "gt": 100
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
@@ -518,25 +526,27 @@ query与filter区别如下：
 ```bash
 GET /goods/product/_search
 {
-	"query":{
-		"bool": {
-			"must": {
-				"match": {
-					"name": "shoes"
-				}
-			},
-			"filter": {
-				"range": {
-					"price": {
-						"gt": 100
-					}
-				}
-			}
-		}
-	},
-	"sort": [{
-	  "price":"desc"
-	}]
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "name": "shoes"
+        }
+      },
+      "filter": {
+        "range": {
+          "price": {
+            "gt": 100
+          }
+        }
+      }
+    }
+  },
+  "sort": [
+    {
+      "price": "desc"
+    }
+  ]
 }
 ```
 
@@ -549,11 +559,11 @@ GET /goods/product/_search
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"match": {
-			"name": "lining shoes"
-		}
-	}
+  "query": {
+    "match": {
+      "name": "lining shoes"
+    }
+  }
 }
 ```
 
@@ -562,21 +572,22 @@ GET /goods/product/_search
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-        "bool": {
-            "should": [
-                {
-                    "term": {
-                        "name": "lining"
-                    }
-                }, {
-                    "term": {
-                        "name": "shoes"
-                    }
-                }
-            ]
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "term": {
+            "name": "lining"
+          }
+        },
+        {
+          "term": {
+            "name": "shoes"
+          }
         }
-	}
+      ]
+    }
+  }
 }
 ```
 
@@ -664,14 +675,14 @@ match查询接受一个operator参数，该参数的默认值是"**or**"。你�
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"match": {
-			"name": {
-				"query": "lining shoes",
-				"operator": "and"
-			}
-		}
-	}
+  "query": {
+    "match": {
+      "name": {
+        "query": "lining shoes",
+        "operator": "and"
+      }
+    }
+  }
 }
 ```
 
@@ -680,21 +691,22 @@ GET /goods/product/_search
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"bool": {
-			"must": [{
-					"term": {
-						"name": "lining"
-					}
-				},
-				{
-					"term": {
-						"name": "shoes"
-					}
-				}
-			]
-		}
-	}
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "name": "lining"
+          }
+        },
+        {
+          "term": {
+            "name": "shoes"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -741,14 +753,22 @@ match查询支持**minimum_should_match**参数，它能够让你指定有多少
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"match": {
-			"name": {
-				"query": "lining shoes",
-				"minimum_should_match": "100%"
-			}
-		}
-	}
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "name": "lining"
+          }
+        },
+        {
+          "term": {
+            "name": "shoes"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -814,16 +834,16 @@ GET /goods/product/_search
 ```bash
 GET /goods/product/_search
 {
-	"query": {
-		"match": {
-			"name": "shoes"
-		}
-	},
-	"highlight": {
-		"fields":{
-			"name": {}
-		}
-	}
+  "query": {
+    "match": {
+      "name": "shoes"
+    }
+  },
+  "highlight": {
+    "fields": {
+      "name": {}
+    }
+  }
 }
 ```
 
