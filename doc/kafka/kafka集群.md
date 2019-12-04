@@ -185,19 +185,13 @@ bin/kafka-server-start.sh -daemon config/server.properties
 
 ```shell
 # 选择一台服务器创建topic 192.168.111.128  topic命名不要用_   partition不要用1个
-kafka-topics.sh --create --zookeeper 192.168.111.128:2181 --replication-factor 3 --partitions 3 --topic topic-ywf
+kafka-topics.sh --create --zookeeper zk1:2181,zk2:2181,zk3:2181 --replication-factor 3 --partitions 3 --topic topic-ywf
 
 # 查看topic
- bin/kafka-topics.sh --describe --zookeeper 192.168.111.128:2181 --topic topic-ywf
+ bin/kafka-topics.sh --describe --zookeeper zk1:2181,zk2:2181,zk3:2181 --topic topic-ywf
 	
 # 修改partition数目
-bin/kafka-topics.sh --zookeeper 192.168.111.128:2181 -alter --partitions 3 --topic topic-ywf
-
-# 查看topic 生产消息情况
-bin/kafka-console-consumer.sh --bootstrap-server 192.168.111.128:9092 --topic topic-ywf --from-beginning
-
-# 查看topic 消费情况
-bin/kafka-consumer-groups.sh --group test-consumer-group --describe --bootstrap-server 192.168.111.128:9092
+bin/kafka-topics.sh --zookeeper zk1:2181,zk2:2181,zk3:2181 -alter --partitions 3 --topic topic-ywf
 ```
 
 
