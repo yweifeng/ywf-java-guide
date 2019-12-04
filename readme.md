@@ -69,7 +69,7 @@
         - [logStash部署](doc/elk/logStash/logStash部署.md)
     - [kibana](#)
         - [kibana部署](doc/elk/kibana/kibana部署.md)
-    - [spring boot aop elk kafka 搭建 日志收集系统](doc/elk/日志收集系统.md)
+    - [springboot aop + elk + kafka 搭建 日志收集系统](doc/elk/日志收集系统.md)
 - [hadoop](doc/hadoop/hadoop.md)
 - [mysql](#)
     - [mysql主从复制](doc/mysql/mysql主从复制.md)
