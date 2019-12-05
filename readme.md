@@ -73,7 +73,7 @@
     - [springboot aop + elk + kafka 搭建 日志收集系统](doc/elk/日志收集系统.md)
 - [storm](#)
     - [storm介绍](doc/storm/storm介绍.md)
-    - [storm部署](doc/storm/storm部署.md)
+    - [storm集群部署](doc/storm/storm部署.md)
     - [storm整合kafka](doc/storm/storm整合kafka.md)
 - [hadoop](doc/hadoop/hadoop.md)
 - [mysql](#)
