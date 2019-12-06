@@ -29,6 +29,8 @@
         - [SpringBoot整合elasticsearch](doc/springboot/SpringBoot整合elasticsearch.md)
         - [SpringBoot整合kafka](doc/springboot/SpringBoot整合kafka.md)
         - [SpringBoot整合storm](doc/springboot/SpringBoot整合storm.md)
+    - [高级](#)
+        - [SpringBoot整合activity6.0](#)
 - [springcloud]( https://www.springcloud.cc/spring-cloud-dalston.html )
     - [SpringCloud整合nacos](doc/springcloud/SpringCloud整合nacos.md)
     - [SpringCloud整合ribbon(负载均衡)](/doc/springcloud/SpringCloud整合ribbon.md)
@@ -88,6 +90,8 @@
     - [jps安装](doc/linux/jps安装.md)
     - [scp命令](doc/linux/scp命令.md)
     - [关闭指定端口](doc/linux/关闭指定端口.md)
+- [其他](#)
+    - [单点登录cas](#)
 
 
 
