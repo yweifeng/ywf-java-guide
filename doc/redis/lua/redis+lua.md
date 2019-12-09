@@ -34,7 +34,7 @@
 
 ## 编写简单的lua脚本运行
 
-#### 方式一
+### 方式一 EVAL
 
 ```shell
 EVAL "return 'hello word'" 0
@@ -43,7 +43,7 @@ EVAL "return 'hello word'" 0
 
 
 
-#### 方式二
+### 方式二 SCRIPT LOAD
 
 ```shell
 SCRIPT LOAD "return 'hello word'"
@@ -52,7 +52,7 @@ SCRIPT LOAD "return 'hello word'"
 
 
 
-#### 方式三
+### 方式三 EVALSHA
 
 ```shell
 EVALSHA 45396e13903003ec8916158e409f5f89dee43ed1 0
@@ -61,7 +61,20 @@ EVALSHA 45396e13903003ec8916158e409f5f89dee43ed1 0
 
 
 
-#### 原子性测试
+### 方式四 加载lua脚本文件
+
+```shell
+# 与redis-cli同目录创建lua目录
+
+# 创建helloWorld.lua文件
+
+redis-cli --eval lua/helloWorld.lua
+"hello world"
+```
+
+
+
+### 原子性测试
 
 ```shell
 EVAL "redis.call('mset', KEYS[1],ARGV[1], KEYS[2],ARGV[2]) redis.call('mset', KEYS[3],ARGV[3], KEYS[4],ARGV[4]) return 0" 4 name1 name2 name3 name4 ywf1 ywf2 ywf3 ywf4
