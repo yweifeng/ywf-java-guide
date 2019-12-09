@@ -46,6 +46,7 @@
     - [aof和rdb对比](doc/redis/aof和rdb对比.md)
     - [redis分布式锁 vs zk分布式锁](doc/redis/redis分布式锁vszk分布式锁.md)
     - [redis集群部署](doc/redis/redis集群部署.md)
+    - [redis+lua](doc/redis/redis+lua.md)
     - [redis常见问题](doc/redis/redis常见问题.md)
 - [rocketmq](#)
     - [基本使用](doc/rocketmq/基本使用.md)
