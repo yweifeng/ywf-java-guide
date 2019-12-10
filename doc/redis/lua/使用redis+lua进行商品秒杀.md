@@ -284,7 +284,7 @@ public class SecKillUtil {
 
 ```
 
-### SecKill.lua（单个商品秒杀）
+### secKill.lua（单个商品秒杀）
 
 ```lua
 local buyNum = tonumber(ARGV[1])
