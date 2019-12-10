@@ -51,7 +51,7 @@
       - [redis+lua 介绍和使用](doc/redis/lua/redis+lua.md)
       - [使用redis+lua生成全局id(未完)](doc/redis/lua/使用redis+lua生成全局id.md)
       - [使用redis+lua生成分布式锁](doc/redis/lua/使用redis+lua生成分布式锁.md)
-      - [使用redis+lua进行商品秒杀(未完)](doc/redis/lua/使用redis+lua进行商品秒杀.md)
+      - [使用redis+lua进行商品秒杀](doc/redis/lua/使用redis+lua进行商品秒杀.md)
 - [rocketmq](#)
     - [基本使用](doc/rocketmq/基本使用.md)
     - [高级功能](doc/rocketmq/高级功能.md)
