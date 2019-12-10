@@ -440,7 +440,7 @@ end
 
 再次申请加锁
 
-http://localhost:8080/testRedisLock?key=order1&requestId=abc[http://localhost:8080/testRedisLock?key=order1&requestId=abc]
+[http://localhost:8080/testRedisLock?key=order1&requestId=abc](http://localhost:8080/testRedisLock?key=order1&requestId=abc)
 
 - fail lock
 
