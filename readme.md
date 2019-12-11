@@ -49,7 +49,7 @@
     - [redis常见问题](doc/redis/redis常见问题.md)
     - [lua](#)
       - [redis+lua 介绍和使用](doc/redis/lua/redis+lua.md)
-      - [使用redis+lua生成全局id(未完)](doc/redis/lua/使用redis+lua生成全局id.md)
+      - [使用redis+lua生成分布式ID](doc/redis/lua/使用redis+lua生成全局id.md)
       - [使用redis+lua生成分布式锁](doc/redis/lua/使用redis+lua生成分布式锁.md)
       - [使用redis+lua进行商品秒杀](doc/redis/lua/使用redis+lua进行商品秒杀.md)
 - [rocketmq](#)
