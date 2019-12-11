@@ -32,6 +32,24 @@
 
 
 
+## Centos7安装lua
+
+```shell
+# 下载redline库的支持
+yum install -y readline
+yum install -y readline-devel
+
+# 下载并且make
+wget http://www.lua.org/ftp/lua-5.3.0.tar.gz
+tar -zxvf lua-5.3.0.tar.gz
+mv lua-5.3.0 lua
+cd lua
+make linux
+make install
+```
+
+
+
 ## 编写简单的lua脚本运行
 
 ### 方式一 EVAL

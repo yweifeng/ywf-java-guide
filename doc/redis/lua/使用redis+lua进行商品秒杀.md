@@ -315,36 +315,21 @@ end
 准备工作:
 
 - 启动redis集群
-- 设置模拟商品数据  set shoes:anta 150
+- 设置模拟商品数据  set shoes:anta 130
 
 
 
-浏览器访问测试
+JMeter10个线程跑，每个线程买20双安踏鞋子
 
-[localhost:8080/testSecKill?goodKey=shoes:anta&buyNum=20](localhost:8080/testSecKill?goodKey=shoes:anta&buyNum=20)
+- 前6个 secKill success
+- 后4个 fail secKill
 
-返回值
 
-- secKill success
 
-查看redis剩余商品数量
+查看安踏鞋子库存
 
 ```shell
 get shoes:anta
-"130"
-```
-
-测试商品数量大于库存情况
-
-[localhost:8080/testSecKill?goodKey=shoes:anta&buyNum=200](localhost:8080/testSecKill?goodKey=shoes:anta&buyNum=200)
-
-返回值
-
-- fail secKill
-
-查看控制台
-
-```
-2019-12-10 18:19:11.821  INFO 14728 --- [nio-8080-exec-9] com.ywf.redislua.util.SecKillUtil        : goodKey = shoes:anta, buyNum = 200, result = 0
+"10"
 ```
 
