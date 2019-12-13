@@ -30,7 +30,7 @@
         - [SpringBoot整合kafka](doc/springboot/SpringBoot整合kafka.md)
         - [SpringBoot整合storm](doc/springboot/SpringBoot整合storm.md)
     - [高级](#)
-        - [SpringBoot整合activity流程引擎](doc/springboot/SpringBoot整合activity.md)
+        - [SpringBoot整合activiti流程引擎](doc/springboot/SpringBoot整合activiti.md)
         - [SpringBoot整合cas单点登录](doc/springboot/SpringBoot整合cas单点登录.md)
 - [springcloud]( https://www.springcloud.cc/spring-cloud-dalston.html )
     - [SpringCloud整合nacos](doc/springcloud/SpringCloud整合nacos.md)
