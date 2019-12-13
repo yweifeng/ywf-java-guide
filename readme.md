@@ -30,7 +30,8 @@
         - [SpringBoot整合kafka](doc/springboot/SpringBoot整合kafka.md)
         - [SpringBoot整合storm](doc/springboot/SpringBoot整合storm.md)
     - [高级](#)
-        - [SpringBoot整合activity6.0](#)
+        - [SpringBoot整合activity流程引擎](doc/springboot/SpringBoot整合activity.md)
+        - [SpringBoot整合cas单点登录](doc/springboot/SpringBoot整合cas单点登录.md)
 - [springcloud]( https://www.springcloud.cc/spring-cloud-dalston.html )
     - [SpringCloud整合nacos](doc/springcloud/SpringCloud整合nacos.md)
     - [SpringCloud整合ribbon(负载均衡)](/doc/springcloud/SpringCloud整合ribbon.md)
@@ -96,7 +97,6 @@
     - [scp命令](doc/linux/scp命令.md)
     - [关闭指定端口](doc/linux/关闭指定端口.md)
 - [其他](#)
-    - [单点登录cas](#)
     - [高并发缓存数据库数据一致性解决方案](doc/other/高并发缓存数据一致性解决方案.md)
 
 
