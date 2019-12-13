@@ -10,6 +10,7 @@
         - [调优篇](doc/jvm/调优篇.md)
     - [设计模式](#)
         - [单例模式](doc/pattern/单例模式.md)
+        - [工厂模式](#doc/pattern/工厂模式.md)
 - [springboot](#)
     - [入门](#)
         - [使用Idea新建SpringBoot项目](doc/springboot/使用Idea新建SpringBoot项目.md)
