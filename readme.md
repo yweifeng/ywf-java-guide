@@ -64,6 +64,7 @@
     - [kafka集群部署](doc/kafka/kafka集群.md)
 - [zookeeper](#)
     - [zookeeper基础](doc/zookeeper/zookeeper面试专题及答案.pdf)
+    - [zookeeper分布式锁](doc/zookeeper/zookeeper分布式锁.md)
 - [canal](https://github.com/alibaba/canal)
 - [ELK](#)
     - [elasticsearch](#)
