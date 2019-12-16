@@ -73,7 +73,7 @@
         - [elasticsearch-head插件安装](doc/elk/elasticsearch/elasticsearch-head插件安装.md)
         - [elasticsearch整合Ik分词](doc/elk/elasticsearch/elasticsearch整合Ik分词.md)
         - [elasticsearch整合拼音分词](doc/elk/elasticsearch/elasticsearch整合拼音分词.md)
-        - [elasticsearch整合hanlp](doc/els/elasticsearch/elasticsearch整合hanlp.md)
+        - [elasticsearch整合hanlp](doc/elk/elasticsearch/elasticsearch整合hanlp.md)
         - [elasticsearch索引管理和简单CRUD](doc/elk/elasticsearch/elasticsearch索引管理和简单CRUD.md)
         - [elasticsearch使用bulk批量增删改和mget批量查询](doc/elk/elasticsearch/elasticsearch使用bulk批量增删改和mget批量查询.md)
         - [elasticsearch多种搜索方式](doc/elk/elasticsearch/elasticsearch多种搜索方式.md)
