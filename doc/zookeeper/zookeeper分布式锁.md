@@ -149,54 +149,6 @@ Zookeeper > 缓存 > 数据库
 zk.connectString = node1:2181,node2:2181,node3:2181
 ```
 
-### SpringUitl.java
-
-```java
-package com.ywf.zookeeper.util;
-
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-
-/**
- * @Author:ywf
- */
-@Component
-public class SpringUtil implements ApplicationContextAware {
-
-    private static ApplicationContext applicationContext = null;
-
-    //通过name获取 Bean.
-    public static Object getBean(String name) {
-        return getApplicationContext().getBean(name);
-    }
-
-    //获取applicationContext
-    public static ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (SpringUtil.applicationContext == null) {
-            SpringUtil.applicationContext = applicationContext;
-        }
-    }
-
-    //通过class获取Bean.
-    public static <T> T getBean(Class<T> clazz) {
-        return getApplicationContext().getBean(clazz);
-    }
-
-    //通过name,以及Clazz返回指定的Bean
-    public static <T> T getBean(String name, Class<T> clazz) {
-        return getApplicationContext().getBean(name, clazz);
-    }
-
-}
-```
-
 ### IDistributedLock.java
 
 ```java
@@ -210,18 +162,13 @@ public interface IDistributedLock {
 
     /**
      * 尝试加锁
-     * @param lockName 锁类型
-     * @return String[]
-     *  String[0] 成功或者失败 1 成功 0 失败
-     *  String[1] 当前lockNode
      */
-    String[] tryLock(String lockName);
+    void lock();
 
     /**
      * 解锁
-     * @param lockNode 锁路径
      */
-    void unLock(String lockNode);
+    void unLock();
 }
 ```
 
@@ -235,12 +182,11 @@ import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 /**
@@ -253,7 +199,6 @@ import java.util.stream.Collectors;
  *
  * @Author:ywf
  */
-@Component
 public class ZkDistributedLock implements IDistributedLock, Watcher {
     /**
      * 分布式锁根节点
@@ -262,36 +207,77 @@ public class ZkDistributedLock implements IDistributedLock, Watcher {
 
     private Logger logger = LoggerFactory.getLogger(ZkDistributedLock.class);
     private ZooKeeper zk = null;
+    private String ROOT_LOCK;
+    private String WAIT_NODE;
+    private String LOCK_NODE;
+    private String lockName;
+
+    private CountDownLatch latch = null;
+    private int sessionTimeout = 30000;
 
     @Value("${zk.connectString}")
     private String zkConnectString;
 
-    @PostConstruct
-    public void init() {
-        // 创建zk连接
+
+    public ZkDistributedLock(String lockName) {
         try {
-            zk = new ZooKeeper(zkConnectString, 30000, this);
+            this.lockName = lockName;
+            zk = new ZooKeeper("node1:2181,node2:2181,node3:2181", sessionTimeout, this);
+            // 判断是否存在根节点，不存在创建
+            checkOrCreateRootNode(lockName);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
     @Override
-    public void process(WatchedEvent watchedEvent) {
-
+    public void process(WatchedEvent event) {
+        logger.info("this.latch = " + (this.latch == null));
+        if (this.latch != null) {
+            logger.info("WAIT_NODE = " + WAIT_NODE + " 释放");
+            this.latch.countDown();
+        }
     }
 
     @Override
-    public String[] tryLock(String lockName) {
-        // 判断是否存在根节点，不存在创建
-        checkOrCreateRootNode(lockName);
+    public void lock() {
+        if (tryLock()) {
+            logger.info(LOCK_NODE + "得到锁");
+        } else {
+            try {
+                waitLock();
+            } catch (KeeperException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-        String lockNode = null;
-        String ROOT_LOCK = ROOT_LOCK_PRE + lockName;
+    /**
+     * 等待加锁
+     */
+    private void waitLock() throws KeeperException, InterruptedException {
+        Stat stat = zk.exists(WAIT_NODE, true);
+        if (null != stat) {
+            logger.info(LOCK_NODE + "-->等待锁 " + WAIT_NODE + "释放。");
+            this.latch = new CountDownLatch(1);
+            this.latch.await();
+            this.latch = null;
+            logger.info(LOCK_NODE + "-->" + "等待后获得锁成功！");
+        }
+    }
+
+    /**
+     * 尝试加锁
+     *
+     * @return
+     */
+    public boolean tryLock() {
+
         try {
             // 创建临时有序节点
-            lockNode = zk.create(ROOT_LOCK + "/" + lockName, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            LOCK_NODE = zk.create(ROOT_LOCK + "/" + lockName, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
 
             List<String> childrenNodes = zk.getChildren(ROOT_LOCK, false);
 
@@ -299,26 +285,24 @@ public class ZkDistributedLock implements IDistributedLock, Watcher {
             List<String> sortedChildrenNodes = childrenNodes.stream().sorted().collect(Collectors.toList());
 
             // 判断当前节点是不是第一个节点
-            if (Objects.equals(ROOT_LOCK + "/" + sortedChildrenNodes.get(0), lockNode)) {
-                return new String[]{"1", lockNode};
+            if (Objects.equals(ROOT_LOCK + "/" + sortedChildrenNodes.get(0), LOCK_NODE)) {
+                return true;
             }
-
             // 监听比自己小1的节点
             int prevLockIndex = -1;
             for (int i = 0; i < sortedChildrenNodes.size(); i++) {
-                if (Objects.equals(ROOT_LOCK + "/" + sortedChildrenNodes.get(i), lockNode)) {
+                if (Objects.equals(ROOT_LOCK + "/" + sortedChildrenNodes.get(i), LOCK_NODE)) {
                     prevLockIndex = i - 1;
                 }
             }
 
-            String prevNode = sortedChildrenNodes.get(prevLockIndex);
-            zk.getData(ROOT_LOCK + "/" + prevNode, true, new Stat());
+            WAIT_NODE = ROOT_LOCK + "/" + sortedChildrenNodes.get(prevLockIndex);
         } catch (KeeperException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return new String[]{"0", lockNode};
+        return false;
     }
 
     /**
@@ -327,18 +311,15 @@ public class ZkDistributedLock implements IDistributedLock, Watcher {
      * @param lockName
      */
     private void checkOrCreateRootNode(String lockName) {
+        ROOT_LOCK = ROOT_LOCK_PRE + lockName;
         // 判断是否有跟节点，不存在则创建
         Stat existStatus = null;
-        String ROOT_LOCK = ROOT_LOCK_PRE + lockName;
         try {
-            existStatus = zk.exists(ROOT_LOCK, false);
-            if (null == existStatus) {
-                // 不存在，创建根节点
-                // ZooDefs.Ids.OPEN_ACL_UNSAFE 默认匿名权限
-                // ZooDefs.Ids.READ_ACL_UNSAFE  只读权限
-                // CreateMode.PERSISTENT 持久化节点
-                ROOT_LOCK = zk.create(ROOT_LOCK, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-                logger.info("不存在zk [" + ROOT_LOCK + "]根节点，创建持久节点");
+            synchronized (ZkDistributedLock.class) {
+                existStatus = zk.exists(ROOT_LOCK_PRE + lockName, false);
+                if (null == existStatus) {
+                    zk.create(ROOT_LOCK_PRE + lockName, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                }
             }
         } catch (KeeperException e) {
             e.printStackTrace();
@@ -348,10 +329,12 @@ public class ZkDistributedLock implements IDistributedLock, Watcher {
     }
 
     @Override
-    public void unLock(String lockNode) {
+    public void unLock() {
         try {
-            logger.info(lockNode + "释放锁");
-            zk.delete(lockNode, -1);
+            logger.info(LOCK_NODE + "释放锁");
+            zk.delete(LOCK_NODE, -1);
+            LOCK_NODE = null;
+            zk.close();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (KeeperException e) {
@@ -367,11 +350,8 @@ public class ZkDistributedLock implements IDistributedLock, Watcher {
 ```java
 package com.ywf.zookeeper;
 
-import com.ywf.zookeeper.util.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.concurrent.TimeUnit;
@@ -380,48 +360,20 @@ import java.util.concurrent.TimeUnit;
 public class ZookeeperApplication {
     private static Logger logger = LoggerFactory.getLogger(ZookeeperApplication.class);
 
-    public static void main(String[] args) throws Exception{
-        SpringApplication.run(ZookeeperApplication.class, args);
-        IDistributedLock distributedLock = (IDistributedLock) SpringUtil.getBean("zkDistributedLock");
-        new Thread(()->{
-            String lockName = "order";
-            String[] res = null;
-            for (int i = 0; i < 10; i++) {
-
+    public static void main(String[] args) throws Exception {
+        for (int i = 1; i <= 10; i++) {
+            new Thread(() -> {
                 try {
-                    res = distributedLock.tryLock(lockName);
-
-                    if (res[0].equals("1")) {
-                        logger.info(res[1] + " 获取到锁");
-                    }
-                    TimeUnit.SECONDS.sleep(1);
+                    IDistributedLock zkLock = new ZkDistributedLock("order");
+                    zkLock.lock();
+                    logger.info(Thread.currentThread().getName() +" do business ...");
+                    TimeUnit.SECONDS.sleep(2);
+                    zkLock.unLock();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } finally {
-                    distributedLock.unLock(res[1]);
                 }
-            }
-        }).start();
-
-        new Thread(()->{
-            String lockName = "secKill";
-            String[] res = null;
-            for (int i = 0; i < 10; i++) {
-
-                try {
-                    res = distributedLock.tryLock(lockName);
-
-                    if (res[0].equals("1")) {
-                        logger.info(res[1] + " 获取到锁");
-                    }
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    distributedLock.unLock(res[1]);
-                }
-            }
-        }).start();
+            }, "Thread<" + i + ">").start();
+        }
     }
 
 }
