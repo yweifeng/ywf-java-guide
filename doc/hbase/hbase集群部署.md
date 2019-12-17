@@ -17,9 +17,9 @@
 | zookeeper | 3.4.12    |
 | hbase     | 2.2.2     |
 
-- [zookeeper集群部署手册]([https://yweifeng.github.io/ywf-java-guide/doc/zookeeper/zookeeper%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html](https://yweifeng.github.io/ywf-java-guide/doc/zookeeper/zookeeper集群部署.html))
+- [zookeeper集群部署手册](https://yweifeng.github.io/ywf-java-guide/doc/zookeeper/zookeeper集群部署.html)
 
-- [hadoop集群部署手册]([https://yweifeng.github.io/ywf-java-guide/doc/hadoop/hadoop%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.html](https://yweifeng.github.io/ywf-java-guide/doc/hadoop/hadoop集群部署.html))
+- [hadoop集群部署手册](https://yweifeng.github.io/ywf-java-guide/doc/hadoop/hadoop集群部署.html)
 
 
 
