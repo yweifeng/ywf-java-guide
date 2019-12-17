@@ -84,10 +84,6 @@ node3
      <name>hbase.cluster.distributed</name>
      <value>true</value>
   </property>
-  <property>
-     <name>hbase.master.port</name>
-     <value>16000</value>
-  </property>
    <property>
     <name>hbase.zookeeper.property.dataDir</name>
     <value>/opt/zookeeper/data</value>
