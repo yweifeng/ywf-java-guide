@@ -280,7 +280,7 @@ java.io.IOException: Could not locate executable F:\soft\hadoop-3.0.0\bin\bin\wi
 
 - 解决方案：
 
-  - 下载[winutil.exe](resource/winutil.exe)
+  - 下载[winutil.exe](resource/bin/winutil.exe)
   - 新建环境变量
 
   ```
