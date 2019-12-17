@@ -8,6 +8,8 @@
 | 192.168.111.129 | node2、 hadoop-master |
 | 192.168.111.130 | node3、 hadoop-slave2 |
 
+### 版本信息
+
 | 软件信息  | 版本      |
 | --------- | --------- |
 | 操作系统  | centos7.0 |
@@ -161,7 +163,7 @@ cd /opt/zookeeper/bin
 
 ```shell
 cd /opt/hadoop/sbin
-./start-dfs.sh &
+./start-dfs.sh
 ```
 
 
@@ -170,6 +172,6 @@ cd /opt/hadoop/sbin
 
 ```shell
 cd /opt/hbase/bin
-./start-base.sh
+./start-hbase.sh
 ```
 
