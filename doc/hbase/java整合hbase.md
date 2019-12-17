@@ -284,7 +284,7 @@ java.io.IOException: Could not locate executable F:\soft\hadoop-3.0.0\bin\bin\wi
   - 新建环境变量
 
   ```
-  HADOOP_HOME=wintuil.exe存放的地址
+  HADOOP_HOME=wintuils.exe存放的地址
   
   配置path 
     %HADOOP_HOME%\bin
