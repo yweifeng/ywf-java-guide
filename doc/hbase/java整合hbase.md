@@ -266,6 +266,8 @@ class HbaseApplicationTests {
 }
 ```
 
+- 项目地址:[https://github.com/yweifeng/ywf-hbase](https://github.com/yweifeng/ywf-hbase)
+
 
 
 - 运行时报错：
@@ -289,3 +291,4 @@ java.io.IOException: Could not locate executable F:\soft\hadoop-3.0.0\bin\bin\wi
   ```
   
   - 重启电脑运行
+
