@@ -92,7 +92,7 @@
 - [hadoop](#)
     - [hadoop集群部署](doc/hadoop/hadoop集群部署.md)
 - [hbase](#)
-    - [hbase介绍](doc/hbase/hbase介绍.md)
+    - [hbase介绍](https://blog.csdn.net/baichoufei90/article/details/84890472)
     - [hbase集群部署](doc/hbase/hbase集群部署.md)
     - [java整合hbase](doc/hbase/java整合hbase.md)
 - [mysql](#)
