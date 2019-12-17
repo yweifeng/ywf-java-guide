@@ -283,6 +283,9 @@ java.io.IOException: Could not locate executable F:\soft\hadoop-3.0.0\bin\bin\wi
 
   ```
   HADOOP_HOME=wintuil.exe存放的地址
+  
+  配置path 
+    %HADOOP_HOME%\bin
   ```
-
+  
   - 重启电脑运行
