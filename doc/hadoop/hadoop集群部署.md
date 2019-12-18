@@ -18,11 +18,11 @@ MapReduce Job History Server
 
 ### 1.1.1 环境配置
 
-| 服务器环境 | centos7         |                             |
-| ---------- | --------------- | --------------------------- |
-| master     | 192.168.111.128 | NameNode、DataNode          |
-| slaver1    | 192.168.111.129 | DataNode、ResourceManager   |
-| slaver2    | 192.168.111.130 | DataNode、SecondaryNameNode |
+| 服务器环境 | centos7         |                                        |
+| ---------- | --------------- | -------------------------------------- |
+| master     | 192.168.111.128 | NameNode、DataNode                     |
+| slaver1    | 192.168.111.129 | DataNode、ResourceManager、NodeManager |
+| slaver2    | 192.168.111.130 | DataNode、SecondaryNameNode            |
 
 
 
