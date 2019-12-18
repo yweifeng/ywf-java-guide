@@ -304,9 +304,9 @@ hadoop-slave2
 
 ### 1.1.16 浏览器访问
 
-#####  http://192.168.111.129:50070
+#####  [http://192.168.111.128:50070](http://192.168.111.128:50070)
 
-#####  [http://192.168.111.128:8088](http://192.168.111.128:8088/) 
+#####  [http://192.168.111.129:8088](http://192.168.111.129:8088/) 
 
 ### 1.1.17 测试wordcount
 
@@ -329,16 +329,16 @@ hadoop-slave2
 ### 2.1.1 建立maven项目，引入依赖
 
 ```xml
-    <properties>
-        <hadoop.version>2.9.2</hadoop.version>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${hadoop.version}</version>
-        </dependency>
-    </dependencies>
+<properties>
+    <hadoop.version>2.9.2</hadoop.version>
+</properties>
+<dependencies>
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-client</artifactId>
+        <version>${hadoop.version}</version>
+    </dependency>
+</dependencies>
 ```
 
 
