@@ -71,6 +71,11 @@ scp -r hadoop root@192.168.111.130:/opt
 [root@hadoop-master ~]# groupadd hadoop 
 [root@hadoop-master ~]# useradd -d /usr/hadoop -g hadoop -m hadoop
 [root@hadoop-master ~]# passwd hadoop
+
+# 设置权限
+[hadoop@hadoop-master ~]$ su root
+密码：
+[root@hadoop-master ~]# chown -R hadoop:hadoop /opt/*
 ```
 
 
@@ -101,6 +106,7 @@ authorized_keys  id_rsa  id_rsa.pub  known_hosts
 # 验证
 [hadoop@hadoop-master .ssh]$ ssh hadoop-master
 Last login: Wed Dec 18 19:21:28 2019 from hadoop-master
+
 ```
 
 
@@ -261,11 +267,19 @@ yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保�
 </configuration>
 ```
 
+### 1.1.13 配置slaves (master节点)
+
+```bash
+hadoop-master
+hadoop-slave1
+hadoop-slave2
+```
 
 
-### 1.1.13 格式化NameNode
 
-注意：
+### 1.1.14 格式化NameNode
+
+注意：只在master节点使用
 
 如果需要重新格式化NameNode,需要先将原来NameNode和DataNode下的文件全部删除，不然会报错，NameNode和DataNode所在目录是在core-site.xml中hadoop.tmp.dir、dfs.namenode.name.dir、dfs.datanode.data.dir属性配置的。
 
@@ -276,7 +290,7 @@ yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保�
 
 
 
-### 1.1.14 启动hdfs和yarn进程
+### 1.1.15 启动hdfs和yarn进程
 
 ```shell
 #hadoop-master
@@ -288,13 +302,13 @@ yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保�
 
 
 
-### 1.1.15 浏览器访问
+### 1.1.16 浏览器访问
 
 #####  http://192.168.111.129:50070
 
 #####  [http://192.168.111.128:8088](http://192.168.111.128:8088/) 
 
-### 1.1.16 测试wordcount
+### 1.1.17 测试wordcount
 
 ```shell
 # 创建目录
