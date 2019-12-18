@@ -86,7 +86,7 @@ hadoop-slave2
   <property>
     <name>hbase.rootdir</name>
     <!-- 和hadoop的core-site.xml 的 fs.defaultFS 的 HDFS 的 IP 地址或者域名、端口必须一致 -->
-    <value>hdfs://hadoop-master:8020</value>
+    <value>hdfs://hadoop-master:8020/hbase</value>
   </property>
   <property>
      <name>hbase.cluster.distributed</name>
@@ -103,10 +103,6 @@ hadoop-slave2
   <property>
     <name>hbase.zookeeper.property.clientPort</name>
     <value>2181</value>
-  </property>
-  <property>
-    <name>hbase.master.info.port</name>
-    <value>60010</value>
   </property>
 </configuration>
 ```
