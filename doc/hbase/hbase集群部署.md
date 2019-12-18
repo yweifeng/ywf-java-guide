@@ -2,11 +2,11 @@
 
 ### 环境配置
 
-| IP地址          | hosts                 |
-| --------------- | --------------------- |
-| 192.168.111.128 | node1、 hadoop-slave1 |
-| 192.168.111.129 | node2、 hadoop-master |
-| 192.168.111.130 | node3、 hadoop-slave2 |
+| IP地址          | hosts         |
+| --------------- | ------------- |
+| 192.168.111.128 | hadoop-master |
+| 192.168.111.129 | hadoop-slave1 |
+| 192.168.111.130 | hadoop-slave2 |
 
 ### 版本信息
 
@@ -17,9 +17,9 @@
 | zookeeper | 3.4.12    |
 | hbase     | 2.2.2     |
 
-- [zookeeper集群部署手册](https://yweifeng.github.io/ywf-java-guide/doc/zookeeper/zookeeper集群部署.html)
-
-- [hadoop集群部署手册](https://yweifeng.github.io/ywf-java-guide/doc/hadoop/hadoop集群部署.html)
+- **前置部署**
+  - [zookeeper集群部署手册](https://yweifeng.github.io/ywf-java-guide/doc/zookeeper/zookeeper集群部署.html)
+  - [hadoop集群部署手册](https://yweifeng.github.io/ywf-java-guide/doc/hadoop/hadoop集群部署.html)
 
 
 
@@ -48,13 +48,20 @@ source /etc/profile
 ```shell
 vim /etc/hosts
 # 添加以下信息
-192.168.111.128 node1
-192.168.111.129 node2
-192.168.111.130 node3
 
-192.168.111.129 hadoop-master
-192.168.111.128 hadoop-slave1
+192.168.111.128 hadoop-master
+192.168.111.129 hadoop-slave1
 192.168.111.130 hadoop-slave2
+```
+
+
+
+### 保持集群服务器时间同步
+
+```shell
+# 3台服务器都执行
+yum install -y ntpdate
+ntpdate 120.24.81.91
 ```
 
 
@@ -67,9 +74,9 @@ vim /etc/hosts
 cd /opt/hbase/conf
 vim regionservers
 
-node1
-node2
-node3
+hadoop-master
+hadoop-slave1
+hadoop-slave2
 ```
 
 - 修改 **hbase-site.xml**
@@ -78,7 +85,8 @@ node3
 <configuration>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://hadoop-master:9000/hbase</value>
+    <!-- 和hadoop的core-site.xml 的 fs.defaultFS 的 HDFS 的 IP 地址或者域名、端口必须一致 -->
+    <value>hdfs://hadoop-master:8020</value>
   </property>
   <property>
      <name>hbase.cluster.distributed</name>
@@ -90,11 +98,15 @@ node3
   </property>
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>node1,node2,node3</value>
+    <value>hadoop-master,hadoop-slave1,hadoop-slave2</value>
   </property>
   <property>
     <name>hbase.zookeeper.property.clientPort</name>
     <value>2181</value>
+  </property>
+  <property>
+    <name>hbase.master.info.port</name>
+    <value>60010</value>
   </property>
 </configuration>
 ```
@@ -112,34 +124,36 @@ export HBASE_MANAGES_ZK=false
 cp /opt/hadoop/etc/hadoop/hdfs-site.xml /opt/hbase/conf/
 ```
 
+- 修改hbase-env.sh 的java_home
+
+```shell
+export JAVA_HOME=/opt/jdk/jdk1.8.0_141
+```
+
 
 
 ### 拷贝到其他服务器
 
 ```shell
 # 拷贝hbase
-scp -r /opt/hbase root@node2:/opt/
-scp -r /opt/hbase root@node3:/opt/
+scp -r /opt/hbase root@hadoop-slave1:/opt/
+scp -r /opt/hbase root@hadoop-slave2:/opt/
 
 # 拷贝/etc/hosts
-scp /etc/hosts root@node2:/etc/
-scp /etc/hosts root@node3:/etc/
+scp /etc/hosts root@hadoop-slave1:/etc/
+scp /etc/hosts root@hadoop-slave2:/etc/
 
 # 拷贝/etc/profile
-scp /etc/profile root@node2:/etc/
-scp /etc/profile root@node3:/etc/
+scp /etc/profile root@hadoop-slave1:/etc/
+scp /etc/profile root@hadoop-slave2:/etc/
 	
 # 每个服务器重启/etc/profile
 source /etc/profile
-```
 
-
-
-### 保持集群服务器时间同步
-
-```shell
-# 3台服务器都执行
-ntpdate -u 0.uk.pool.ntp.org
+# 权限分配
+chown -R hadoop:hadoop /opt/*
+# 切换用户
+su hadoop
 ```
 
 
@@ -171,3 +185,10 @@ cd /opt/hbase/bin
 ./start-hbase.sh
 ```
 
+
+
+### 浏览器访问
+
+[http://hadoop-master:16010/master-status](http://hadoop-master:16010/master-status)
+
+![img](img/hbase1.png)
