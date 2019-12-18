@@ -90,6 +90,7 @@
     - [storm集群部署](doc/storm/storm部署.md)
     - [storm整合kafka](doc/storm/storm整合kafka.md)
 - [hadoop](#)
+    - [hadoop介绍](doc/hadoop/hadoop介绍.md)
     - [hadoop集群部署](doc/hadoop/hadoop集群部署.md)
 - [hbase](#)
     - [hbase介绍](https://blog.csdn.net/baichoufei90/article/details/84890472)
