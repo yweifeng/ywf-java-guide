@@ -20,8 +20,8 @@ MapReduce Job History Server
 
 | 服务器环境 | centos7         |                             |
 | ---------- | --------------- | --------------------------- |
-| Master     | 192.168.111.129 | NameNode、DataNode          |
-| slaver1    | 192.168.111.128 | DataNode、ResourceManager   |
+| master     | 192.168.111.128 | NameNode、DataNode          |
+| slaver1    | 192.168.111.129 | DataNode、ResourceManager   |
 | slaver2    | 192.168.111.130 | DataNode、SecondaryNameNode |
 
 
@@ -52,13 +52,13 @@ scp -r hadoop root@192.168.111.130:/opt
 
 ```shell
 [root@hadoop-master ~]#  vi /etc/hosts
-192.168.111.129 hadoop-master
-192.168.111.128 hadoop-slave1
+192.168.111.128 hadoop-master
+192.168.111.129 hadoop-slave1
 192.168.111.130 hadoop-slave2
 
 # scp拷贝 hosts到其他服务器
-[root@rocketmq-nameserver1 ~]# scp /etc/hosts root@hadoop-slave1:/etc/
-[root@rocketmq-nameserver1 ~]# scp /etc/hosts root@hadoop-slave2:/etc/
+[root@hadoop-master ~]# scp /etc/hosts root@hadoop-slave1:/etc/
+[root@hadoop-master ~]# scp /etc/hosts root@hadoop-slave2:/etc/
 
 #注意：修改hosts中，是立即生效的，无需source或者. 
 ```
@@ -68,53 +68,24 @@ scp -r hadoop root@192.168.111.130:/opt
 创建hadoop组和用户
 
 ```shell
-[root@rocketmq-nameserver1 ~]# groupadd hadoop 
-[root@rocketmq-nameserver1 ~]# useradd -d /usr/hadoop -g hadoop -m hadoop
-[root@rocketmq-nameserver1 ~]# passwd hadoop
+[root@hadoop-master ~]# groupadd hadoop 
+[root@hadoop-master ~]# useradd -d /usr/hadoop -g hadoop -m hadoop
+[root@hadoop-master ~]# passwd hadoop
 ```
 
 
 
 ### 1.1.4  在各节点上设置SSH无密码登录 
 
-最终达到目的：即在master:节点执行 ssh hadoop@hadoop-slave1不需要密码，此处只需配置master访问slave1免密。
-
 ```shell
-[hadoop@hadoop-master ~]$ su - hadoop
+[hadoop@hadoop-master ~]$ su hadoop
 [hadoop@hadoop-master ~]$ pwd
 /usr/hadoop
+[hadoop@hadoop-master ~]$ ssh-keygen -t rsa -P ""
+# 查看生成的文件
 [hadoop@hadoop-master ~]$ cd .ssh
-[hadoop@hadoop-master .ssh]$ ssh-keygen -t rsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/usr/hadoop/.ssh/id_rsa): 
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
-Your identification has been saved in /usr/hadoop/.ssh/id_rsa.
-Your public key has been saved in /usr/hadoop/.ssh/id_rsa.pub.
-The key fingerprint is:
-11:b2:23:8c:e7:32:1d:4c:2f:00:32:1a:15:43:bb:de hadoop@hadoop-master
-The key's randomart image is:
-+--[ RSA 2048]----+
-|=+*.. . .        |
-|oo O . o .       |
-|. o B + .        |
-|   = + . .       |
-|  + o   S        |
-| . +             |
-|  . E            |
-|                 |
-|                 |
-+-----------------+
-[hadoop@hadoop-master .ssh]$ 
-[hadoop@hadoop-master .ssh]$ cp id_rsa.pub authorized_keys
-[hadoop@hadoop-master .ssh]$ ll
-total 16
--rwx------. 1 hadoop hadoop 1230 Jan 31 23:27 authorized_keys
--rwx------. 1 hadoop hadoop 1675 Feb 23 19:07 id_rsa
--rwx------. 1 hadoop hadoop  402 Feb 23 19:07 id_rsa.pub
--rwx------. 1 hadoop hadoop  874 Feb 13 19:40 known_hosts
-[hadoop@hadoop-master .ssh]$
-
+[hadoop@hadoop-master .ssh]$ ls
+authorized_keys  id_rsa  id_rsa.pub  known_hosts
 ```
 
 
@@ -122,27 +93,19 @@ total 16
 ### 1.1.5  **本机无密钥登录** 
 
 ```shell
-[hadoop@hadoop-master ~]$ pwd
-/usr/hadoop
-[hadoop@hadoop-master ~]$ chmod -R 700 .ssh
-[hadoop@hadoop-master ~]$ cd .ssh
-[hadoop@hadoop-master .ssh]$ chmod 600 authorized_keys
-[hadoop@hadoop-master .ssh]$ ll
-total 16
--rwx------. 1 hadoop hadoop 1230 Jan 31 23:27 authorized_keys
--rwx------. 1 hadoop hadoop 1679 Jan 31 23:26 id_rsa
--rwx------. 1 hadoop hadoop  410 Jan 31 23:26 id_rsa.pub
--rwx------. 1 hadoop hadoop  874 Feb 13 19:40 known_hosts
+[hadoop@hadoop-master .ssh]$ cat id_rsa.pub >> authorized_keys
+[hadoop@hadoop-master .ssh]$ cd ~
+[hadoop@hadoop-master ~]$ chmod 700 .ssh
+[hadoop@hadoop-master ~]$ chmod 600 .ssh/*
 
 # 验证
-ssh hadoop@hadoop-master	
+[hadoop@hadoop-master .ssh]$ ssh hadoop-master
+Last login: Wed Dec 18 19:21:28 2019 from hadoop-master
 ```
 
 
 
 ### 1.1.6  master与其他节点无密钥登录
-
-
 
 ```shell
 #执行cd ~.ssh发现ssh目录找不到
@@ -155,22 +118,21 @@ ssh hadoop@hadoop-master
 
 ```shell
 #从master中把authorized_keys分发到各个结点上
-[hadoop@rocketmq-nameserver1 ~]$ scp /usr/hadoop/.ssh/authorized_keys hadoop@hadoop-slave1:/usr/hadoop/.ssh
+[hadoop@hadoop-master ~]$ scp /usr/hadoop/.ssh/authorized_keys hadoop@hadoop-slave1:/usr/hadoop/.ssh
 
-[hadoop@rocketmq-nameserver1 ~]$ scp /usr/hadoop/.ssh/authorized_keys hadoop@hadoop-slave2:/usr/hadoop/.ssh
+[hadoop@hadoop-master ~]$ scp /usr/hadoop/.ssh/authorized_keys hadoop@hadoop-slave2:/usr/hadoop/.ssh
 
 #然后在各个节点对authorized_keys执行(一定要执行该步，否则会报错)：chmod 600 authorized_keys
 #保证.ssh 700，.ssh/authorized_keys 600权限
 
-[root@localhost /]# cd usr/hadoop/
-[root@localhost ~]# chmod -R 700 .ssh
-[root@localhost hadoop]# cd .ssh/
-[root@localhost .ssh]# chmod 600 authorized_keys
+[hadoop@localhost ~]# chmod -R 700 .ssh
+[hadoop@localhost ~]# cd .ssh
+[hadoop@localhost .ssh]# chmod 600 authorized_keys
 
 # 在hadoop-master分发公钥，分别分发给三台主机。
-[root@rocketmq-nameserver1 hadoop]# ssh-copy-id hadoop-master
-[root@rocketmq-nameserver1 hadoop]# ssh-copy-id hadoop-slave1
-[root@rocketmq-nameserver1 hadoop]# ssh-copy-id hadoop-slave2
+[hadoop@hadoop-master ~]# ssh-copy-id hadoop-master
+[hadoop@hadoop-master ~]# ssh-copy-id hadoop-slave1
+[hadoop@hadoop-master ~]# ssh-copy-id hadoop-slave2
 ```
 
 
@@ -198,10 +160,9 @@ hadoop version
 ### 1.1.8 修改hadoop-env.sh 、mapred-env.sh 、yarn-env.sh  设置JAVA_HOME地址
 
 ```shell
-[root@rocketmq-nameserver2 hadoop]# vim hadoop-env.sh 
-[root@rocketmq-nameserver2 hadoop]# vim mapred-env.sh 
-[root@rocketmq-nameserver2 hadoop]# vim yarn-env.sh 
-
+[root@hadoop-master hadoop]# vim hadoop-env.sh 
+[root@hadoop-master hadoop]# vim mapred-env.sh 
+[root@hadoop-master hadoop]# vim yarn-env.sh 
 ```
 
 
@@ -278,7 +239,7 @@ yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保�
 复制mapred-site.xml.template 为  mapred-site.xml
 
 ```shell
-[root@rocketmq-nameserver2 hadoop]# cp mapred-site.xml.template mapred-site.xml
+[root@hadoop-master hadoop]# cp mapred-site.xml.template mapred-site.xml
 ```
 
 配置mapred-site.xml
@@ -310,7 +271,7 @@ yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保�
 
 ```shell
 # 只能执行一次 相当于初始化操作
-[root@rocketmq-nameserver1 data]# hdfs namenode -format
+[root@hadoop-master data]# hdfs namenode -format
 ```
 
 
@@ -319,10 +280,10 @@ yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保�
 
 ```shell
 #hadoop-master
-[root@rocketmq-nameserver1 hadoop]# sbin/start-dfs.sh 
+[root@hadoop-master hadoop]# sbin/start-dfs.sh 
 
 #hadoop-slave1
-[root@rocketmq-nameserver1 hadoop]# sbin/start-yarn.sh
+[root@hadoop-master hadoop]# sbin/start-yarn.sh
 ```
 
 
@@ -337,11 +298,11 @@ yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保�
 
 ```shell
 # 创建目录
-[root@rocketmq-nameserver1 hadoop]#  hdfs dfs -mkdir -p /wordcountdemo/input 
+[root@hadoop-master hadoop]#  hdfs dfs -mkdir -p /wordcountdemo/input 
 
 # 上传文件
-[root@rocketmq-nameserver1 hadoop]# hdfs dfs -put /opt/1.txt /wordcountdemo/input
-[root@rocketmq-nameserver1 hadoop]# hdfs dfs -put /opt/2.txt /wordcountdemo/input
+[root@hadoop-master hadoop]# hdfs dfs -put /opt/1.txt /wordcountdemo/input
+[root@hadoop-master hadoop]# hdfs dfs -put /opt/2.txt /wordcountdemo/input
 
 #运行WordCount MapReduce Job
 
