@@ -18,10 +18,12 @@
 ### 修改application.properties
 
 ```properties
-##mybatis-plus mapper xml 文件地址
+#mybatis-plus mapper xml 文件地址
 mybatis-plus.mapper-locations=classpath*:mapper/*Mapper.xml
-##mybatis-plus type-aliases 文件地址
+#mybatis-plus type-aliases 文件地址
 mybatis-plus.type-aliases-package=com.ywf.srpingbootproject.entity
+#会自动将下划线格式的表字段，转换为以驼峰格式命名的属性
+mybatis-plus.configuration.map-underscore-to-camel-case: true
 ```
 
 ### 新建MybatisPlusConfig
