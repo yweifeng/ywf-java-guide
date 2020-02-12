@@ -1,4 +1,55 @@
+<!-- TOC -->
 
+- [neo4j概念和语法](#neo4j概念和语法)
+        - [Neo4j的特点](#neo4j的特点)
+        - [Neo4j的优点](#neo4j的优点)
+        - [Neo4j的缺点或限制](#neo4j的缺点或限制)
+        - [Neo4j属性图数据模型](#neo4j属性图数据模型)
+- [Neo4j - CQL简介](#neo4j---cql简介)
+        - [Neo4j CQL命令/条款](#neo4j-cql命令条款)
+        - [Neo4j CQL 函数](#neo4j-cql-函数)
+        - [Neo4j CQL数据类型](#neo4j-cql数据类型)
+- [CREATE命令](#create命令)
+        - [CQL创建一个没有属性的节点](#cql创建一个没有属性的节点)
+        - [CQL创建具有属性的节点](#cql创建具有属性的节点)
+        - [CREATE命令语法](#create命令语法)
+- [MATCH命令](#match命令)
+        - [MATCH命令语法](#match命令语法)
+- [RETURN子句](#return子句)
+        - [RETURN命令语法](#return命令语法)
+- [MATCH & RETURN](#match--return)
+        - [MATCH RETURN命令语法](#match-return命令语法)
+        - [MATCH命令语法](#match命令语法-1)
+        - [RETURN命令语法](#return命令语法-1)
+- [CREATE+MATCH+RETURN命令](#creatematchreturn命令)
+        - [创建客户节点](#创建客户节点)
+        - [创建CreditCard节点](#创建creditcard节点)
+        - [观察节点](#观察节点)
+- [关系基础](#关系基础)
+- [CREATE创建标签](#create创建标签)
+        - [Neo4j CQL创建节点标签](#neo4j-cql创建节点标签)
+        - [单个标签到节点](#单个标签到节点)
+        - [多个标签到节点](#多个标签到节点)
+        - [单个标签到关系](#单个标签到关系)
+        - [语法说明](#语法说明)
+- [WHERE子句](#where子句)
+        - [简单WHERE子句语法](#简单where子句语法)
+        - [复杂WHERE子句语法](#复杂where子句语法)
+        - [Neo4j CQL中的布尔运算符](#neo4j-cql中的布尔运算符)
+        - [Neo4j CQL中的比较运算符](#neo4j-cql中的比较运算符)
+        - [使用WHERE子句创建关系](#使用where子句创建关系)
+- [DELETE删除](#delete删除)
+        - [删除节点](#删除节点)
+        - [DELETE节点子句语法](#delete节点子句语法)
+        - [DELETE节点和关系子句语法](#delete节点和关系子句语法)
+- [REMOVE删除](#remove删除)
+        - [删除节点/关系的属性](#删除节点关系的属性)
+        - [REMOVE属性子句语法](#remove属性子句语法)
+        - [删除节点/关系的标签](#删除节点关系的标签)
+- [SET子句](#set子句)
+        - [SET子句语法](#set子句语法)
+
+<!-- /TOC -->
 
 # neo4j概念和语法
 
@@ -177,7 +228,7 @@ CREATE (<node-name>:<label-name>)
 | <node-name>  | 它是我们要创建的节点名称。 |
 | <label-name> | 它是一个节点标签名称       |
 
-注意事项 -
+注意事项
 
  
 
@@ -292,8 +343,6 @@ CREATE (
 | <Property1-name>...<Propertyn-name>   | 属性是键值对。 定义将分配给创建节点的属性的名称 |
 | <Property1-value>...<Propertyn-value> | 属性是键值对。 定义将分配给创建节点的属性的值   |
 
-
-
 **例如**：
 
 此示例演示如何创建具有一些属性（deptno，dname，位置）的Dept节点。 按照下面给出的步骤 - 
@@ -398,6 +447,8 @@ Employee是dept节点的标签名称
 
 此命令已创建一个具有4个属性（“id”，“name”，“sal”，“deptno”）的节点“emp”，并分配了一个标签“Employee”。
 
+
+
 # MATCH命令
 
 Neo4j CQL MATCH命令用于 - 
@@ -414,8 +465,6 @@ MATCH
 )
 ```
 
-
-
 语法说明
 
 | 语法元素     | 描述                         |
@@ -423,7 +472,7 @@ MATCH
 | <node-name>  | 这是我们要创建一个节点名称。 |
 | <label-name> | 这是一个节点的标签名称       |
 
-注意事项 -
+注意事项
 
 - Neo4j数据库服务器使用此<node-name>将此节点详细信息存储在Database.As中作为Neo4j DBA或Developer，我们不能使用它来访问节点详细信息。
 - Neo4j数据库服务器创建一个<label-name>作为内部节点名称的别名。作为Neo4j DBA或Developer，我们应该使用此标签名称来访问节点详细信息。
@@ -433,7 +482,6 @@ MATCH
 **例如：**
 
 这个例子演示了“如果我们单独使用MATCH命令从数据库检索数据会发生什么”。 按照下面给出的步骤 - 
-
 
 
 **步骤1** -打开Neo4j的数据浏览器。
@@ -584,8 +632,6 @@ MATCH
 
 - Neo4j数据库服务器使用此<node-name>将此节点详细信息存储在Database.As中作为Neo4j DBA或Developer，我们不能使用它来访问节点详细信息。
 - Neo4j数据库服务器创建一个<label-name>作为内部节点名称的别名。作为Neo4j DBA或Developer，我们应该使用此标签名称来访问节点详细信息。
-
-## 
 
 ### RETURN命令语法
 
@@ -1383,9 +1429,6 @@ WHERE <condition> <boolean-operator> <condition>
 我们可以使用布尔运算符在同一命令上放置多个条件。 请参考下一节，了解Neo4j CQL中可用的布尔运算符。
 
 
-
-## 
-
 **语法：**
 
 ```
@@ -1649,8 +1692,6 @@ CREATE (<node1-label-name>)-[<relationship-label-name>:<relationship-name>
 | 8     | <relationship-name>       | 这是新创建的节点1和节点2之间的关系的名称。                   |
 | 9     | <relationship-properties> | 这是一个新创建节点一和节点二之间关系的属性列表（键 - 值对）。 |
 
-
-
 **例如：**
 
 此示例演示如何使用WHERE子句创建两个现有节点之间的关系。
@@ -1757,9 +1798,17 @@ RETURN r
 
 单击关系并在单独的窗口中观察其属性
 
+
+
+
+
+
+
 ![在两个现有节点之间创建了一个NEW关系](https://atts.w3cschool.cn/attachments/day_161226/201612261834131221.png)
 
 现在我们通过使用Neo4J CQL WHERE子句在两个现有节点之间创建了一个NEW关系
+
+
 
 # DELETE删除
 
@@ -2052,12 +2101,13 @@ REMOVE <property-name-list>
 | 1。   | <node-name>     | 它是节点的名称。     |
 | 2。   | <property-name> | 它是节点的属性名称。 |
 
+**
+**
+
 **注意 -**
 
 - 我们应该使用逗号（，）运算符来分隔标签名称列表。
 - 我们应该使用dot（。）运算符来分隔节点名称和标签名称。
-
-
 
 例如：
 
@@ -2089,6 +2139,13 @@ CREATE (book:Book {id:122,title:"Neo4j Tutorial",pages:340,price:250})
 
 
 **![CREATE (book:Book {id:122,title:"Neo4j Tutorial",pages:340,price:250}) ](https://atts.w3cschool.cn/attachments/day_161227/201612271028411434.png)**
+
+
+
+
+
+**
+**
 
 **步骤3** -点击“执行”按钮并观察结果。
 
@@ -2129,11 +2186,23 @@ RETURN book
 SELECT * FROM BOOK;
 ```
 
+**
+**
+
 **步骤5** -点击“执行”按钮并观察结果。
+
+
+
+
 
 ![4个属性](https://atts.w3cschool.cn/attachments/day_161227/201612271032275948.png)
 
 这里我们可以观察到这个书节点有4个属性。
+
+
+
+**
+**
 
 **步骤6** -在数据浏览器上键入以下命令，然后单击执行按钮从书节点中删除“price”属性。
 
@@ -2152,6 +2221,8 @@ SELECT * FROM BOOK WHERE ID = 122;
 
 
 
+
+
 ![img](https://atts.w3cschool.cn/attachments/day_161227/201612271033181733.png)
 
 
@@ -2160,7 +2231,13 @@ SELECT * FROM BOOK WHERE ID = 122;
 
 有时基于客户端要求，我们需要删除一些现有的属性到节点或关系。
 
+
+
 我们需要使用REMOVE子句来删除一个属性或一组属性。
+
+
+
+
 
 例如
 
@@ -2179,11 +2256,19 @@ MATCH (dc:DebitCard)
 RETURN dc
 ```
 
+**
+**
+
 
 
 **![MATCH (dc:DebitCard)  RETURN dc](https://atts.w3cschool.cn/attachments/day_161227/201612271034465052.png)**
 
 
+
+
+
+**
+**
 
 **步骤3** -点击“执行”按钮并观察结果。
 
@@ -2197,6 +2282,8 @@ RETURN dc
 
 
 
+
+
 **步骤4** -在数据浏览器上键入以下命令
 
 ```
@@ -2205,9 +2292,19 @@ REMOVE dc.cvv
 RETURN dc
 ```
 
+**
+**
+
 
 
 **![MATCH (dc:DebitCard)  REMOVE dc.cvv RETURN dc](https://atts.w3cschool.cn/attachments/day_161227/201612271036453719.png)**
+
+
+
+
+
+**
+**
 
 步骤5 -点击“执行”按钮并观察结果。
 
@@ -2235,7 +2332,6 @@ S.No.语法元素描述
 1.REMOVE它是一个Neo4j CQL关键字。
 
 2.它是一个标签列表，用于永久性地从节点或关系中删除它。
-
 
 
 **语法**
@@ -2411,8 +2507,6 @@ SET  <property-name-list>
 | 1     | SET                  | 它是一个Neo4j的CQL关键字。                                 |
 | 2     | <property-name-list> | 它是一个属性列表，用于执行添加或更新操作以满足我们的要求。 |
 
-
-
 **<属性名称列表>语法：**
 
 ```
@@ -2430,6 +2524,9 @@ SET  <property-name-list>
 | ----- | -------------------------------- | ------------------------ |
 | 1     | <node-label-name> <节点标签名称> | 这是一个节点的标签名称。 |
 | 2     | <property-name> <属性名称>       | 它是一个节点的属性名。   |
+
+**
+**
 
 **注意 -**
 
@@ -2453,6 +2550,11 @@ SET  <property-name-list>
 
 
 
+
+
+**
+**
+
 步骤2 -在数据浏览器上键入以下命令
 
 ```
@@ -2468,6 +2570,10 @@ RETURN dc
 
 
 
+
+
+
+
 ![img](https://atts.w3cschool.cn/attachments/day_161227/201612271534218645.png)
 
 
@@ -2476,7 +2582,8 @@ RETURN dc
 
 这里我们可以观察到“DebitCard”节点有5个属性。 现在我们将向此节点添加新属性“atm_pin”。
 
-
+**
+**
 
 **步骤4** -在数据浏览器上键入以下命令
 
@@ -2486,11 +2593,19 @@ SET dc.atm_pin = 3456
 RETURN dc
 ```
 
+**
+**
+
 
 
 **![命令](https://atts.w3cschool.cn/attachments/day_161227/201612271539175094.png)**
 
 
+
+
+
+**
+**
 
 步骤5 -点击“执行”按钮并观察结果。
 
