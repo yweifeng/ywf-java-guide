@@ -236,7 +236,7 @@ HBASE 中通过rowkey和columns确定的为一个存贮单元称为cell。每个
 
 ### namespace
 
-![img](file:///C:\Users\admin\AppData\Local\Temp\ksohtml8588\wps2.jpg) 
+![img](img/hbase5.png) 
 
 **1) Table**：表，所有的表都是命名空间的成员，即表必属于某个命名空间，如果没有指定，则在default默认的命名空间中。
 
