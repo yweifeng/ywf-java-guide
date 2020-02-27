@@ -13,7 +13,7 @@
         - [Column Family](#column-family)
         - [Cell](#cell)
         - [Time Stamp](#time-stamp)
-    - [namespace](#namespace)
+        - [namespace](#namespace)
     - [HBase原理](#hbase原理)
         - [读流程](#读流程)
         - [写流程](#写流程)
