@@ -1,3 +1,27 @@
+<!-- TOC -->
+
+- [HBase简介](#hbase简介)
+    - [什么是HBase](#什么是hbase)
+    - [HBase的特点](#hbase的特点)
+    - [HBase架构](#hbase架构)
+    - [HBase中的角色](#hbase中的角色)
+        - [HMaster](#hmaster)
+        - [RegionServer](#regionserver)
+        - [其他组件](#其他组件)
+    - [HBase数据结构](#hbase数据结构)
+        - [RowKey](#rowkey)
+        - [Column Family](#column-family)
+        - [Cell](#cell)
+        - [Time Stamp](#time-stamp)
+    - [namespace](#namespace)
+    - [HBase原理](#hbase原理)
+        - [读流程](#读流程)
+        - [写流程](#写流程)
+        - [数据Flush过程](#数据flush过程)
+        - [数据合并过程](#数据合并过程)
+
+<!-- /TOC -->
+
 # HBase简介
 
 ## 什么是HBase
