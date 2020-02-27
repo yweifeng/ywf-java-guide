@@ -210,11 +210,11 @@ HFile存储在Store中，一个Store对应HBase表中的一个列族。
 
 与nosql数据库们一样,RowKey是用来检索记录的主键。访问HBASE table中的行，只有三种方式：
 
-1.通过单个RowKey访问
+- 通过单个RowKey访问
 
-2.通过RowKey的range（正则）
+- 通过RowKey的range（正则）
 
-3.全表扫描
+- 全表扫描
 
 RowKey行键 (RowKey)可以是任意字符串(最大长度是64KB，实际应用中长度一般为 10-100bytes)，在HBASE内部，RowKey保存为字节数组。存储时，数据按照RowKey的字典序(byte order)排序存储。设计RowKey时，要充分排序存储这个特性，将经常一起读取的行存储放到一起。(位置相关性)
 
@@ -234,13 +234,11 @@ HBASE 中通过rowkey和columns确定的为一个存贮单元称为cell。每个
 
 为了避免数据存在过多版本造成的的管理 (包括存贮和索引)负担，HBASE提供 了两种数据版本回收方式。一是保存数据的最后n个版本，二是保存最近一段 时间内的版本（比如最近七天）。用户可以针对每个列族进行设置。
 
-## namespace
-
-**1) Table**：表，所有的表都是命名空间的成员，即表必属于某个命名空间，如果没有指定，则在default默认的命名空间中。
+### namespace
 
 ![img](file:///C:\Users\admin\AppData\Local\Temp\ksohtml8588\wps2.jpg) 
 
-***\*1) Table\****：表，所有的表都是命名空间的成员，即表必属于某个命名空间，如果没有指定，则在default默认的命名空间中。
+**1) Table**：表，所有的表都是命名空间的成员，即表必属于某个命名空间，如果没有指定，则在default默认的命名空间中。
 
 **2) RegionServer group**：一个命名空间包含了默认的RegionServer Group。
 
