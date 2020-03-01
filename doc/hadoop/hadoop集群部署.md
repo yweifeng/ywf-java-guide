@@ -291,7 +291,17 @@ cp mapred-site.xml.template mapred-site.xml
 
 
 
-### 拷贝kafka到其他机子
+### master节点配置从节点
+
+```shell
+vim /opt/hadoop/etc/hadoop/slaves
+slave1
+slave2
+```
+
+
+
+### 拷贝到其他机子
 
 ```shell
 # 拷贝hadoop到其他服务器
