@@ -29,7 +29,10 @@ MapReduce Job History Server
 ### 1.1.2 下载并安装hadoop
 
 ```shell
-# 下载
+# 方式一:
+下载地址: https://hadoop.apache.org/releases.html
+
+# 方式二：下载
 wget http://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-2.9.2/hadoop-2.9.2.tar.gz
 
 # 解压
