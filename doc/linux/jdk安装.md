@@ -42,7 +42,10 @@ yum remove *openjdk*
 ## 1.4 安装新的jdk
 
 ```shell
-#下载jdk
+# 方式一：
+访问：https://www.oracle.com/java/technologies/javase-jdk8-downloads.html
+
+#方式二：下载jdk（比较慢）
 wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u141-b15/336fa29ff2bb4ef291e347e091f7f4a7/jdk-8u141-linux-x64.tar.gz"
 
 #解压
