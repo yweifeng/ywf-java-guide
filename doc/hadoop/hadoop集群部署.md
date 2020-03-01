@@ -1,10 +1,11 @@
-# 1.hadoop快速入门
+
+# hadoop快速入门
 
 ```
 http://hadoop.apache.org/docs/r1.0.4/cn/quickstart.html
 ```
 
-#节点目录
+# 节点目录
 
 HDFS daemon：  NameNode, SecondaryNameNode, DataNode
 
@@ -14,25 +15,34 @@ MapReduce Job History Server
 
 
 
-## 1.1 集群部署搭建
+## 集群部署搭建
 
-### 1.1.1 环境配置
+### 环境配置
 
 | host    | IP              | 角色                                   |
 | ------- | --------------- | -------------------------------------- |
-| master  | 192.168.111.128 | NameNode、DataNode                     |
-| slaver1 | 192.168.111.129 | DataNode、ResourceManager、NodeManager |
-| slaver2 | 192.168.111.130 | DataNode、SecondaryNameNode            |
+| master  | 192.168.111.140 | NameNode、DataNode                     |
+| slaver1 | 192.168.111.141 | DataNode、ResourceManager、NodeManager |
+| slaver2 | 192.168.111.142 | DataNode、SecondaryNameNode            |
 
 
 
-### 1.1.2 下载并安装hadoop
+### 同步时间
+
+```shell
+ yum  install  ntpdate
+ ntpdate  cn.pool.ntp.org
+```
+
+
+
+### 下载并安装hadoop
 
 ```shell
 # 方式一:
 下载地址: https://hadoop.apache.org/releases.html
 
-# 方式二：下载
+# 方式二：下载(比较慢)
 wget http://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-2.9.2/hadoop-2.9.2.tar.gz
 
 # 解压
@@ -41,80 +51,84 @@ tar -zxvf hadoop-2.9.2.tar.gz
 # 重命名
 mv hadoop-2.9.2 hadoop
 
-# 拷贝到其他服务器
-scp -r hadoop root@192.168.111.128:/opt
-scp -r hadoop root@192.168.111.130:/opt
-
 ```
 
 
 
-### 1.1.3  **在各节点上设置主机名及创建hadoop组和用户** 
+### **在各节点上设置主机名及创建hadoop组和用户** 
 
-配置hadoop-master、hadoop-slave1、hadoop-slave2 hosts文件
+**配置hosts文件**
 
 ```shell
-[root@hadoop-master ~]#  vi /etc/hosts
-192.168.111.128 hadoop-master
-192.168.111.129 hadoop-slave1
-192.168.111.130 hadoop-slave2
+vi /etc/hosts
+192.168.111.140 master
+192.168.111.141 slave1
+192.168.111.142 slave2
 
 # scp拷贝 hosts到其他服务器
-[root@hadoop-master ~]# scp /etc/hosts root@hadoop-slave1:/etc/
-[root@hadoop-master ~]# scp /etc/hosts root@hadoop-slave2:/etc/
+scp /etc/hosts root@slave1:/etc/
+scp /etc/hosts root@slave2:/etc/
 
 #注意：修改hosts中，是立即生效的，无需source或者. 
 ```
 
 
 
-创建hadoop组和用户
+**修改hostname文件**
 
 ```shell
-[root@hadoop-master ~]# groupadd hadoop 
-[root@hadoop-master ~]# useradd -d /usr/hadoop -g hadoop -m hadoop
-[root@hadoop-master ~]# passwd hadoop
-
-# 设置权限
-[hadoop@hadoop-master ~]$ su root
-密码：
-[root@hadoop-master ~]# chown -R hadoop:hadoop /opt/*
+# 三台机子对应修改
+hostnamectl set-hostname master
+exec bash
 ```
 
 
 
-### 1.1.4  在各节点上设置SSH无密码登录 
+**创建hadoop组和用户**
 
 ```shell
-[hadoop@hadoop-master ~]$ su hadoop
-[hadoop@hadoop-master ~]$ pwd
-/usr/hadoop
-[hadoop@hadoop-master ~]$ ssh-keygen -t rsa -P ""
+groupadd hadoop 
+useradd -d /usr/hadoop -g hadoop -m hadoop
+passwd hadoop
+
+# 设置权限
+su root
+chown -R hadoop:hadoop /opt/*
+```
+
+
+
+### 在各节点上设置SSH无密码登录 
+
+```shell
+su hadoop
+cd /usr/hadoop
+ssh-keygen -t rsa -P ""
 # 查看生成的文件
-[hadoop@hadoop-master ~]$ cd .ssh
-[hadoop@hadoop-master .ssh]$ ls
+cd .ssh
+ls
 authorized_keys  id_rsa  id_rsa.pub  known_hosts
 ```
 
 
 
-### 1.1.5  **本机无密钥登录** 
+### **本机无密钥登录** 
 
 ```shell
-[hadoop@hadoop-master .ssh]$ cat id_rsa.pub >> authorized_keys
-[hadoop@hadoop-master .ssh]$ cd ~
-[hadoop@hadoop-master ~]$ chmod 700 .ssh
-[hadoop@hadoop-master ~]$ chmod 600 .ssh/*
+cat id_rsa.pub >> authorized_keys
+cd ~
+chmod 700 .ssh
+chmod 600 .ssh/*
 
 # 验证
-[hadoop@hadoop-master .ssh]$ ssh hadoop-master
+ssh master（ssh slave1  ssh slave2）
 Last login: Wed Dec 18 19:21:28 2019 from hadoop-master
 
 ```
 
 
 
-### 1.1.6  master与其他节点无密钥登录
+### master与其他节点无密钥登录
 
 ```shell
 #执行cd ~.ssh发现ssh目录找不到
@@ -127,26 +141,26 @@ Last login: Wed Dec 18 19:21:28 2019 from hadoop-master
 
 ```shell
 #从master中把authorized_keys分发到各个结点上
-[hadoop@hadoop-master ~]$ scp /usr/hadoop/.ssh/authorized_keys hadoop@hadoop-slave1:/usr/hadoop/.ssh
+scp /usr/hadoop/.ssh/authorized_keys hadoop@slave1:/usr/hadoop/.ssh
 
-[hadoop@hadoop-master ~]$ scp /usr/hadoop/.ssh/authorized_keys hadoop@hadoop-slave2:/usr/hadoop/.ssh
+scp /usr/hadoop/.ssh/authorized_keys hadoop@slave2:/usr/hadoop/.ssh
 
 #然后在各个节点对authorized_keys执行(一定要执行该步，否则会报错)：chmod 600 authorized_keys
 #保证.ssh 700，.ssh/authorized_keys 600权限
 
-[hadoop@localhost ~]# chmod -R 700 .ssh
-[hadoop@localhost ~]# cd .ssh
-[hadoop@localhost .ssh]# chmod 600 authorized_keys
+chmod -R 700 .ssh
+cd .ssh
+chmod 600 authorized_keys
 
-# 在hadoop-master分发公钥，分别分发给三台主机。
-[hadoop@hadoop-master ~]# ssh-copy-id hadoop-master
-[hadoop@hadoop-master ~]# ssh-copy-id hadoop-slave1
-[hadoop@hadoop-master ~]# ssh-copy-id hadoop-slave2
+# 在master分发公钥，分别分发给三台主机。
+ssh-copy-id master
+ssh-copy-id slave1
+ssh-copy-id slave2
 ```
 
 
 
-### 1.1.7 设置hadoop环境变量
+### 设置hadoop环境变量
 
 ```shell
 #修改配置文件
@@ -162,57 +176,62 @@ source /etc/profile
 
 #校验
 hadoop version
+
+# scp拷贝 profile到其他服务器
+scp /etc/profile root@slave1:/etc/
+scp /etc/profile root@slave2:/etc/
 ```
 
 
 
-### 1.1.8 修改hadoop-env.sh 、mapred-env.sh 、yarn-env.sh  设置JAVA_HOME地址
+### 修改hadoop-env.sh 、mapred-env.sh 、yarn-env.sh  设置JAVA_HOME地址
 
 ```shell
-[root@hadoop-master hadoop]# vim hadoop-env.sh 
-[root@hadoop-master hadoop]# vim mapred-env.sh 
-[root@hadoop-master hadoop]# vim yarn-env.sh 
+cd /opt/hadoop/etc/hadoop
+vim hadoop-env.sh 
+vim mapred-env.sh 
+vim yarn-env.sh 
 ```
 
 
 
-### 1.1.9  配置core-site.xml  
+### 配置core-site.xml  
 
 fs.defaultFS为NameNode的地址。
 
-hadoop.tmp.dir为hadoop临时目录的地址，默认情况下，NameNode和DataNode的数据文件都会存在这个目录下的对应子目录下。应该保证此目录是存在的，如果不存在，先创建。
+hadoop.tmp.dir为hadoop临时目录的地址，默认情况下，NameNode和DataNode的数据文件都会存在这个目录下的对应子目录下。应该保证此目录是存在的，**如果不存在，先创建**。
 
 ```xml
-<configuration>
- <property>
-   <name>fs.defaultFS</name>
-   <value>hdfs://hadoop-master:8020</value>
- </property>
- <property>
-   <name>hadoop.tmp.dir</name>
-   <value>/opt/hadoop/data/tmp</value>
- </property>
+<configuration> 
+  <property> 
+    <name>fs.defaultFS</name>  
+    <value>hdfs://master:8020</value> 
+  </property>  
+  <property> 
+    <name>hadoop.tmp.dir</name>  
+    <value>/opt/hadoop/data/tmp</value> 
+  </property> 
 </configuration>
 ```
 
 
 
-### 1.1.10  配置hdfs-site.xml 
+### 配置hdfs-site.xml 
 
- dfs.namenode.secondary.http-address是指定secondaryNameNode的http访问地址和端口号，因为在规划中，我们将hadoop-slave2规划为SecondaryNameNode服务器。 
+ dfs.namenode.secondary.http-address是指定secondaryNameNode的http访问地址和端口号，因为在规划中，我们将slave2规划为SecondaryNameNode服务器。 
 
 ```xml
-<configuration>
-<property>
-   <name>dfs.namenode.secondary.http-address</name>
-   <value>hadoop-slave2:50090</value>
- </property>
+<configuration> 
+  <property> 
+    <name>dfs.namenode.secondary.http-address</name>  
+    <value>slave2:50090</value> 
+  </property> 
 </configuration>
 ```
 
 
 
-### 1.1.11  配置yarn-site.xml 
+### 配置yarn-site.xml 
 
 根据规划yarn.resourcemanager.hostname这个指定resourcemanager服务器指向hadoop-slave1。
 
@@ -221,105 +240,114 @@ yarn.log-aggregation-enable是配置是否启用日志聚集功能。
 yarn.log-aggregation.retain-seconds是配置聚集的日志在HDFS上最多保存多长时间。
 
 ```xml
-<configuration>
-    <property>
-        <name>yarn.nodemanager.aux-services</name>
-        <value>mapreduce_shuffle</value>
-    </property>
-    <property>
-        <name>yarn.resourcemanager.hostname</name>
-        <value>hadoop-slave1</value>
-    </property>
-    <property>
-        <name>yarn.log-aggregation-enable</name>
-        <value>true</value>
-    </property>
-    <property>
-        <name>yarn.log-aggregation.retain-seconds</name>
-        <value>106800</value>
-    </property>
+<configuration> 
+  <property> 
+    <name>yarn.nodemanager.aux-services</name>  
+    <value>mapreduce_shuffle</value> 
+  </property>  
+  <property> 
+    <name>yarn.resourcemanager.hostname</name>  
+    <value>slave1</value> 
+  </property>  
+  <property> 
+    <name>yarn.log-aggregation-enable</name>  
+    <value>true</value> 
+  </property>  
+  <property> 
+    <name>yarn.log-aggregation.retain-seconds</name>  
+    <value>106800</value> 
+  </property> 
 </configuration>
 ```
 
 
 
-### 1.1.12  配置mapred-site.xml 
+### 配置mapred-site.xml 
 
 复制mapred-site.xml.template 为  mapred-site.xml
 
 ```shell
-[root@hadoop-master hadoop]# cp mapred-site.xml.template mapred-site.xml
+cp mapred-site.xml.template mapred-site.xml
 ```
 
 配置mapred-site.xml
 
 ```xml
-<configuration>
-    <property>
-        <name>mapreduce.framework.name</name>
-        <value>yarn</value>
-    </property>
-    <property>
-        <name>mapreduce.jobhistory.address</name>
-        <value>hadoop-slave2:10020</value>
-    </property>
-    <property>
-        <name>mapreduce.jobhistory.webapp.address</name>
-        <value>hadoop-slave2:19888</value>
-    </property>
+<configuration> 
+  <property> 
+    <name>mapreduce.framework.name</name>  
+    <value>yarn</value> 
+  </property>  
+  <property> 
+    <name>mapreduce.jobhistory.address</name>  
+    <value>slave2:10020</value> 
+  </property>  
+  <property> 
+    <name>mapreduce.jobhistory.webapp.address</name>  
+    <value>slave2:19888</value> 
+  </property> 
 </configuration>
 ```
 
-### 1.1.13 配置slaves (master节点)
 
-```bash
-hadoop-master
-hadoop-slave1
-hadoop-slave2
+
+### 拷贝kafka到其他机子
+
+```shell
+# 拷贝hadoop到其他服务器
+scp -r /opt/hadoop root@slave1:/opt
+scp -r /opt/hadoop root@slave2:/opt
+
+# 设置权限
+su root
+chown -R hadoop:hadoop /opt/*
 ```
 
 
 
-### 1.1.14 格式化NameNode
+### 格式化NameNode
 
 注意：只在master节点使用
 
 如果需要重新格式化NameNode,需要先将原来NameNode和DataNode下的文件全部删除，不然会报错，NameNode和DataNode所在目录是在core-site.xml中hadoop.tmp.dir、dfs.namenode.name.dir、dfs.datanode.data.dir属性配置的。
 
 ```shell
-# 只能执行一次 相当于初始化操作
-[root@hadoop-master data]# hdfs namenode -format
+# 只能执行一次 相当于初始化操作(master节点)
+hdfs namenode -format
 ```
 
 
 
-### 1.1.15 启动hdfs和yarn进程
+### 启动hdfs和yarn进程
 
 ```shell
-#hadoop-master
-[root@hadoop-master hadoop]# sbin/start-dfs.sh 
+# 切换到hadoop用户
+su hadoop
 
-#hadoop-slave1
-[root@hadoop-master hadoop]# sbin/start-yarn.sh
+#master
+sbin/start-dfs.sh 
+
+#slave1
+sbin/start-yarn.sh
 ```
 
 
 
-### 1.1.16 浏览器访问
+### 浏览器访问
 
-#####  [http://192.168.111.128:50070](http://192.168.111.128:50070)
+##### [http://192.168.111.140:50070](http://192.168.111.140:50070)
 
-#####  [http://192.168.111.129:8088](http://192.168.111.129:8088/) 
+##### [http://192.168.111.141:8088](http://192.168.111.141:8088/) 
 
-### 1.1.17 测试wordcount
+### 测试wordcount
 
 ```shell
 # 创建目录
-[root@hadoop-master hadoop]#  hdfs dfs -mkdir -p /wordcountdemo/input 
+hdfs dfs -mkdir -p /wordcountdemo/input 
 
 # 上传文件
-[root@hadoop-master hadoop]# hdfs dfs -put /opt/1.txt /wordcountdemo/input
-[root@hadoop-master hadoop]# hdfs dfs -put /opt/2.txt /wordcountdemo/input
+hdfs dfs -put /opt/1.txt /wordcountdemo/input
+hdfs dfs -put /opt/2.txt /wordcountdemo/input
 
 #运行WordCount MapReduce Job
 
@@ -327,9 +355,9 @@ hadoop-slave2
 
 
 
-## 2.1 java 调用hdfs
+## java 调用hdfs
 
-### 2.1.1 建立maven项目，引入依赖
+### 建立maven项目，引入依赖
 
 ```xml
 <properties>
@@ -346,11 +374,11 @@ hadoop-slave2
 
 
 
-### 2.1.2拷贝core-site.xml、hdfs-site.xml和log4j.properties到resources
+### 拷贝core-site.xml、hdfs-site.xml和log4j.properties到resources
 
 
 
-### 2.1.3运行出现 以下异常解决方法
+### 运行出现 以下异常解决方法
 
 ```java
 java.io.FileNotFoundException: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset. 
@@ -362,4 +390,3 @@ java.io.FileNotFoundException: java.io.FileNotFoundException: HADOOP_HOME and ha
 git 下载 winuntil
 https://github.com/steveloughran/winutils
 ```
-
