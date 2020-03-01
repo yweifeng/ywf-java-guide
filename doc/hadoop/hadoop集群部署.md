@@ -74,7 +74,7 @@ scp /etc/hosts root@slave2:/etc/
 
 
 
-**修改hostname文件**
+**修改主机名**
 
 ```shell
 # 三台机子对应修改
