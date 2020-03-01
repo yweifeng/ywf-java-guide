@@ -2,11 +2,11 @@
 
 ### 环境配置
 
-| IP地址          | hosts         |
-| --------------- | ------------- |
-| 192.168.111.128 | hadoop-master |
-| 192.168.111.129 | hadoop-slave1 |
-| 192.168.111.130 | hadoop-slave2 |
+| IP地址          | hosts  |
+| --------------- | ------ |
+| 192.168.111.140 | master |
+| 192.168.111.141 | slave1 |
+| 192.168.111.142 | slave2 |
 
 ### 版本信息
 
@@ -39,6 +39,10 @@ export HBASE_HOME=/opt/hbase
 export PATH=${HBASE_HOME}/bin:$PATH
 # 重启生效环境变量
 source /etc/profile
+
+# 拷贝到从服务器
+scp /etc/profile root@slave1:/etc/
+scp /etc/profile root@slave2:/etc/
 ```
 
 
@@ -49,9 +53,9 @@ source /etc/profile
 vim /etc/hosts
 # 添加以下信息
 
-192.168.111.128 hadoop-master
-192.168.111.129 hadoop-slave1
-192.168.111.130 hadoop-slave2
+192.168.111.140 master
+192.168.111.141 slave1
+192.168.111.142 slave2
 ```
 
 
@@ -74,9 +78,9 @@ ntpdate 120.24.81.91
 cd /opt/hbase/conf
 vim regionservers
 
-hadoop-master
-hadoop-slave1
-hadoop-slave2
+master
+slave1
+slave2
 ```
 
 - 修改 **hbase-site.xml**
@@ -86,7 +90,7 @@ hadoop-slave2
   <property>
     <name>hbase.rootdir</name>
     <!-- 和hadoop的core-site.xml 的 fs.defaultFS 的 HDFS 的 IP 地址或者域名、端口必须一致 -->
-    <value>hdfs://hadoop-master:8020/hbase</value>
+    <value>hdfs://master:8020/hbase</value>
   </property>
   <property>
      <name>hbase.cluster.distributed</name>
@@ -98,11 +102,15 @@ hadoop-slave2
   </property>
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>hadoop-master,hadoop-slave1,hadoop-slave2</value>
+    <value>master,slave1,slave2</value>
   </property>
   <property>
     <name>hbase.zookeeper.property.clientPort</name>
     <value>2181</value>
+  </property>
+  <property> 
+    <name>hbase.unsafe.stream.capability.enforce</name>  
+    <value>false</value> 
   </property>
 </configuration>
 ```
@@ -110,6 +118,7 @@ hadoop-slave2
 - 修改**hbase-env.sh**
 
 ```properties
+export JAVA_HOME=/opt/jdk/jdk1.8.0_141
 # HBASE_MANAGES_ZK=false 表示，hbase和大家公用一个zookeeper集群，而不是自己管理集群。
 export HBASE_MANAGES_ZK=false
 ```
@@ -120,28 +129,20 @@ export HBASE_MANAGES_ZK=false
 cp /opt/hadoop/etc/hadoop/hdfs-site.xml /opt/hbase/conf/
 ```
 
-- 修改hbase-env.sh 的java_home
-
-```shell
-export JAVA_HOME=/opt/jdk/jdk1.8.0_141
-```
-
-
-
 ### 拷贝到其他服务器
 
 ```shell
 # 拷贝hbase
-scp -r /opt/hbase root@hadoop-slave1:/opt/
-scp -r /opt/hbase root@hadoop-slave2:/opt/
+scp -r /opt/hbase root@slave1:/opt/
+scp -r /opt/hbase root@slave2:/opt/
 
 # 拷贝/etc/hosts
-scp /etc/hosts root@hadoop-slave1:/etc/
-scp /etc/hosts root@hadoop-slave2:/etc/
+scp /etc/hosts root@slave1:/etc/
+scp /etc/hosts root@slave2:/etc/
 
 # 拷贝/etc/profile
-scp /etc/profile root@hadoop-slave1:/etc/
-scp /etc/profile root@hadoop-slave2:/etc/
+scp /etc/profile root@slave1:/etc/
+scp /etc/profile root@slave2:/etc/
 	
 # 每个服务器重启/etc/profile
 source /etc/profile
@@ -185,6 +186,6 @@ cd /opt/hbase/bin
 
 ### 浏览器访问
 
-[http://hadoop-master:16010/master-status](http://hadoop-master:16010/master-status)
+[http://192.168.111.140:16010/master-status](http://192.168.111.140:16010/master-status)
 
 ![img](img/hbase1.png)
