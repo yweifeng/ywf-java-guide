@@ -112,6 +112,7 @@
     - [jps安装](doc/linux/jps安装.md)
     - [scp命令](doc/linux/scp命令.md)
     - [关闭指定端口](doc/linux/关闭指定端口.md)
+    - [关闭防火墙](doc/linux/关闭防火墙.md)
 - [其他](#)
     - [高并发缓存数据库数据一致性解决方案](doc/other/高并发缓存数据一致性解决方案.md)
 
