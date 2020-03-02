@@ -40,6 +40,12 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
             <exclusions>
@@ -49,7 +55,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-client</artifactId>
@@ -68,6 +73,11 @@
                     <artifactId>servlet-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
@@ -90,7 +100,7 @@
 ```properties
 hbase:
   config:
-    hbase.zookeeper.quorum: wdnode31,wdnode32,wdnode33
+    hbase.zookeeper.quorum: master,slave1,slave2
     hbase.zookeeper.port: 2181
     hbase.zookeeper.znode: /hbase-unsecure
     hbase.client.keyvalue.maxsize: 1572864000
@@ -112,7 +122,6 @@ import java.util.Map;
  */
 @ConfigurationProperties(prefix = "hbase")
 public class HbaseProperties {
-
     private Map<String, String> config;
     public Map<String, String> getConfig() {
         return config;
@@ -166,13 +175,11 @@ public class HbaseConfig {
 ### HbaseClient.java
 
 ```java
-package com.ywf.hbase.client;
+package com.ywf.hbase.util;
 
 import com.ywf.hbase.config.HbaseConfig;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CompareOperator;
-import org.apache.hadoop.hbase.TableExistsException;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.RowFilter;
@@ -187,7 +194,6 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NavigableMap;
 
 /**
  * @Author:ywf
@@ -197,249 +203,274 @@ public class HbaseClient {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private HbaseConfig config;
-
-    private static Connection connection = null;
-    private static Admin admin = null;
+    private HbaseConfig hbaseConfig;
+    private Admin admin;
+    private Connection connection;
 
     @PostConstruct
     public void init() {
-        if (connection != null) {
-            return;
-        }
         try {
-            connection = ConnectionFactory.createConnection(config.configuration());
+            connection = ConnectionFactory.createConnection(hbaseConfig.configuration());
             admin = connection.getAdmin();
         } catch (IOException e) {
-            logger.error("HBase create connection failed: {}", e);
+            logger.error("hbase连接异常:" + e.getMessage(), e.getCause());
+            e.printStackTrace();
         }
     }
 
     /**
-     * create 'tableName','[Column Family 1]','[Column Family 2]'
-     * @param tableName
-     * @param columnFamilies 列族名
-     * @throws IOException
+     * 创建表
+     * shell:
+     *      create 'tableName','[Column Family1]','[Column Family2]'
+     * @param tableName 表名
+     * @param columnFamilies 列族
      */
     public void createTable(String tableName, String... columnFamilies) throws IOException {
         TableName name = TableName.valueOf(tableName);
-        boolean isExists = this.tableExists(tableName);
-        if (isExists) {
-            throw new TableExistsException(tableName + "is exists!");
+        boolean exists = tableExists(tableName);
+        if (!exists) {
+            // 表描述器创建者
+            TableDescriptorBuilder tableDescriptorBuilder = TableDescriptorBuilder.newBuilder(name);
+            List<ColumnFamilyDescriptor> columnFamilyDescriptorList = new ArrayList<>();
+            // 循环列族
+            for (String columnFamily : columnFamilies) {
+                // 列族描述器
+                ColumnFamilyDescriptor columnFamilyDescriptor =
+                        ColumnFamilyDescriptorBuilder.newBuilder(columnFamily.getBytes()).build();
+                columnFamilyDescriptorList.add(columnFamilyDescriptor);
+            }
+            tableDescriptorBuilder.setColumnFamilies(columnFamilyDescriptorList);
+            // 创建表描述器
+            TableDescriptor tableDescriptor = tableDescriptorBuilder.build();
+            // 创建表
+            admin.createTable(tableDescriptor);
+            logger.info(String.format("table[%s]创建成功", tableName));
+        } else {
+            logger.info(String.format("table[%s]已存在", tableName));
         }
-        TableDescriptorBuilder descriptorBuilder = TableDescriptorBuilder.newBuilder(name);
-        List<ColumnFamilyDescriptor> columnFamilyList = new ArrayList<>();
-        for (String columnFamily : columnFamilies) {
-            ColumnFamilyDescriptor columnFamilyDescriptor = ColumnFamilyDescriptorBuilder
-                    .newBuilder(columnFamily.getBytes()).build();
-            columnFamilyList.add(columnFamilyDescriptor);
-        }
-        descriptorBuilder.setColumnFamilies(columnFamilyList);
-        TableDescriptor tableDescriptor = descriptorBuilder.build();
-        admin.createTable(tableDescriptor);
     }
 
     /**
-     * put <tableName>,<rowKey>,<family:column>,<value>,<timestamp>
-     * @param tableName
-     * @param rowKey
-     * @param columnFamily
-     * @param column
-     * @param value
-     * @throws IOException
+     * 删除表
+     * shell:
+     *      disable 'tableName'
+     *      delete 'tableName'
+     * @param tableName 表名
+     * @return 是否删除成功
      */
-    public void insertOrUpdate(String tableName, String rowKey, String columnFamily, String column, String value)
-            throws IOException {
-        this.insertOrUpdate(tableName, rowKey, columnFamily, new String[]{column}, new String[]{value});
+    public boolean deleteTable(String tableName) throws IOException {
+        if (!tableExists(tableName)) {
+            logger.info(String.format("要删除的table[%s]不存在", tableName));
+            return false;
+        } else {
+            TableName name = TableName.valueOf(tableName);
+            admin.disableTable(name);
+            admin.deleteTable(name);
+            return true;
+        }
     }
 
     /**
-     * put <tableName>,<rowKey>,<family:column>,<value>,<timestamp>
-     * @param tableName
-     * @param rowKey
-     * @param columnFamily
-     * @param columns
-     * @param values
-     * @throws IOException
+     * 判断表是否存在
+     * shell:
+     *      exists 'tableName'
+     * @param tableName 表名
+     * @return 表名是否存在
      */
-    public void insertOrUpdate(String tableName, String rowKey, String columnFamily, String[] columns, String[] values)
-            throws IOException {
+    public boolean tableExists(String tableName) throws IOException {
+        return admin.tableExists(TableName.valueOf(tableName));
+    }
+
+    /**
+     * 添加或者更新数据
+     * shell:
+     *      put 'tableName', 'rowKey', 'columnFamily:columnName', 'columnValue'
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @param columnFamily 列族
+     * @param columnNames 字段名称数组
+     * @param columnValues 字段值数组
+     * @return
+     */
+    public void insertOrUpdate(String tableName, String rowKey, String columnFamily, String[] columnNames, String[] columnValues) throws IOException {
         Table table = connection.getTable(TableName.valueOf(tableName));
         Put put = new Put(Bytes.toBytes(rowKey));
-        for (int i = 0; i < columns.length; i++) {
-            put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(columns[i]), Bytes.toBytes(values[i]));
-            table.put(put);
+        for (int i = 0; i < columnNames.length; i++) {
+            put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(columnNames[i]), Bytes.toBytes(columnValues[i]));
         }
+        table.put(put);
     }
 
     /**
-     * @param tableName
-     * @param rowKey
-     * @throws IOException
+     * 删除一行
+     * shell:
+     *      delete 'tableName', 'rowKey'
+     * @param tableName 表名
+     * @param rowKey 行键
      */
     public void deleteRow(String tableName, String rowKey) throws IOException {
         Table table = connection.getTable(TableName.valueOf(tableName));
-        Delete delete = new Delete(rowKey.getBytes());
+        Delete delete = new Delete(Bytes.toBytes(rowKey));
         table.delete(delete);
     }
 
     /**
-     * @param tableName
-     * @param rowKey
-     * @param columnFamily
-     * @throws IOException
+     * 删除一行列族
+     * shell:
+     *      delete 'tableName', 'rowKey', 'columnFamily'
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @param columnFamily 列族
      */
     public void deleteColumnFamily(String tableName, String rowKey, String columnFamily) throws IOException {
         Table table = connection.getTable(TableName.valueOf(tableName));
-        Delete delete = new Delete(rowKey.getBytes());
+        Delete delete = new Delete(Bytes.toBytes(rowKey));
         delete.addFamily(Bytes.toBytes(columnFamily));
         table.delete(delete);
     }
 
     /**
-     * delete 'tableName','rowKey','columnFamily:column'
-     * @param tableName
-     * @param rowKey
-     * @param columnFamily
-     * @param column
-     * @throws IOException
+     * 删除column
+     * shell:
+     *      delete 'tableName','rowKey','columnFamily:columnName'
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @param columnFamily 列族
+     * @param columnName 列名
      */
-    public void deleteColumn(String tableName, String rowKey, String columnFamily, String column) throws IOException {
+    public void deleteColumn(String tableName, String rowKey, String columnFamily, String columnName) throws IOException {
         Table table = connection.getTable(TableName.valueOf(tableName));
-        Delete delete = new Delete(rowKey.getBytes());
-        delete.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(column));
+        Delete delete = new Delete(Bytes.toBytes(rowKey));
+        delete.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(columnName));
         table.delete(delete);
     }
 
     /**
-     * disable 'tableName' 之后 drop 'tableName'
-     * @param tableName
-     * @throws IOException
-     */
-    public void deleteTable(String tableName) throws IOException {
-        boolean isExists = this.tableExists(tableName);
-        if (!isExists) {
-            return;
-        }
-        TableName name = TableName.valueOf(tableName);
-        admin.disableTable(name);
-        admin.deleteTable(name);
-    }
-
-    /**
-     * get 'tableName','rowkey','family:column'
-     * @param tableName
-     * @param rowkey
-     * @param family
-     * @param column
+     * 获取指定表指定行中指定列族的所有列的数据信息
+     * shell:
+     *      get 'tableName', 'rowKey', 'columnFamily'
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @param columnFamily 列族
      * @return
      */
-    public String getValue(String tableName, String rowkey, String family, String column) {
-        Table table = null;
-        String value = "";
-        if (StringUtils.isBlank(tableName) || StringUtils.isBlank(family) || StringUtils.isBlank(rowkey) || StringUtils
-                .isBlank(column)) {
-            return null;
-        }
-        try {
-            table = connection.getTable(TableName.valueOf(tableName));
-            Get g = new Get(rowkey.getBytes());
-            g.addColumn(family.getBytes(), column.getBytes());
-            Result result = table.get(g);
-            List<Cell> ceList = result.listCells();
-            if (ceList != null && ceList.size() > 0) {
-                for (Cell cell : ceList) {
-                    value = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                table.close();
-                connection.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return value;
-    }
-
-    /**
-     * get 'tableName','rowKey'
-     * @param tableName
-     * @param rowKey
-     * @return
-     * @throws IOException
-     */
-    public String selectOneRow(String tableName, String rowKey) throws IOException {
+    public Result selectOneRow(String tableName, String rowKey, String columnFamily) throws IOException {
         Table table = connection.getTable(TableName.valueOf(tableName));
-        Get get = new Get(rowKey.getBytes());
-        Result result = table.get(get);
-        NavigableMap<byte[], NavigableMap<byte[], NavigableMap<Long, byte[]>>> map = result.getMap();
-        for (Cell cell : result.rawCells()) {
-            String row = Bytes.toString(cell.getRowArray());
-            String columnFamily = Bytes.toString(cell.getFamilyArray());
-            String column = Bytes.toString(cell.getQualifierArray());
-            String value = Bytes.toString(cell.getValueArray());
-            // 可以通过反射封装成对象(列名和Java属性保持一致)
-            logger.info(row);
-            logger.info(columnFamily);
-            logger.info(column);
-            logger.info(value);
-        }
-        return null;
+        Get get = new Get(Bytes.toBytes(rowKey));
+        get.addFamily(Bytes.toBytes(columnFamily));
+        return table.get(get);
     }
 
     /**
-     * scan 't1',{FILTER=>"PrefixFilter('2015')"}
-     * @param tableName
-     * @param rowKeyFilter
+     * 获取指定表指定行中指定列族指定列名的数据信息
+     * shell:
+     *      get 'tableName','rowKey','columnFamily:columnName','columnFamily:columnName'
+     * @param tableName 表名
+     * @param rowKey 行键
+     * @param columnFamily 列族
+     * @param columnNames 列名
      * @return
-     * @throws IOException
      */
-    public String scanTable(String tableName, String rowKeyFilter) throws IOException {
+    public Result getColumnValue(String tableName, String rowKey, String columnFamily, String... columnNames) throws IOException {
+        Table table = connection.getTable(TableName.valueOf(tableName));
+        Get get = new Get(Bytes.toBytes(rowKey));
+        for (String columnName : columnNames) {
+            get.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(columnName));
+        }
+        return table.get(get);
+    }
+
+
+    /**
+     * 指定过滤条件进行全表扫描
+     * shell:
+     *      scan 'tableName'
+     * @param tableName 表名
+     * @return
+     */
+    public ResultScanner scanTable(String tableName) throws IOException {
+        return scanTable(tableName, null);
+    }
+
+
+    /**
+     * 指定过滤条件进行全表扫描
+     * shell:
+     *      scan 'tableName', {FILTER=>"PrefixFilter(100)"}
+     * @param tableName 表名
+     * @param rowKeyFilter 过滤条件
+     * @return
+     */
+    public ResultScanner scanTable(String tableName, String rowKeyFilter) throws IOException {
+        return scanTable(tableName, rowKeyFilter, null, null);
+    }
+
+    /**
+     * 指定过滤条件进行全表扫描
+     * shell:
+     *      scan 'tableName', {FILTER=>"PrefixFilter(100)"}
+     * @param tableName 表名
+     * @param rowKeyFilter 过滤条件
+     * @param minStamp 最小时间戳
+     * @param maxStamp 最大时间戳
+     * @return
+     */
+    public ResultScanner scanTable(String tableName, String rowKeyFilter, Long minStamp, Long maxStamp) throws IOException {
         Table table = connection.getTable(TableName.valueOf(tableName));
         Scan scan = new Scan();
-        if (!StringUtils.isEmpty(rowKeyFilter)) {
+        if (StringUtils.isNotBlank(rowKeyFilter)) {
+            // 添加行键过滤条件
             RowFilter rowFilter = new RowFilter(CompareOperator.EQUAL, new SubstringComparator(rowKeyFilter));
             scan.setFilter(rowFilter);
         }
-        ResultScanner scanner = table.getScanner(scan);
-        try {
-            for (Result result : scanner) {
-                logger.info(Bytes.toString(result.getRow()));
-                for (Cell cell : result.rawCells()) {
-                    logger.info(cell.toString());
-                }
-            }
-        } finally {
-            if (scanner != null) {
-                scanner.close();
-            }
+
+        if (null != minStamp && null != maxStamp) {
+            scan.setTimeRange(minStamp, maxStamp);
         }
-        return null;
+
+        return table.getScanner(scan);
+    }
+}
+```
+
+
+
+### 实体类Student.java
+
+```java
+package com.ywf.hbase.entity;
+
+/**
+ * @Author:ywf
+ */
+public class Student {
+
+    private String name;
+
+    private String sex;
+
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    /**
-     * 判断表是否已经存在，这里使用间接的方式来实现
-     *
-     * admin.tableExists() 会报NoSuchColumnFamilyException， 有人说是hbase-client版本问题
-     * @param tableName
-     * @return
-     * @throws IOException
-     */
-    public boolean tableExists(String tableName) throws IOException {
-        TableName[] tableNames = admin.listTableNames();
-        if (tableNames != null && tableNames.length > 0) {
-            for (int i = 0; i < tableNames.length; i++) {
-                if (tableName.equals(tableNames[i].getNameAsString())) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
     }
 }
 ```
@@ -451,102 +482,148 @@ public class HbaseClient {
 ```java
 package com.ywf.hbase;
 
-import com.ywf.hbase.client.HbaseClient;
+import com.ywf.hbase.entity.Student;
+import com.ywf.hbase.util.HbaseClient;
+import org.apache.hadoop.hbase.Cell;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
 class HbaseApplicationTests {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private final static String TABLE = "quick-hbase-table";
-    private final static String TABLE_FAM_1 = "quick";
-    private final static String TABLE_FAM_2 = "hbase";
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private HbaseClient hBaseClient;
+    private HbaseClient hbaseClient;
+    private String tableName = "student";
+    private String columnFamily = "info";
+    private String rowKey = "1000";
 
+    /**
+     * 创建表
+     */
     @Test
-    public void createTable() throws IOException {
-        hBaseClient.createTable(TABLE, TABLE_FAM_1, TABLE_FAM_2);
+    void createTable() throws IOException {
+        hbaseClient.createTable(tableName, columnFamily);
     }
 
     /**
-     * 向TABLE中插入一条记录，列族quick下，写了两个key，speed和感觉feel，列族hbase下插入三个key 动作action、时间time和用户user，类似一个日志
+     * 判断表是否存在
      */
     @Test
-    public void insertOrUpdate() throws IOException {
-        hBaseClient.insertOrUpdate(TABLE, "1", TABLE_FAM_1, "speed", "1km/h");
-        hBaseClient.insertOrUpdate(TABLE, "1", TABLE_FAM_1, "feel", "better");
-        hBaseClient.insertOrUpdate(TABLE, "1", TABLE_FAM_2, "action", "create table");
-        hBaseClient.insertOrUpdate(TABLE, "1", TABLE_FAM_2, "time", "2019年07月20日17:52:53");
-        hBaseClient.insertOrUpdate(TABLE, "1", TABLE_FAM_2, "user", "admin");
-        /**
-         * shell 结果
-         * hbase(main):007:0> scan 'quick-hbase-table'
-         * ROW                                          COLUMN+CELL
-         *  1                                           column=hbase:action, timestamp=1563616496366, value=create table
-         *  1                                           column=hbase:time, timestamp=1563616496379, value=2019\xE5\xB9\xB407\xE6\x9C\x8820\xE6\x97\xA517:52:53
-         *  1                                           column=hbase:user, timestamp=1563616496384, value=admin
-         *  1                                           column=quick:feel, timestamp=1563616496362, value=better
-         *  1                                           column=quick:speed, timestamp=1563616496353, value=1km/h
-         * 1 row(s)
-         */
-        hBaseClient.insertOrUpdate(TABLE, "2", TABLE_FAM_2, "user", "admin");
-
+    void tableExists() throws IOException {
+        hbaseClient.tableExists(tableName);
     }
 
+    /**
+     * 删除表
+     */
     @Test
-    public void deleteRow() throws IOException {
-        hBaseClient.deleteRow(TABLE, "2");
+    void deleteTable() throws IOException {
+        boolean res = hbaseClient.deleteTable(tableName);
+        log.info(String.format("[%s]删除%s", tableName, res ? "成功": "失败"));
     }
 
-
+    /**
+     * 添加数据
+     */
     @Test
-    public void deleteColumnFamily() throws IOException {
-        hBaseClient.deleteColumnFamily(TABLE, "1", TABLE_FAM_2);
+    void insertOrUpdate() throws IOException {
+        String[] columnNames = new String[] {"name", "sex"};
+        String[] columnValues = new String[] {"zhangsan", "1"};
+        hbaseClient.insertOrUpdate(tableName, rowKey, columnFamily, columnNames, columnValues);
     }
 
+    /**
+     * 删除一行
+     */
     @Test
-    public void deleteColumn() throws IOException {
-        hBaseClient.deleteColumn(TABLE, "1", TABLE_FAM_2, "action");
+    void deleteRow() throws IOException {
+        hbaseClient.deleteRow(tableName, rowKey);
     }
 
+    /**
+     * 删除列族
+     */
     @Test
-    public void deleteTable() throws IOException {
-        hBaseClient.deleteTable(TABLE);
+    void deleteColumnFamily() throws IOException {
+        hbaseClient.deleteColumnFamily(tableName, rowKey, columnFamily);
     }
 
+    /**
+     * 删除column
+     */
     @Test
-    public void getValue() {
-        String result = hBaseClient.getValue(TABLE, "1", TABLE_FAM_2, "time");
-        logger.info(result);
+    void deleteColumn() throws IOException {
+        String columnName = "sex";
+        hbaseClient.deleteColumn(tableName, rowKey, columnFamily, columnName);
     }
 
+    /**
+     * 获取指定表指定行中指定列族的所有列的数据信息
+     */
     @Test
-    public void selectOneRow() throws IOException {
-        hBaseClient.selectOneRow(TABLE, "1");
+    void selectOneRow() throws IOException, NoSuchFieldException, IllegalAccessException {
+        Result result = hbaseClient.selectOneRow(tableName, rowKey, columnFamily);
+        Student student = new Student();
+        for (Cell cell : result.rawCells()) {
+            String columnName = Bytes.toString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength());
+            String columnValue = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+            // 反射到Java实体类
+            Field f = student.getClass().getDeclaredField(columnName);
+            f.setAccessible(true);
+            f.set(student, columnValue);
+        }
+        log.info(student.toString());
     }
 
+    /**
+     * 获取指定表指定行中指定列族指定列名的数据信息
+     */
     @Test
-    public void scanTable() throws IOException {
-        hBaseClient.scanTable(TABLE, "{FILTER=>\"PrefixFilter('2019')\"");
+    void getColumnValue() throws IOException {
+        Result result = hbaseClient.getColumnValue(tableName, rowKey, columnFamily, "name");
+        for (Cell cell : result.rawCells()) {
+            String columnName = Bytes.toString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength());
+            String columnValue = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+            log.info(columnName + "=" + columnValue);
+        }
     }
 
+    /**
+     * 指定过滤条件进行全表扫描
+     */
     @Test
-    public void tableExists() throws IOException {
-        logger.info("table exists " + hBaseClient.tableExists(TABLE));
+    void scanTable() throws IOException, NoSuchFieldException, IllegalAccessException {
+        ResultScanner results = hbaseClient.scanTable(tableName, "100");
+        List<Student> studentList = new ArrayList<>();
+        for (Result result : results) {
+            Student student = new Student();
+            for (Cell cell : result.rawCells()) {
+                String columnName = Bytes.toString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength());
+                String columnValue = Bytes.toString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
+                // 反射到Java实体类
+                Field f = student.getClass().getDeclaredField(columnName);
+                f.setAccessible(true);
+                f.set(student, columnValue);
+            }
+            studentList.add(student);
+        }
+        log.info(studentList.toString());
     }
 
 }
+
 ```
 
 - 项目地址:[https://github.com/yweifeng/ywf-hbase](https://github.com/yweifeng/ywf-hbase)
