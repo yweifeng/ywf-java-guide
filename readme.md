@@ -63,7 +63,7 @@
     - [kafka常见问题](doc/kafka/kafka常见问题.md)
     - [kafka集群部署](doc/kafka/kafka集群.md)
 - [zookeeper](#)
-    - [zookeeper基础](doc/zookeeper/zookeeper面试专题及答案.pdf)
+    - [zookeeper基础](doc/zookeeper/zookeeper基础.md)
     - [zookeeper集群部署](doc/zookeeper/zookeeper集群部署.md)
     - [zookeeper分布式锁](doc/zookeeper/zookeeper分布式锁.md)
 - [canal](https://github.com/alibaba/canal)
