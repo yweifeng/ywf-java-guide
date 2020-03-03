@@ -1,3 +1,29 @@
+<!-- TOC -->
+
+- [kettle入门](#kettle入门)
+    - [kettle简介](#kettle简介)
+    - [Kettle下载安装](#kettle下载安装)
+    - [kettle输入控件](#kettle输入控件)
+        - [CSV文件输入](#csv文件输入)
+        - [文本文件输入](#文本文件输入)
+        - [Excel输入](#excel输入)
+        - [Get data from xml](#get-data-from-xml)
+        - [json input](#json-input)
+        - [生成记录](#生成记录)
+        - [表输入](#表输入)
+            - [Mysql表输入](#mysql表输入)
+            - [Oracle表输入](#oracle表输入)
+    - [kettle输出控件](#kettle输出控件)
+        - [Excel输出](#excel输出)
+        - [文本文件输出](#文本文件输出)
+        - [SQL文件输出](#sql文件输出)
+        - [表输出](#表输出)
+        - [更新](#更新)
+        - [插入更新](#插入更新)
+        - [删除](#删除)
+
+<!-- /TOC -->
+
 # kettle入门
 
 ## kettle简介
