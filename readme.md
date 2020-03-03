@@ -101,6 +101,9 @@
     - [mysql主从复制](doc/mysql/mysql主从复制.md)
     - [mycat读写分离](doc/mysql/mycat读写分离.md)
     - [mycat分库分表](doc/mysql/mycat分库分表.md)
+- [kettle]
+    - [kettle入门](doc/kettle/kettle入门.md)
+    - [kettle操作kafka](doc/kettle/kettle操作kafka.md)
 - [图数据库-neo4j](#)
     - [neo4j概念和语法](doc/neo4j/neo4j概念和语法.md)
     - [neo4j安装部署(linux)](doc/neo4j/neo4j安装部署(linux).md)
@@ -115,8 +118,6 @@
     - [关闭防火墙](doc/linux/关闭防火墙.md)
 - [其他](#)
     - [高并发缓存数据库数据一致性解决方案](doc/other/高并发缓存数据一致性解决方案.md)
-
-
 
 
 
