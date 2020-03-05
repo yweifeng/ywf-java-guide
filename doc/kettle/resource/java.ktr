@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>合并记录</name>
+    <name>java</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,9 +427,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2020/03/05 15:56:13.309</created_date>
+    <created_date>2020/03/05 16:57:19.441</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/03/05 15:56:13.309</modified_date>
+    <modified_date>2020/03/05 16:57:19.441</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -437,33 +437,18 @@
   </notepads>
   <order>
     <hop>
-      <from>Excel输入-旧</from>
-      <to>排序记录-旧</to>
+      <from>Excel输入</from>
+      <to>Java 代码</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Excel输入-新</from>
-      <to>排序记录-新</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>排序记录-旧</from>
-      <to>合并记录</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>排序记录-新</from>
-      <to>合并记录</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>合并记录</from>
+      <from>Java 代码</from>
       <to>Excel输出</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Excel输入-旧</name>
+    <name>Excel输入</name>
     <type>ExcelInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -489,7 +474,7 @@
     <accept_field/>
     <accept_stepname/>
     <file>
-      <name>E:\ywf-java-guide\doc\kettle\data\合并记录-旧.xls</name>
+      <name>E:\ywf-java-guide\doc\kettle\data\java.xls</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -551,144 +536,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Excel输入-新</name>
-    <type>ExcelInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <header>Y</header>
-    <noempty>Y</noempty>
-    <stoponempty>N</stoponempty>
-    <filefield/>
-    <sheetfield/>
-    <sheetrownumfield/>
-    <rownumfield/>
-    <sheetfield/>
-    <filefield/>
-    <limit>0</limit>
-    <encoding/>
-    <add_to_result_filenames>Y</add_to_result_filenames>
-    <accept_filenames>N</accept_filenames>
-    <accept_field/>
-    <accept_stepname/>
-    <file>
-      <name>E:\ywf-java-guide\doc\kettle\data\合并记录-新.xls</name>
-      <filemask/>
-      <exclude_filemask/>
-      <file_required>N</file_required>
-      <include_subfolders>N</include_subfolders>
-    </file>
-    <fields>
-      <field>
-        <name>name</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>age</name>
-        <type>Number</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-    </fields>
-    <sheets>
-    </sheets>
-    <strict_types>N</strict_types>
-    <error_ignored>N</error_ignored>
-    <error_line_skipped>N</error_line_skipped>
-    <bad_line_files_destination_directory/>
-    <bad_line_files_extension>warning</bad_line_files_extension>
-    <error_line_files_destination_directory/>
-    <error_line_files_extension>error</error_line_files_extension>
-    <line_number_files_destination_directory/>
-    <line_number_files_extension>line</line_number_files_extension>
-    <shortFileFieldName/>
-    <pathFieldName/>
-    <hiddenFieldName/>
-    <lastModificationTimeFieldName/>
-    <uriNameFieldName/>
-    <rootUriNameFieldName/>
-    <extensionFieldName/>
-    <sizeFieldName/>
-    <spreadsheet_type>JXL</spreadsheet_type>
-    <password>Encrypted </password>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>256</xloc>
-      <yloc>288</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>合并记录</name>
-    <type>MergeRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <keys>
-      <key>name</key>
-    </keys>
-    <values>
-      <value>age</value>
-    </values>
-    <flag_field>flagfield</flag_field>
-    <reference>排序记录-旧</reference>
-    <compare>排序记录-新</compare>
-    <compare>
-    </compare>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>688</xloc>
+      <xloc>352</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>排序记录-旧</name>
-    <type>SortRows</type>
+    <name>Java 代码</name>
+    <type>UserDefinedJavaClass</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -697,31 +552,61 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
+    <definitions>
+      <definition>
+        <class_type>TRANSFORM_CLASS</class_type>
+        <class_name>Processor</class_name>
+        <class_source>public boolean processRow(StepMetaInterface smi, StepDataInterface sdi) throws KettleException {
+  if (first) {
+    first = false;
+  }
+
+  Object[] r = getRow();
+
+  if (r == null) {
+    setOutputDone();
+    return false;
+  }
+
+  // It is always safest to call createOutputRow() to ensure that your output row's Object[] is large
+  // enough to handle any new fields you are creating in this step.
+  r = createOutputRow(r, data.outputRowMeta.size());
+
+  /* TODO: Your code here. (See Sample)
+
+  // Get the value from an input field
+  String foobar = get(Fields.In, "a_fieldname").getString(r);
+
+  foobar += "bar";
+    
+  // Set a value in a new output field
+  get(Fields.Out, "output_fieldname").setValue(r, foobar);
+
+  */
+  // Send the row on to the next step.
+
+  String name = get(Fields.In, "name").getString(r);
+  name = "name:" + name;
+  get(Fields.Out, "new_name").setValue(r, name);
+  putRow(data.outputRowMeta, r);
+
+  return true;
+}
+</class_source>
+      </definition>
+    </definitions>
     <fields>
       <field>
-        <name>name</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>age</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
+        <field_name>new_name</field_name>
+        <field_type>String</field_type>
+        <field_length>-1</field_length>
+        <field_precision>0</field_precision>
       </field>
     </fields>
+    <clear_result_fields>N</clear_result_fields>
+    <info_steps/>
+    <target_steps/>
+    <usage_parameters/>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -731,58 +616,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>448</xloc>
-      <yloc>176</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>排序记录-新</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>name</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-      <field>
-        <name>age</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>448</xloc>
-      <yloc>288</yloc>
+      <xloc>544</xloc>
+      <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -838,7 +673,7 @@
         <format/>
       </field>
       <field>
-        <name>flagfield</name>
+        <name>new_name</name>
         <type>String</type>
         <format/>
       </field>
@@ -869,7 +704,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>944</xloc>
+      <xloc>736</xloc>
       <yloc>224</yloc>
       <draw>Y</draw>
     </GUI>
