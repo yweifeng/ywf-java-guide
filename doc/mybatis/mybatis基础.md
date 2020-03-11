@@ -1,6 +1,8 @@
-# SpringBoot整合Mybatis
+# mybatis基础
 
-介绍一下**SpringBoot**整合**mybatis**，数据库选用的是**mysql**。
+> 备注：demo中，数据库使用mysql、基于springboot集成mybatis
+
+## mybatis 入门
 
 - **创建数据库**
 
@@ -255,3 +257,23 @@ class MybatisApplicationTests {
 ```
  [User{id=1, userName='ywf', userPassword='13'}, User{id=2, userName='zhangsan', userPassword='123'}, User{id=3, userName='lisi', userPassword='123'}]
 ```
+
+
+
+## mybatis CRUD
+
+
+
+## mybatis 更多查询
+
+
+
+## mybatis 一对多
+
+
+
+## mybatis 多对一
+
+
+
+## mybatis 多对多
