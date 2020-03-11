@@ -1,3 +1,17 @@
+<!-- TOC -->
+
+- [mybatis动态SQL](#mybatis动态sql)
+    - [mybatis if](#mybatis-if)
+    - [mybatis where](#mybatis-where)
+    - [mybatis choose](#mybatis-choose)
+    - [mybatis bind](#mybatis-bind)
+    - [mybatis foreach](#mybatis-foreach)
+        - [单传参是array类型](#单传参是array类型)
+        - [单传参是List类型](#单传参是list类型)
+        - [单传参是Map类型](#单传参是map类型)
+        - [多参数（此情况一定用Map）](#多参数此情况一定用map)
+
+<!-- /TOC -->
 # mybatis动态SQL
 
 ## mybatis if
