@@ -262,6 +262,45 @@ class MybatisApplicationTests {
 
 ## mybatis CRUD
 
+- **UserMapper.xml**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywf.mybatis.mapper.IUserMapper">
+    <!-- 获取所有用户信息 -->
+    <select id="findAll" resultType="User">
+        SELECT * FROM user
+    </select>
+
+    <!-- 根据id获取用户信息 -->
+    <select id="getById" resultType="User" parameterType="Integer">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <!-- 新增用户 -->
+    <insert id="insert" parameterType="User">
+        insert into user (user_name, user_password) values (#{userName}, #{userPassword})
+    </insert>
+
+    <!-- 更新用户-->
+    <update id="update" parameterType="User">
+        update user
+        <set>
+            <if test="userName != null">user_name = #{userName}</if>
+            <if test="userPassword != null">user_password = #{userPassword}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="delete" parameterType="Integer">
+        delete from user where id = #{id}
+    </delete>
+
+</mapper>
+```
+
 
 
 ## mybatis 更多查询
