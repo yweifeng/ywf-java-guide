@@ -13,6 +13,8 @@
 # mybatis基础
 
 > 备注：demo中，数据库使用mysql、基于springboot集成mybatis
+>
+> 项目代码：https://github.com/yweifeng/ywf-mybatis.git
 
 ## mybatis 入门
 
