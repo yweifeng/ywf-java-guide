@@ -736,8 +736,8 @@ public class User implements Serializable {
 
 **2.update操作会刷新该namespace下的二级缓存。**
 
-**3.Mybatis的二级缓存不适应用于映射文件中存在多表查询的情况。
-**由于Mybatis的二级缓存是基于namespace的，多表查询语句所在的namspace无法感应到其他namespace中的语句对多表查询中涉及的表进行了修改，引发脏数据问题。
+**3.Mybatis的二级缓存不适应用于映射文件中存在多表查询的情况**
+由于Mybatis的二级缓存是基于namespace的，多表查询语句所在的namspace无法感应到其他namespace中的语句对多表查询中涉及的表进行了修改，引发脏数据问题。
 
 **4.为了解决第3点的问题，可以使用Cache ref，让ClassMapper引用StudenMapper命名空间**，这样两个映射文件对应的Sql操作都使用的是同一块缓存了。不过这样做的后果是，缓存的粒度变粗了，多个Mapper namespace下的所有操作都会对缓存使用造成影响，
 
