@@ -447,30 +447,292 @@ void lazyMany2Many() {
 }
 ```
 
+**方式二：fetchType="lazy"**
 
-
-## mybatis 分页
-
-
-
-## mybatis PageHelper
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywf.mybatis.mapper.IStudentMapper">
+    <resultMap type="Student" id="lazyStudentResultMap">
+        <result property="id" column="student_id"/>
+        <result property="studentName" column="student_name"/>
+        <collection property="courseList" ofType="Course" column="course_id"
+                    fetchType="lazy"
+            select="com.ywf.mybatis.mapper.ICourseMapper.getById"
+        />
+    </resultMap>
+    <!-- 获取所有学生信息，懒加载学生学习的课程信息 -->
+    <select id="lazyFindAll" resultMap="lazyStudentResultMap">
+        SELECT s.*, sc.course_id FROM student s, student_to_course sc
+    </select>
+</mapper>
+```
 
 
 
 ## mybatis 一级缓存
 
+Mybatis的一级缓存是指Session缓存。一级缓存的作用域默认是一个SqlSession。Mybatis默认开启一级缓存。
+也就是在同一个SqlSession中，执行相同的查询SQL，第一次会去数据库进行查询，并写到缓存中；
+第二次以后是直接去缓存中取。
+当执行SQL查询中间发生了增删改的操作，MyBatis会把SqlSession的缓存清空。
+
+一级缓存的范围有**SESSION**和**STATEMENT**两种，默认是SESSION，如果不想使用一级缓存，可以把一级缓存的范围指定为STATEMENT，这样每次执行完一个Mapper中的语句后都会将一级缓存清除。
+如果需要更改一级缓存的范围，可以在Mybatis的配置文件中，在下通过localCacheScope指定。
+
+**建议不需要修改！**
+
+**需要注意的是**
+当Mybatis整合Spring后，直接通过Spring注入Mapper的形式，如果不是在同一个事务中每个Mapper的每次查询操作都对应一个全新的SqlSession实例，这个时候就不会有一级缓存的命中，但是在**同一个事务中时共用的是同一个SqlSession。**
+
+- **启动类添加@EnableTransactionManagement**
+
+```java
+package com.ywf.mybatis;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@SpringBootApplication
+@EnableTransactionManagement
+public class MybatisApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MybatisApplication.class, args);
+    }
+
+}
+```
+
+- **实现类添加@Transactional**
+
+```java
+package com.ywf.mybatis.service.impl;
+
+import com.ywf.mybatis.entity.User;
+import com.ywf.mybatis.mapper.IDeptMapper;
+import com.ywf.mybatis.mapper.IUserMapper;
+import com.ywf.mybatis.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @Author:ywf
+ */
+@Service
+@Transactional(isolation = Isolation.DEFAULT, rollbackFor = Error.class)
+public class UserServiceImpl implements IUserService {
+
+    @Autowired
+    private IUserMapper userMapper;
+
+    @Autowired
+    private IDeptMapper deptMapper;
+
+
+    @Override
+    public List<User> findAll() {
+        // 重复查询
+        userMapper.findAll();
+        deptMapper.findAll();
+        deptMapper.findAll();
+        return userMapper.findAll();
+    }
+}
+
+```
+
+**!!! 结果只执行一次查询用户，一次查询部门的SQL语句**
+
+
+
+- **如果中间添加了添加、修改、删除操作的SQL语句**
+
+```java
+package com.ywf.mybatis.service.impl;
+
+import com.ywf.mybatis.entity.User;
+import com.ywf.mybatis.mapper.IUserMapper;
+import com.ywf.mybatis.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @Author:ywf
+ */
+@Service
+@Transactional(isolation = Isolation.DEFAULT, rollbackFor = Error.class)
+public class UserServiceImpl implements IUserService {
+
+    @Autowired
+    private IUserMapper userMapper;
+
+    @Override
+    public List<User> findAll() {
+        userMapper.findAll();
+        User u = new User();
+        u.setUserName("new");
+        userMapper.insert(u);
+        return userMapper.findAll();
+    }
+}
+```
+
+**!!! 结果执行两次查询用户，一次新增用户的SQL语句**
+
 
 
 ## mybatis 二级缓存
 
+MyBatis并不是简单地对整个Application就只有一个Cache缓存对象，它将缓存划分的更细，即是Mapper级别的，即每一个Mapper都可以拥有一个Cache对象，具体如下：
+
+- 为每一个Mapper分配一个Cache缓存对象（使用<cache>节点配置）；
+
+- 多个Mapper共用一个Cache缓存对象（使用<cache-ref>节点配置）；
+   如果你想让多个Mapper公用一个Cache的话，你可以使用<cache-ref namespace="">节点，来指定你的这个Mapper使用到了哪一个Mapper的Cache缓存。
 
 
-## mybatis c3p0连接池
+
+**二级缓存配置**
+
+- **mybatis-config.xml**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 开启二级缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+</configuration>
+```
+
+- ***Mapper.xml**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ywf.mybatis.mapper.IUserMapper">
+    <!-- 二级缓存 -->
+    <cache />
+    
+    <!-- 获取所有用户信息 -->
+    <select id="findAll" resultType="User">
+        SELECT * FROM user
+    </select>
+</mapper>
+```
+
+cache标签用于声明这个namespace使用二级缓存，并且可以自定义配置。可以配置的属性如下:
+
+**type:**  cache使用的类型，默认是PerpetualCache，这在一级缓存中提到过。
+
+**eviction:** 定义回收的策略
+
+- **LRU** - 最近最少回收，移除最长时间不被使用的对象
+- **FIFO** - 先进先出，按照缓存进入的顺序来移除它们
+- **SOFT** - 软引用，移除基于垃圾回收器状态和软引用规则的对象
+- **WEAK** - 弱引用，更积极的移除基于垃圾收集器和弱引用规则的对象
+
+**flushInterval:** 配置一定时间自动刷新缓存，单位是毫秒
+
+**size:**  最多缓存对象的个数
+
+**readOnly:**  是否只读，若配置可读写，则需要对应的实体类能够序列化。
+
+**blocking:**  若缓存中找不到对应的key，是否会一直blocking，直到有对应的数据进入缓存。
+
+**cache-ref：**代表引用别的命名空间的Cache配置，两个命名空间的操作使用的是同一个Cache
 
 
 
-## mybatis 查询总数
+- **POJO类必须实现Serializable** !!!
+
+```java
+package com.ywf.mybatis.entity;
+
+import java.io.Serializable;
+
+/**
+ * @Author:ywf
+ */
+public class User implements Serializable {
+    private int id;
+    private String userName;
+    private String userPassword;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                '}';
+    }
+}
+```
 
 
 
-## mybatis 逆向工程
+**一级缓存和二级缓存的使用顺序**
+
+​        二级缓存  ———>  一级缓存  ——>   数据库
+
+**二级缓存注意的点**
+
+**1.当sqlsession没有调用commit()或者close()方法时，二级缓存不会起到作用。**
+
+**2.update操作会刷新该namespace下的二级缓存。**
+
+**3.Mybatis的二级缓存不适应用于映射文件中存在多表查询的情况。
+**由于Mybatis的二级缓存是基于namespace的，多表查询语句所在的namspace无法感应到其他namespace中的语句对多表查询中涉及的表进行了修改，引发脏数据问题。
+
+**4.为了解决第3点的问题，可以使用Cache ref，让ClassMapper引用StudenMapper命名空间**，这样两个映射文件对应的Sql操作都使用的是同一块缓存了。不过这样做的后果是，缓存的粒度变粗了，多个Mapper namespace下的所有操作都会对缓存使用造成影响，
+
+
+
+**总结**
+
+> Mybatis的二级缓存相对于一级缓存来说，实现了SqlSession之间缓存数据的共享，同时粒度更加的细，能够到Mapper级别，通过Cache接口实现类不同的组合，对Cache的可控性也更强。
+
+> Mybatis在多表查询时，极大可能会出现脏数据，有设计上的缺陷，安全使用的条件比较苛刻。
+
+> 在分布式环境下，由于默认的Mybatis Cache实现都是基于本地的，分布式环境下必然会出现读取到脏数据，需要使用集中式缓存将Mybatis的Cache接口实现，有一定的开发成本，不如直接用Redis，Memcache实现业务上的缓存就好了。
+
+> **最终的结论是Mybatis的缓存机制设计的不是很完善，在使用上容易引起脏数据问题，建议不要使用Mybatis缓存，在业务层面上使用其他机制实现需要的缓存功能，**
+
