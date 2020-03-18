@@ -1,3 +1,30 @@
+<!-- TOC -->
+
+- [mapreduce使用](#mapreduce使用)
+    - [MapReduce原理](#mapreduce原理)
+        - [MapReduce架构](#mapreduce架构)
+        - [MapReduce执行过程](#mapreduce执行过程)
+        - [MapReduce的map与reduce过程](#mapreduce的map与reduce过程)
+            - [`MapReduce`流程总览](#mapreduce流程总览)
+            - [`MapReduce`详细流程](#mapreduce详细流程)
+            - [`Map`端分析：](#map端分析)
+            - [`Shuffle`过程分析：](#shuffle过程分析)
+                - [`map`端的`shuffle`](#map端的shuffle)
+                - [`Reduce`端的`shuffle`](#reduce端的shuffle)
+            - [`Reduce`端分析：](#reduce端分析)
+    - [MapReduce案例](#mapreduce案例)
+        - [准备工作](#准备工作)
+            - [上传数据到hdfs](#上传数据到hdfs)
+            - [添加输出目录](#添加输出目录)
+        - [java代码](#java代码)
+            - [pom.xml](#pomxml)
+            - [WordCountMapper.java](#wordcountmapperjava)
+            - [WordCountReducer.java](#wordcountreducerjava)
+            - [WordCountJob.java](#wordcountjobjava)
+        - [运行jar包](#运行jar包)
+        - [查看结果](#查看结果)
+
+<!-- /TOC -->
 # mapreduce使用
 
 ## MapReduce原理
