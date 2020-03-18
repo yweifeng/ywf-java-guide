@@ -91,7 +91,7 @@
 - [hadoop](#)
     - [hadoop介绍](doc/hadoop/hadoop介绍.md)
     - [hadoop集群部署](doc/hadoop/hadoop集群部署.md)
-    - [hdfs使用](doc/hadoop/hdfs使用.md)
+    - [hdfs常用命令](doc/hadoop/hdfs常用命令.md)
     - [mapreduce使用](doc/hadoop/mapreduce使用.md)
 - [hbase](#)
     - [hbase介绍和原理](doc/hbase/hbase介绍和原理.md)
