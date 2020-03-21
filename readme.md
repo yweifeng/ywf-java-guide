@@ -115,8 +115,6 @@
         - [连接控件和统计控件](doc/kettle/连接控件和统计控件.md)
         - [映射控件和脚本控件](doc/kettle/映射控件和脚本控件.md)
         - [作业和参数](doc/kettle/作业和参数.md)
-    - [高级](#)
-        - [操作kafka](doc/kettle/kettle操作kafka.md)
 - [图数据库-neo4j](#)
     - [neo4j概念和语法](doc/neo4j/neo4j概念和语法.md)
     - [neo4j安装部署(linux)](doc/neo4j/neo4j安装部署(linux).md)
