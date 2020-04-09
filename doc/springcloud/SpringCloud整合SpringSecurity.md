@@ -106,7 +106,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 表单登录：使用默认的表单登录页面和登录端点/login进行登录
      * 退出登录：使用默认的退出登录端点/logout退出登录
-     * 权限：除了/toHome和/toUser之外的其它请求都要求用户已登录
+     * 权限：除了/hello之外的其它请求都要求用户已登录
      * 注意：Controller中也对URL配置了权限，如果WebSecurityConfig中和Controller中都对某文化URL配置了权限，则取较小的权限
      */
     @Override
