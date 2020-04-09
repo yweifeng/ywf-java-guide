@@ -43,6 +43,7 @@
     - [SpringCloud整合Sleuth(服务链路追踪)](/doc/springcloud/SpringCloud整合Sleuth.md)
     - [SpringCloud整合Admin(监控)](/doc/springcloud/SpringCloud整合Admin.md)
     - [SpringCloud整合TxLcn(分布式事务)](doc/springcloud/SpringCloud整合TxLcn.md)
+    - [SpringCloud整合SpringSecurity](doc/springcloud/SpringCloud整合SpringSecurity.md)
 - [mybatis](#)
     - [mybatis基础](doc/mybatis/mybatis基础.md)
     - [mybatis动态SQL](doc/mybatis/mybatis动态SQL.md)
