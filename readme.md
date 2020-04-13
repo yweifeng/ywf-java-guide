@@ -125,6 +125,7 @@
 - [vue](#)
     - [vue安装及使用](doc/vue/vue安装及使用.md)
     - [vue项目实战](doc/vue/vue项目实战.md)
+    - [TypeScript教程](https://www.tslang.cn/docs/handbook/basic-types.html)
 - [linux](#)
     - [jdk安装](doc/linux/jdk安装.md)
     - [mysql安装](doc/linux/mysql安装.md)
