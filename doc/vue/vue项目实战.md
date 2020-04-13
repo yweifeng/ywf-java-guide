@@ -404,9 +404,25 @@ public class LoginController {
 
 ## 玩转 ant-design-pro
 
-安装
+下载安装
 
 ```shell
-npm i umi
+# 下载
+git clone --depth=1 https://github.com/ant-design/ant-design-pro.git my-project
+
+cd my-project
+
+# 安装
+npm install
+
+# 启动
+npm start
 ```
 
+**项目目录**
+
+![img](img/vue8.jpg)
+
+登录访问首页： [localhost:8000](localhost:8000)
+
+![img](img/vue9.png)
