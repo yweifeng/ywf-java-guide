@@ -3,11 +3,11 @@
 ```shell
 #下载并安装mysql yum
 
-wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm
+wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
 
-yum -y install mysql57-community-release-el7-10.noarch.rpm
+rpm -ivh mysql57-community-release-el7-9.noarch.rpm
 
-yum -y install mysql-community-server
+yum install mysql-server
 
 #mysql配置
 #启动mysql 
@@ -45,5 +45,34 @@ mysql> set global validate_password_length=1;
 mysql> grant all privileges on *.* to 'root' @'%' identified by '!QAZ2wsx';
 
 #卸载yum自动更新
-[root@localhost /]# yum -y remove mysql57-community-release-el7-10.noarch
+[root@localhost /]# yum -y remove mysql57-community-release-el7-9.noarch
 ```
+
+
+
+# 解决centos7使用yum安装mysql 下载速度慢的问题
+
+1. 备份系统自带yum源配置文件/etc/yum.repos.d/CentOS-Base.repo
+
+```shell
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+```
+
+2. 下载ailiyun的yum源配置文件到/etc/yum.repos.d/
+
+```shell
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+```
+
+3. 运行yum makecache生成缓存
+
+```shell
+yum makecache
+```
+
+4. 这时候再更新系统就会看到以下mirrors.aliyun.com信息
+
+```shell
+yum -y update
+```
+
