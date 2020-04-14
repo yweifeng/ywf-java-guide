@@ -142,7 +142,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 
 
-# java集成jwt
+# SpringBoot整合jwt
 
 **maven.pom**
 

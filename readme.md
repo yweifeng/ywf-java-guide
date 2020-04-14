@@ -34,6 +34,8 @@
         - [SpringBoot整合elasticsearch](doc/springboot/SpringBoot整合elasticsearch.md)
         - [SpringBoot整合kafka](doc/springboot/SpringBoot整合kafka.md)
         - [SpringBoot整合storm](doc/springboot/SpringBoot整合storm.md)
+    - [其他](#)
+        - [SpringBoot整合jwt](doc/springboot/SpringBoot整合jwt.md)
 - [springcloud]( https://www.springcloud.cc/spring-cloud-dalston.html )
     - [SpringCloud整合nacos](doc/springcloud/SpringCloud整合nacos.md)
     - [SpringCloud整合ribbon(负载均衡)](/doc/springcloud/SpringCloud整合ribbon.md)
@@ -138,7 +140,6 @@
     - [关闭防火墙](doc/linux/关闭防火墙.md)
 - [其他](#)
     - [高并发缓存数据库数据一致性解决方案](doc/other/高并发缓存数据一致性解决方案.md)
-    - [jwt](doc/jwt/jwt.md)
 
 
 
