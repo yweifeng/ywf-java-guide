@@ -40,6 +40,12 @@ npm config set cache "D:\develop\soft\nodejs\node_cache"
 npm config set registry=https://registry.npm.taobao.org
 ```
 
+**安装yarn**
+
+```shell
+npm install -g yarn
+```
+
 
 
 ## vue安装
