@@ -22,6 +22,21 @@ export PATH=$ZK_HOME/bin:$PATH
 source /etc/profile
 ```
 
+
+
+### 设置主机名和配置hosts
+
+| IP              | hostname |
+| --------------- | -------- |
+| 192.168.172.128 | master   |
+| 192.168.172.129 | slave1   |
+| 192.168.172.130 | slave2   |
+
+- 修改etc/host文件
+- 修改etc/hostname 修改机器名
+
+
+
 #### 修改配置文件
 
 ```shell
@@ -33,9 +48,9 @@ cp zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg
 #修改数据文件夹路径
 dataDir=/opt/zookeeper/data
 #在文件末尾添加
-server.1=192.168.111.128:2888:3888
-server.2=192.168.111.129:2888:3888
-server.3=192.168.111.130:2888:3888
+server.1=master:2888:3888
+server.2=slave1:2888:3888
+server.3=slave2:2888:3888
 ```
 
 #### 创建数据文件夹
