@@ -59,6 +59,9 @@ listeners=PLAINTEXT://master:9092
 
 # 修改 zookeeper连接地址
 zookeeper.connect=master:2181,slave1:2181,slave2:2181
+
+# 如果创建topic时没有给出划分partitions个数，这个数字将是topic下partitions数目的默认数值。
+num.partitions=3
 ```
 
 #### 拷贝到其他服务器
@@ -94,6 +97,24 @@ kafka-topics.sh --create --zookeeper master:2181,slave1:2181,slave2:2181 --repli
 # 查看topic
 kafka-topics.sh --describe --zookeeper master:2181,slave1:2181,slave2:2181 --topic topic-ywf
 ```
+
+### 生产消费
+
+```shell
+# 生产数据
+kafka-console-producer.sh --broker-list master:9092,master:9092,master:9092 --topic topic-ywf
+->输入内容
+
+# 消费数据
+# 从lastest消费
+kafka-console-consumer.sh --bootstrap-server master:9092,slave1:9092,slave2:9092 --topic topic-ywf
+
+# 从0开始
+kafka-console-consumer.sh --bootstrap-server master:9092,slave1:9092,slave2:9092 --from-beginning --topic topic-ywf
+
+```
+
+
 
 
 
