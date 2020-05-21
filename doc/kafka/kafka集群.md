@@ -98,7 +98,7 @@ kafka-topics.sh --create --zookeeper master:2181,slave1:2181,slave2:2181 --repli
 kafka-topics.sh --describe --zookeeper master:2181,slave1:2181,slave2:2181 --topic topic-ywf
 ```
 
-### 生产消费
+#### 生产消费
 
 ```shell
 # 生产数据
@@ -114,7 +114,22 @@ kafka-console-consumer.sh --bootstrap-server master:9092,slave1:9092,slave2:9092
 
 ```
 
+#### 其他命令
 
+```shell
+
+# 查看所有组
+kafka-consumer-groups.sh --bootstrap-server master:9092,slave1:9092,slave2:9092 --list 
+ 
+#查看具体组的详细描述信息
+kafka-consumer-groups.sh --bootstrap-server master:9092,slave1:9092,slave2:9092 --describe --group groupname
+ 
+# 指定自己的分组 自己消费的topic会显示kafka总共有多少数据，以及已经被消费了多少条
+结果：
+ 
+GROUP     TOPIC     PID         OFFSET           LOGSIZE        LAG
+消费者组  话题id    分区id    当前已消费的条数         总条数    未消费的条数
+```
 
 
 
