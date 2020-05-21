@@ -9,7 +9,7 @@
 <dependency>
     <groupId>org.springframework.kafka</groupId>
     <artifactId>spring-kafka</artifactId>
-</dependency
+</dependency>
 ```
 
 
