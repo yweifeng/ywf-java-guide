@@ -66,14 +66,11 @@ redis集群是一个由多个主从节点群组成的分布式服务器群，它
 
  要让 Redis3.0 集群正常工作至少需要 3 个 Master 节点，要想实现高可用，每个 Master 节点要配备至少 1 个Slave 节点。根据以上特点和要求，进行如下的集群实施规划：使用 3 台服务器（物理机或虚拟机）部署 3 个 Master + 3 个Slave； 
 
-| 角色    | 服务器 centos7  | 端口 |
-| ------- | --------------- | ---- |
-| master1 | 192.168.111.128 | 6379 |
-| slave1  | 192.168.111.129 | 6380 |
-| master2 | 192.168.111.129 | 6379 |
-| slave2  | 192.168.111.130 | 6380 |
-| master3 | 192.168.111.130 | 6379 |
-| slave3  | 192.168.111.128 | 6380 |
+| alias  | IP              |
+| ------ | --------------- |
+| master | 192.168.172.128 |
+| slave1 | 192.168.172.129 |
+| slave2 | 192.168.172.130 |
 
 
 
@@ -81,33 +78,34 @@ redis集群是一个由多个主从节点群组成的分布式服务器群，它
 
 #### 1)  安装gcc
 
-```
+```shell
 yum install gcc-c++
 ```
 
 #### 2)  安装zlib 
 
-```
+```shell
 yum -y install zlib zlib-devel
 ```
 
 #### 3)  下载redis 
 
-```
-cd /opt/redis
+```shell
 wget http://download.redis.io/releases/redis-4.0.1.tar.gz
+tar -zxvf redis-4.0.1.tar.gz
 ```
 
 #### 4)  安装redis
 
-```
-cd redis-4.0.1
+```shell
+mv redis-4.0.1 redis
+cd redis
 make && make install (确保安装了gcc 和 zlib)
 ```
 
 #### 5) 确认安装成功
 
-```
+```shell
 redis-server -v
 ```
 
@@ -116,16 +114,18 @@ redis-server -v
 ```shell
 mkdir -p /opt/redis/redis-cluster/{6379,6380}
 #复制配置信息
-cp /opt/redis/redis-4.0.1/redis.conf /opt/redis/redis-cluster/6379/redis-6379.conf
+cp /opt/redis/redis.conf /opt/redis/redis-cluster/6379/redis-6379.conf
 ```
 
 #### 7) 修改redis-6379.conf
 
 ```
+vim /opt/redis/redis-cluster/6379/redis-6379.conf
+
 daemonize yes
 port 6379（分别对每个机器的端口号进行设置）
-bind 192.168.111.128（必须要绑定当前机器的ip，这里方便redis集群定位机器，不绑定可能会出现循环查找集群节点机器的情况）
-dir  /opt/redis-cluster/6379/（指定数据文件存放位置，必须要指定不同的目录位置，不然会丢失数据）
+bind 192.168.172.128（必须要绑定当前机器的ip，这里方便redis集群定位机器，不绑定可能会出现循环查找集群节点机器的情况）
+dir  /opt/redis/redis-cluster/6379/（指定数据文件存放位置，必须要指定不同的目录位置，不然会丢失数据）
 cluster-enabled yes（启动集群模式）
 cluster-config-file nodes-6379.conf（这里700x最好和port对应上） 集群内部配置文件，改掉端口号　
 cluster-node-timeout 15000 节点超时时间
@@ -135,14 +135,14 @@ protected-mode no
 
 #### 8) 复制配置文件
 
-```
+```shell
 cp /opt/redis/redis-cluster/6379/redis-6379.conf /opt/redis/redis-cluster/6380/redis-6380.conf
 ```
 
 #### 9)  使用批量修改模式修改
 
 ```shell
-#vim redis-6380.conf
+vim /opt/redis/redis-cluster/6380/redis-6380.conf
 :%s/6379/6380/g
 :wq
 ```
@@ -150,12 +150,14 @@ cp /opt/redis/redis-cluster/6379/redis-6379.conf /opt/redis/redis-cluster/6380/r
 #### 10) 拷贝到其他服务器
 
 ```shell
-#将cluster文件夹拷贝到192.168.111.129、192.168.111.130
-scp -r /opt/redis/redis-cluster root@192.168.111.129:/opt/redis
-scp -r /opt/redis/redis-cluster root@192.168.111.130:/opt/redis
+#将redis文件夹拷贝到slave1、slave2
+scp -r /opt/redis root@slave1:/opt/
+scp -r /opt/redis root@slave2:/opt/
 # 修改各服务器的conf中的bind
-bind 192.168.111.129
-bind 192.168.111.130
+vim /opt/redis/redis-cluster/6379/redis-6379.conf
+vim /opt/redis/redis-cluster/6380/redis-6380.conf
+bind 192.168.172.129
+bind 192.168.172.130
 ```
 
 #### 11) 安装 **redis-trib.rb** 
@@ -163,7 +165,7 @@ bind 192.168.111.130
 ```shell
 # redis-trib.rb环境准备（该文件存在于redis-4.0.1/src/目录中）//只需要在其中一台上执行此步骤！！
 # redis-trib.rb是采用Ruby实现的Redis集群管理工具。内部通过Cluster相关命令帮助我们简化集群创建、检查、槽迁移和均衡等常见操作，使用之前需要安装Ruby依赖环境。
-# 安装在192.168.111.128
+# 安装在192.168.172.128
 cd /opt
 wget http://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.5.tar.gz
 tar -zxvf  ruby-2.3.5.tar.gz
@@ -190,7 +192,9 @@ gem install -l redis-3.3.0.gem
 #### 14) 开启redis-server
 
 ```shell
+# 分别启动 master、slave1、slave2
 # 指定conf开启redis
+cd /opt/redis/src
 ./redis-server /opt/redis/redis-cluster/6379/redis-6379.conf
 ./redis-server /opt/redis/redis-cluster/6380/redis-6380.conf
 ```
@@ -198,78 +202,81 @@ gem install -l redis-3.3.0.gem
 #### 15) 创建集群
 
 ```shell
-cd redis/redis-4.0.1/src
-./redis-trib.rb create --replicas 1 192.168.111.128:6379 192.168.111.128:6380 192.168.111.129:6379 192.168.111.129:6380 192.168.111.130:6379 192.168.111.130:6380
-#--replicas参数指定集群中每个主节点配备几个从节点，这里设置为1，没个主节点只有一个从节点。
+#--replicas参数指定集群中每个主节点配备几个从节点，这里设置为1，每个主节点只有一个从节点。
 
-这里因为测试，只用了3台机器，如果部署节点使用不同的IP地址，redis-trib-rb会尽可能保证主从节点不分配在同一台机器下，因此会重新排序节点表顺序。节点列表顺序用于确定主从角色，先主节点之后是从节点。创建过程中首先会给出主从节点角色分配的计划
+#这里因为测试，只用了3台机器，如果部署节点使用不同的IP地址，redis-trib-rb会尽可能保证主从节点不分配在同一台机器下，因此会重新排序节点表顺序。节点列表顺序用于确定主从角色，先主节点之后是从节点。创建过程中首先会给出主从节点角色分配的计划
 
-[root@hadoop-slave1 src]# ./redis-trib.rb create --replicas 1 192.168.111.128:6379 192.168.111.128:6380 192.168.111.129:6379 192.168.111.129:6380 192.168.111.130:6379 192.168.111.130:6380
+# 注意 不能使用master slave1 slave2
+[root@master src]# ./redis-trib.rb create --replicas 1 192.168.172.128:6379 192.168.172.128:6380 192.168.172.129:6379 192.168.172.129:6380 192.168.172.130:6379 192.168.172.130:6380
 >>> Creating cluster
 >>> Performing hash slots allocation on 6 nodes...
 Using 3 masters:
-192.168.111.128:6379
-192.168.111.129:6379
-192.168.111.130:6379
-Adding replica 192.168.111.129:6380 to 192.168.111.128:6379
-Adding replica 192.168.111.128:6380 to 192.168.111.129:6379
-Adding replica 192.168.111.130:6380 to 192.168.111.130:6379
-M: fbb7a4b55d4d840a6f26392db590a07297a61bf2 192.168.111.128:6379
+master:6379
+slave1:6379
+slave2:6379
+Adding replica slave1:6380 to master:6379
+Adding replica master:6380 to slave1:6379
+Adding replica slave2:6380 to slave2:6379
+M: 035218ed678107f601fcd74a35153fd2f88e9e26 master:6379
    slots:0-5460 (5461 slots) master
-S: 757dc54c4d28093acb6a640d110dbc111723cf6a 192.168.111.128:6380
-   replicates d94b0325279de460c90431cff558ddc18d7629f4
-M: d94b0325279de460c90431cff558ddc18d7629f4 192.168.111.129:6379
+S: adc211d7f014dfdba019b6596e820c2a507db93a master:6380
+   replicates 45fc5fbd200fdbf679f25b4575008818dd163e0f
+M: 45fc5fbd200fdbf679f25b4575008818dd163e0f slave1:6379
    slots:5461-10922 (5462 slots) master
-S: e5c66421daff6ccdf9890242e366823ef39d29fe 192.168.111.129:6380
-   replicates fbb7a4b55d4d840a6f26392db590a07297a61bf2
-M: 19cd8cd3db09ac339e49935a00266e7ac185c8e6 192.168.111.130:6379
+S: 2e84949867da404ce5ef9d584c316f0acb1c53b9 slave1:6380
+   replicates 035218ed678107f601fcd74a35153fd2f88e9e26
+M: a09e1d78620d4d8ac02ab47c5f9548608960cdc5 slave2:6379
    slots:10923-16383 (5461 slots) master
-S: d19e902ba317e32db13f9367dcd95734d12d811f 192.168.111.130:6380
-   replicates 19cd8cd3db09ac339e49935a00266e7ac185c8e6
+S: 2e85e8c7dd73f55128e1c956c5ffd49b0a1a9cfb slave2:6380
+   replicates a09e1d78620d4d8ac02ab47c5f9548608960cdc5
 Can I set the above configuration? (type 'yes' to accept): yes
 >>> Nodes configuration updated
 >>> Assign a different config epoch to each node
 >>> Sending CLUSTER MEET messages to join the cluster
-Waiting for the cluster to join....
->>> Performing Cluster Check (using node 192.168.111.128:6379)
-M: fbb7a4b55d4d840a6f26392db590a07297a61bf2 192.168.111.128:6379
-   slots:0-5460 (5461 slots) master
-   1 additional replica(s)
-M: 19cd8cd3db09ac339e49935a00266e7ac185c8e6 192.168.111.130:6379
-   slots:10923-16383 (5461 slots) master
-   1 additional replica(s)
-S: e5c66421daff6ccdf9890242e366823ef39d29fe 192.168.111.129:6380
-   slots: (0 slots) slave
-   replicates fbb7a4b55d4d840a6f26392db590a07297a61bf2
-S: 757dc54c4d28093acb6a640d110dbc111723cf6a 192.168.111.128:6380
-   slots: (0 slots) slave
-   replicates d94b0325279de460c90431cff558ddc18d7629f4
-M: d94b0325279de460c90431cff558ddc18d7629f4 192.168.111.129:6379
-   slots:5461-10922 (5462 slots) master
-   1 additional replica(s)
-S: d19e902ba317e32db13f9367dcd95734d12d811f 192.168.111.130:6380
-   slots: (0 slots) slave
-   replicates 19cd8cd3db09ac339e49935a00266e7ac185c8e6
-[OK] All nodes agree about slots configuration.
->>> Check for open slots...
->>> Check slots coverage...
-[OK] All 16384 slots covered.
+/opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis/client.rb:121:in `call': ERR Invalid node address specified: master:6379 (Redis::CommandError)
+	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:2700:in `block in method_missing'
+	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:58:in `block in synchronize'
+	from /opt/ruby/lib/ruby/2.3.0/monitor.rb:214:in `mon_synchronize'
+	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:58:in `synchronize'
+	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:2699:in `method_missing'
+	from ./redis-trib.rb:811:in `block in join_cluster'
+	from ./redis-trib.rb:809:in `each'
+	from ./redis-trib.rb:809:in `join_cluster'
+	from ./redis-trib.rb:1301:in `create_cluster_cmd'
+	from ./redis-trib.rb:1700:in `<main>'
+
+
 
 ```
 
 #### 16) 完整性检查
 
-```
-./redis-trib.rb check 192.168.111.128:6379
+```shell
+[root@master src]# ./redis-trib.rb check master:6379
+>>> Performing Cluster Check (using node master:6379)
+M: 5ada531d37ce6f9effcf7a6e381b598530f1f270 master:6379
+   slots:0-5460 (5461 slots) master
+   0 additional replica(s)
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[ERR] Not all 16384 slots are covered by nodes.
+
 ```
 
 #### 17) 连接一个结点测试
 
 ```shell
-[root@hadoop-slave1 src]# ./redis-cli -c -h 192.168.111.128 -p 6379
-192.168.111.128:6379> set name ywf
--> Redirected to slot [5798] located at 192.168.111.129:6379
-OK
+./redis-cli -c -h master -p 6379
+> set name ywf
+
+# 如果报错(error) CLUSTERDOWN Hash slot not served
+./redis-trib.rb fix master:6379
+./redis-trib.rb fix master:6380
+./redis-trib.rb fix slave1:6379
+./redis-trib.rb fix slave1:6380
+./redis-trib.rb fix slave2:6379
+./redis-trib.rb fix slave2:6380
 ```
 
 #### 18) 查看集群信息
@@ -283,15 +290,42 @@ cluster info 查看集群信息 cluster nodes 查看节点信息
 ```shell
 ps -ef|grep redis 
 
-#ill 掉端口为6379的redis
+#kill 掉端口为6379的redis
 cluster nodes #询结点变化
 
-d94b0325279de460c90431cff558ddc18d7629f4 192.168.111.129:6379@16379 master - 0 1574323888061 3 connected 5461-10922
-d19e902ba317e32db13f9367dcd95734d12d811f 192.168.111.130:6380@16380 slave 19cd8cd3db09ac339e49935a00266e7ac185c8e6 0 1574323887000 6 connected
-19cd8cd3db09ac339e49935a00266e7ac185c8e6 192.168.111.130:6379@16379 master - 0 1574323887054 5 connected 10923-16383
-e5c66421daff6ccdf9890242e366823ef39d29fe 192.168.111.129:6380@16380 master - 0 1574323889066 7 connected 0-5460
-757dc54c4d28093acb6a640d110dbc111723cf6a 192.168.111.128:6380@16380 myself,slave d94b0325279de460c90431cff558ddc18d7629f4 0 1574323886000 2 connected
-fbb7a4b55d4d840a6f26392db590a07297a61bf2 192.168.111.128:6379@16379 master,fail - 1574323870829 1574323869000 1 disconnected
+d94b0325279de460c90431cff558ddc18d7629f4 192.168.172.129:6379@16379 master - 0 1574323888061 3 connected 5461-10922
+d19e902ba317e32db13f9367dcd95734d12d811f 192.168.172.130:6380@16380 slave 19cd8cd3db09ac339e49935a00266e7ac185c8e6 0 1574323887000 6 connected
+19cd8cd3db09ac339e49935a00266e7ac185c8e6 192.168.172.130:6379@16379 master - 0 1574323887054 5 connected 10923-16383
+e5c66421daff6ccdf9890242e366823ef39d29fe 192.168.172.129:6380@16380 master - 0 1574323889066 7 connected 0-5460
+757dc54c4d28093acb6a640d110dbc111723cf6a 192.168.172.128:6380@16380 myself,slave d94b0325279de460c90431cff558ddc18d7629f4 0 1574323886000 2 connected
+fbb7a4b55d4d840a6f26392db590a07297a61bf2 192.168.172.128:6379@16379 master,fail - 1574323870829 1574323869000 1 disconnected
+```
+
+
+
+
+
+### 删除集群以及重新启动集群
+
+#### 关闭所有开启的Redis节点
+
+```shell
+ps -ef|grep redis
+kill pid
+```
+
+#### 删除集群相关文件
+
+```shell
+cd /opt/redis/redis-cluster
+rm -rf /6379
+rm -rf /6380
+```
+
+#### 重新创建集群
+
+```shell
+ ./redis-trib.rb create --replicas 1 master:6379 master:6380 slave1:6379 slave1:6380 slave2:6379 slave2:6380
 ```
 
 
