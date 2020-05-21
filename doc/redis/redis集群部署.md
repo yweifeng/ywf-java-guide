@@ -207,43 +207,7 @@ cd /opt/redis/src
 #这里因为测试，只用了3台机器，如果部署节点使用不同的IP地址，redis-trib-rb会尽可能保证主从节点不分配在同一台机器下，因此会重新排序节点表顺序。节点列表顺序用于确定主从角色，先主节点之后是从节点。创建过程中首先会给出主从节点角色分配的计划
 
 # 注意 不能使用master slave1 slave2
-[root@master src]# ./redis-trib.rb create --replicas 1 192.168.172.128:6379 192.168.172.128:6380 192.168.172.129:6379 192.168.172.129:6380 192.168.172.130:6379 192.168.172.130:6380
->>> Creating cluster
->>> Performing hash slots allocation on 6 nodes...
-Using 3 masters:
-master:6379
-slave1:6379
-slave2:6379
-Adding replica slave1:6380 to master:6379
-Adding replica master:6380 to slave1:6379
-Adding replica slave2:6380 to slave2:6379
-M: 035218ed678107f601fcd74a35153fd2f88e9e26 master:6379
-   slots:0-5460 (5461 slots) master
-S: adc211d7f014dfdba019b6596e820c2a507db93a master:6380
-   replicates 45fc5fbd200fdbf679f25b4575008818dd163e0f
-M: 45fc5fbd200fdbf679f25b4575008818dd163e0f slave1:6379
-   slots:5461-10922 (5462 slots) master
-S: 2e84949867da404ce5ef9d584c316f0acb1c53b9 slave1:6380
-   replicates 035218ed678107f601fcd74a35153fd2f88e9e26
-M: a09e1d78620d4d8ac02ab47c5f9548608960cdc5 slave2:6379
-   slots:10923-16383 (5461 slots) master
-S: 2e85e8c7dd73f55128e1c956c5ffd49b0a1a9cfb slave2:6380
-   replicates a09e1d78620d4d8ac02ab47c5f9548608960cdc5
-Can I set the above configuration? (type 'yes' to accept): yes
->>> Nodes configuration updated
->>> Assign a different config epoch to each node
->>> Sending CLUSTER MEET messages to join the cluster
-/opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis/client.rb:121:in `call': ERR Invalid node address specified: master:6379 (Redis::CommandError)
-	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:2700:in `block in method_missing'
-	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:58:in `block in synchronize'
-	from /opt/ruby/lib/ruby/2.3.0/monitor.rb:214:in `mon_synchronize'
-	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:58:in `synchronize'
-	from /opt/ruby/lib/ruby/gems/2.3.0/gems/redis-3.3.0/lib/redis.rb:2699:in `method_missing'
-	from ./redis-trib.rb:811:in `block in join_cluster'
-	from ./redis-trib.rb:809:in `each'
-	from ./redis-trib.rb:809:in `join_cluster'
-	from ./redis-trib.rb:1301:in `create_cluster_cmd'
-	from ./redis-trib.rb:1700:in `<main>'
+./redis-cli -c -h master -p 6379
 
 
 
@@ -254,29 +218,39 @@ Can I set the above configuration? (type 'yes' to accept): yes
 ```shell
 [root@master src]# ./redis-trib.rb check master:6379
 >>> Performing Cluster Check (using node master:6379)
-M: 5ada531d37ce6f9effcf7a6e381b598530f1f270 master:6379
+M: 035218ed678107f601fcd74a35153fd2f88e9e26 master:6379
    slots:0-5460 (5461 slots) master
-   0 additional replica(s)
+   1 additional replica(s)
+M: a09e1d78620d4d8ac02ab47c5f9548608960cdc5 192.168.172.130:6379
+   slots:10923-16383 (5461 slots) master
+   1 additional replica(s)
+S: 2e84949867da404ce5ef9d584c316f0acb1c53b9 192.168.172.129:6380
+   slots: (0 slots) slave
+   replicates 035218ed678107f601fcd74a35153fd2f88e9e26
+S: adc211d7f014dfdba019b6596e820c2a507db93a 192.168.172.128:6380
+   slots: (0 slots) slave
+   replicates 45fc5fbd200fdbf679f25b4575008818dd163e0f
+M: 45fc5fbd200fdbf679f25b4575008818dd163e0f 192.168.172.129:6379
+   slots:5461-10922 (5462 slots) master
+   1 additional replica(s)
+S: 2e85e8c7dd73f55128e1c956c5ffd49b0a1a9cfb 192.168.172.130:6380
+   slots: (0 slots) slave
+   replicates a09e1d78620d4d8ac02ab47c5f9548608960cdc5
 [OK] All nodes agree about slots configuration.
 >>> Check for open slots...
 >>> Check slots coverage...
-[ERR] Not all 16384 slots are covered by nodes.
+[OK] All 16384 slots covered.
 
 ```
 
 #### 17) 连接一个结点测试
 
 ```shell
-./redis-cli -c -h master -p 6379
-> set name ywf
+[root@master src]# ./redis-cli -c -h master -p 6379
+master:6379> set test:name yangweifeng
+-> Redirected to slot [12554] located at 192.168.172.130:6379
+OK
 
-# 如果报错(error) CLUSTERDOWN Hash slot not served
-./redis-trib.rb fix master:6379
-./redis-trib.rb fix master:6380
-./redis-trib.rb fix slave1:6379
-./redis-trib.rb fix slave1:6380
-./redis-trib.rb fix slave2:6379
-./redis-trib.rb fix slave2:6380
 ```
 
 #### 18) 查看集群信息
