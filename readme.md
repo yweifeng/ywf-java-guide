@@ -57,6 +57,7 @@
     - [aof和rdb对比](doc/redis/aof和rdb对比.md)
     - [redis分布式锁 vs zk分布式锁](doc/redis/redis分布式锁vszk分布式锁.md)
     - [redis集群部署](doc/redis/redis集群部署.md)
+    - [redis集群添加节点及slot分配](doc/redis/redis集群添加节点及slot分配.md)
     - [redis常见问题](doc/redis/redis常见问题.md)
     - [lua](#)
       - [redis+lua 介绍和使用](doc/redis/lua/redis+lua.md)

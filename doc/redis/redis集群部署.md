@@ -279,31 +279,6 @@ fbb7a4b55d4d840a6f26392db590a07297a61bf2 192.168.172.128:6379@16379 master,fail 
 
 
 
-### 删除集群以及重新启动集群
-
-#### 关闭所有开启的Redis节点
-
-```shell
-ps -ef|grep redis
-kill pid
-```
-
-#### 删除集群相关文件
-
-```shell
-cd /opt/redis/redis-cluster
-rm -rf /6379
-rm -rf /6380
-```
-
-#### 重新创建集群
-
-```shell
- ./redis-trib.rb create --replicas 1 master:6379 master:6380 slave1:6379 slave1:6380 slave2:6379 slave2:6380
-```
-
-
-
 ## redis集群问题集
 
 ### 集群是如何判断是否有某个节点挂掉
@@ -355,3 +330,12 @@ e，复制结构只支持单层结构，不支持树型结构。
 ### 客户端与redis集群交互方式
 
 由于Cluster架构中无Proxy层，客户端是直接与集群中的任意可用节点直接交互的，【话是这么说，但是一个请求是怎么找到集群中的一个节点的呢，redis有多种策略，一般使用CRC16去hash(key)计算改请求要分配到具体的哪一个节点上。然后才是 客户端与节点的直接操作】对象保存到Redis之前先经过CRC16哈希到一个指定的Node上
+
+
+
+
+
+
+
+
+
