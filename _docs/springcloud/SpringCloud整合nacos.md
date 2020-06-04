@@ -1,5 +1,5 @@
 ---
-title:SpringCloud整合nacos
+title: SpringCloud整合nacos
 category: springcloud
 order: 1
 ---
