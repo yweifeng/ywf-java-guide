@@ -1,11 +1,8 @@
-<!-- TOC -->
-
-- [SpringCloud整合Hystrix](#springcloud整合hystrix)
-    - [Ribbon整合Hystrix](#ribbon整合hystrix)
-    - [Feign整合Hystrix](#feign整合hystrix)
-
-<!-- /TOC -->
-# SpringCloud整合Hystrix
+---
+title: SpringCloud整合Hystrix
+category: springcloud
+order: 4
+---
 
 ## Ribbon整合Hystrix
 

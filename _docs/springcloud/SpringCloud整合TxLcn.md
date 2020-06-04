@@ -1,3 +1,9 @@
+---
+title: SpringBoot整合txlcn
+category: springcloud
+order: 8
+---
+
 # TX-LCN
 
 TX-LCN官方地址：http://www.txlcn.org/zh-cn/index.html
@@ -8,7 +14,7 @@ TX-LCN官方地址：http://www.txlcn.org/zh-cn/index.html
 
   例如存在服务模块A 、B、 C。A模块是mysql作为数据源的服务，B模块是基于redis作为数据源的服务，C模块是基于mongo作为数据源的服务。若需要解决他们的事务一致性就需要针对不同的节点采用不同的方案，并且统一协调完成分布式事务的处理。
 
-![img](img/sc08.png)
+![img](../../images/springcloud/sc08.png)
 
  若采用TX-LCN分布式事务框架，则可以将A模块采用LCN模式、B/C采用TCC模式就能完美解决。
 
@@ -18,7 +24,7 @@ TX-LCN由两大模块组成, TxClient、TxManager，TxClient作为模块的依�
 
 原理图:
 
-![img](img/sc09.png)
+![img](../../images/springcloud/sc09.png)
 
 ### 核心步骤
 
@@ -105,7 +111,7 @@ CREATE TABLE `t_tx_exception`  (
 
 1.下载源码：[https://github.com/codingapi/tx-lcn 选择分支](https://github.com/codingapi/tx-lcn)
 
-![img](img/sc10.png)
+![img](../../images/springcloud/sc10.png)
 
 2.执行tx-manager.sql的sql，创建tx-manager库及t_tx_exception表
 

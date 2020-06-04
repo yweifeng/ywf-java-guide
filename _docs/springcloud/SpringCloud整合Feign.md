@@ -1,4 +1,8 @@
-# SpringCloud整合Feign(声明式调用)
+---
+title: SpringCloud整合Feign(声明式调用)
+category: springcloud
+order: 3
+---
 
 **pom.xml**
 

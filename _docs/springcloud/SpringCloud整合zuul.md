@@ -1,13 +1,10 @@
-<!-- TOC -->
+---
+title: SpringCloud整合zuul(服务网关)
+category: springcloud
+order: 5
+---
 
-- [SpringCloud整合zuul(服务网关)](#springcloud整合zuul服务网关)
-    - [Zuul简介](#zuul简介)
-    - [zuul功能](#zuul功能)
-    - [服务路由](#服务路由)
-    - [服务过滤](#服务过滤)
 
-<!-- /TOC -->
-# SpringCloud整合zuul(服务网关)
 
 ## Zuul简介
 
@@ -205,4 +202,4 @@ public class TokenFilter extends ZuulFilter {
 
 - 浏览器访问 http://localhost:9999/api-feign/hi-feign?name=ywf
 
-![img](img/sc03.png)
+![img](../../images/springcloud/sc03.png)

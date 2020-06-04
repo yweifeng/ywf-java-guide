@@ -1,4 +1,10 @@
-# SpringCloud整合Sleuth(服务链路追踪)
+---
+title: SpringCloud整合Sleuth(服务链路追踪)
+category: springcloud
+order: 6
+---
+
+
 
 ## 术语
 
@@ -12,7 +18,7 @@
 
 将Span和Trace在一个系统中使用Zipkin注解的过程图形化：
 
-![img](img/sc04.png)
+![img](../../images/springcloud/sc04.png)
 
 
 
@@ -86,8 +92,8 @@ public class NacosProviderApplication {
 
 打开 http://localhost:9411/zipkin/ 依赖分析
 
-![img](img/sc05.png)
+![img](../../images/springcloud/sc05.png)
 
 点击查找调用链,可以看到具体服务相互调用的数据
 
-![img](img/sc06.png)
+![img](../../images/springcloud/sc06.png)

@@ -1,4 +1,8 @@
-# SpringCloud整合Admin(监控)
+---
+title: SpringCloud整合Admin(监控)
+category: springcloud
+order: 7
+---
 
 ## Spring Boot Admin简介
 
@@ -130,4 +134,4 @@ management:
 
 浏览器访问 [http://localhost:8888](http://localhost:8888/)
 
-![img](img/sc07.png)
+![img](../../images/springcloud/sc07.png)

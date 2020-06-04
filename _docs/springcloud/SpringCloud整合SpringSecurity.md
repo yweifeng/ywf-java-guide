@@ -1,10 +1,16 @@
+---
+title: Springcloud整合Spring Security
+category: springcloud
+order: 10
+---
+
 # Spring Security
 
 ## 原理分析
 
 Spring Security的用户认证流程是由一系列的过滤器链来实现的，默认的关于用户认证的过滤器链大致如下图所示：
 
-![img	](img/sc11.png)
+![img	](../../images/springcloud/sc11.png)
 
 **SecurityContextPersistenceFilter**： 在请求开始时，从配置好的 SecurityContextRepository 中获取 SecurityContext，并设置给 SecurityContextHolder。在请求完成后，把 SecurityContextHolder 所持有的SecurityContext 保存到配置好的 SecurityContextRepository，同时清除 securityContextHolder 所持有的 SecurityContext。
 
@@ -20,7 +26,7 @@ Spring Security的用户认证流程是由一系列的过滤器链来实现的�
 
 Spring Security支持多种用户认证的方式，最常用的是基于用户名和密码的用户认证方式，其认证流程如下图所示：
 
-![img](img/sc12.png)
+![img](../../images/springcloud/sc12.png)
 
 
 
