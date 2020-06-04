@@ -1,4 +1,8 @@
-# SpringBoot整合Mybatis-PageHelper
+---
+title: SpringBoot整合Mybatis-PageHelper
+category: springboot
+order: 11
+---
 
 ### pom.xml引入依赖
 
@@ -120,8 +124,8 @@ public interface UserMapper {
 
 [localhost:8080/user/findPageUserList?pageNum=1&pageSize=2](localhost:8080/user/findPageUserList?pageNum=1&pageSize=2)
 
-![img](img/sb18.png)
+![img](../../images/springboot/sb18.png)
 
 [localhost:8080/user/findPageUserList?pageNum=2&pageSize=2](localhost:8080/user/findPageUserList?pageNum=2&pageSize=2)
 
-![img](img/sb19.png)
+![img](../../images/springboot/sb19.png)

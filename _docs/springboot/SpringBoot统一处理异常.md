@@ -1,4 +1,10 @@
-# SpringBoot统一处理异常
+---
+title: SpringBoot统一处理异常
+category: springboot
+order: 3
+---
+
+
 
  pom.xml 新增web依赖： 
 
@@ -39,11 +45,11 @@ public class IndexController {
 
 启动应用并浏览器访问:[localhost:8080](localhost:8080)
 
-![#img](img/sb07.png)
+![#img](../../images/springboot/sb07.png)
 
  浏览器访问: [localhost:8080/testError](localhost:8080/testError)
 
-![img](img/sb08.png)
+![img](../../images/springboot/sb08.png)
 
 
 
@@ -76,5 +82,5 @@ public class CommonErrorController implements ErrorController {
 
 再重新访问[localhost:8080/testError](localhost:8080/testError)
 
-![img](img/sb09.png)
+![img](../../images/springboot/sb09.png)
 

@@ -1,7 +1,8 @@
-
-## Springboot集成kafka
-
-## 项目代码
+---
+title: Springboot集成kafka
+category: springboot
+order: 16
+---
 
 ### pom.xml引入依赖
 

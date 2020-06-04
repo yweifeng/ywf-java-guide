@@ -1,4 +1,10 @@
-# SpringBoot整合Mybatis
+---
+title: SpringBoot整合Mybatis
+category: springboot
+order: 9
+---
+
+
 
 介绍一下**SpringBoot**整合**mybatis**，数据库选用的是**mysql**。
 

@@ -1,4 +1,10 @@
-# SpringBoot使用Swagger2
+---
+title: SpringBoot使用Swagger2
+category: springboot
+order: 7
+---
+
+
 
 ### pom.xml添加依赖
 
@@ -98,4 +104,4 @@ public class UserController {
 
 [localhost:8080/swagger-ui.html](localhost:8080/swagger-ui.html)
 
-![img](img/sb14.png)
+![img](../../images/springboot/sb14.png)

@@ -1,4 +1,8 @@
-# SpringBoot整合storm
+---
+title: SpringBoot整合storm
+category: springboot
+order: 17
+---
 
 ## 本地模式 vs 远程模式 
 
@@ -15,7 +19,7 @@ NOTE: 在本地模式下，跟在集群环境运行很像。不过很有必要�
 
 ## 项目目录
 
-![img](img/sb22.png)
+![img](../../images/springboot/sb22.png)
 
 ## pom.xml
 
@@ -518,4 +522,4 @@ Running: /opt/jdk/jdk1.8.0_141/bin/java -client -Ddaemon.name= -Dstorm.options= 
 
 [192.168.111.128:8080](192.168.111.128:8080)
 
-![img](img/sb23.png)
+![img](../../images/springboot/sb23.png)

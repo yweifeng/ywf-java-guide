@@ -1,4 +1,8 @@
-# SpringBoot整合Druid监控
+---
+title: SpringBoot整合Druid监控
+category: springboot
+order: 12
+---
 
 ### pom.xml添加依赖
 
@@ -214,4 +218,4 @@ public class SrpingbootProjectApplication {
 
 [localhost:8080/druid](localhost:8080/druid)
 
-![img](img/sb13.png)
+![img](../../images/springboot/sb13.png)

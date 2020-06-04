@@ -1,4 +1,10 @@
-# SpringBoot 整合 redis
+---
+title: SpringBoot整合redis
+category: springboot
+order: 14
+---
+
+
 
 目前java操作redis的客户端有jedis跟Lettuce。在springboot1.x系列中，其中使用的是jedis,但是到了springboot2.x其中使用的是Lettuce。 因为我们的版本是springboot2.x系列，所以今天使用的是Lettuce。
 关于jedis跟lettuce的区别：

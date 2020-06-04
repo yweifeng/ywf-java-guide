@@ -1,4 +1,10 @@
-# SpringBoot整合elasticsearch
+---
+title: SpringBoot整合elasticsearch
+category: springboot
+order: 15
+---
+
+
 
  spring-data-elasticsearch暂不支持elasticsearch6.0以上版本 
 
@@ -427,4 +433,4 @@ public class EsServiceImpl implements IEsService {
 
 [192.168.111.128:9100](192.168.111.128:9100)
 
-![img](img/es06.png)
+![img](../../images/springboot/es06.png)

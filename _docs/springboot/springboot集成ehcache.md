@@ -1,10 +1,10 @@
 ---
-title: ehcache基础
+title: springboot集成ehcache
 category: springboot
-order: 1
+order: 6
 ---
 
-
+## ehcache基础
 
 ### 1、特性
 

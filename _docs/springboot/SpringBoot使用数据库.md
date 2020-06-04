@@ -1,4 +1,8 @@
-# SpringBoot使用数据库
+---
+title: SpringBoot使用数据库
+category: springboot
+order: 8
+---
 
 ## mysql数据库
 

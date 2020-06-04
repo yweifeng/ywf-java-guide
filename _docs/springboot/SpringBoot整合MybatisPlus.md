@@ -1,4 +1,8 @@
-# SpringBoot整合MybatisPlus
+---
+title: SpringBoot整合MybatisPlus
+category: springboot
+order: 10
+---
 
 ### pom.xml添加依赖
 
@@ -155,4 +159,4 @@ public interface UserPlusMapper extends BaseMapper<User> {
 
 [localhost:8080/user/findUserList](localhost:8080/user/findUserList)
 
-![img](img/sb17.png)
+![img](../../images/springboot/sb17.png)

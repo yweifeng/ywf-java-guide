@@ -1,4 +1,8 @@
-# SpringBoot使用AOP
+---
+title: SpringBoot使用AOP
+category: springboot
+order: 5
+---
 
 **pom.xml 添加aop依赖**
 
@@ -176,7 +180,7 @@ public class IndexController {
 
 浏览器访问 [localhost:8080/testDoneTime](localhost:8080/testDone)
 
-![img](img/sb11.png)
+![img](../../images/springboot/sb11.png)
 
 
 
