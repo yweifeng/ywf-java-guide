@@ -1,66 +1,38 @@
-# Edition
+---
+title: Welcome
+---
 
-Product documentation template for Jekyll. Browse through a [live demo](https://long-pig.cloudvent.net/).
-Start documenting your product, application, service or website with this configurable theme.
+This is the **Edition** template from [CloudCannon](http://cloudcannon.com/).
+**Edition** is perfect for documenting your product, application or service.
+It's populated with example content to give you some ideas.
 
-![Edition template screenshot](images/_screenshot.png)
+ChatApp is a fictional chat application for sending messages and media to others.
+Teams and friend groups would use ChatApp to stay up to date if it existed.
 
-Edition was made by [CloudCannon](http://cloudcannon.com/), the Cloud CMS for Jekyll.
+> [Sign up](http://example.com/signup) or learn more about ChatApp at [example.com](http://example.com/).
 
-Find more templates, themes and step-by-step Jekyll tutorials at [CloudCannon Academy](https://learn.cloudcannon.com/).
+### Getting Started
 
-## Features
+Getting a message sent is quick and easy with ChatApp:
 
-* Two column layout
-* Full text search
-* Pre-styled components
-* Auto-generated navigation based on category
-* Optimised for editing in [CloudCannon](http://cloudcannon.com/)
-* Change log
-* RSS/Atom feed
-* SEO tags
-* Google Analytics
+1. Sign up for an account
+2. Add your friends from their email addresses
+3. Type a message or send a photo
 
-## Setup
+> Feel free to send us a message at [feedback@example.com](mailto:feedback@example.com) with your feedback.
 
-1. Add your site and author details in `_config.yml`.
-2. Get a workflow going to see your site's output (with [CloudCannon](https://app.cloudcannon.com/) or Jekyll locally).
+### Features
 
-## Develop
+Explore more of ChatApp by reading about our features:
 
-Edition was built with [Jekyll](http://jekyllrb.com/) version 3.3.1, but should support newer versions as well.
+#### Media
 
-Install the dependencies with [Bundler](http://bundler.io/):
+Send images, videos and other media to people. Sources include your computer, phone and Facebook.
 
-~~~bash
-$ bundle install
-~~~
+#### Contact Syncing
 
-Run `jekyll` commands through Bundler to ensure you're using the right versions:
+Sync your contact list with your phone and/or Facebook contacts. Never lose your contacts between devices again!
 
-~~~bash
-$ bundle exec jekyll serve
-~~~
+#### Devices
 
-## Editing
-
-Edition is already optimised for adding, updating and removing documentation pages in CloudCannon.
-
-### Documentation pages
-
-* Add, update or remove a documentation page in the *Documentation* collection.
-* Change the category of a documentation page to move it to another section in the navigation.
-* Documentation pages are organised in the navigation by category, with URLs based on the path inside the `_docs` folder.
-
-### Change log
-
-* Add, update or remove change log entries from your posts.
-* Tag entries as minor or major in the front matter.
-
-### Search
-
-* Add `excluded_in_search: true` to any documentation page's front matter to exclude that page in the search results.
-
-### Navigation
-
-* Change `site.show_full_navigation` to control all or only the current navigation group being open.
+ChatApp is available everywhere. Find out how to set it up on your all your devices.
