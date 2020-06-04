@@ -4,8 +4,6 @@ category: springboot
 order: 1
 ---
 
-# SpringBoot定时任务
-
 项目中很多时候会使用到定时任务，这篇文章介绍一下springboot整合定时任务。
 
 springboot整合定时任务其实就两点，
