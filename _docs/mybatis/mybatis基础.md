@@ -1,16 +1,10 @@
-<!-- TOC -->
+---
+title: mybatis基础
+category: mybatis
+order: 2
+---
 
-- [mybatis基础](#mybatis基础)
-    - [mybatis 入门](#mybatis-入门)
-    - [mybatis CRUD](#mybatis-crud)
-    - [mybatis 注解](#mybatis-注解)
-    - [mybatis 一对多](#mybatis-一对多)
-    - [mybatis 多对一](#mybatis-多对一)
-    - [mybatis 多对多](#mybatis-多对多)
 
-<!-- /TOC -->
-
-# mybatis基础
 
 > 备注：demo中，数据库使用mysql、基于springboot集成mybatis
 >

@@ -1,14 +1,8 @@
-<!-- TOC -->
-
-- [mybatis注解](#mybatis注解)
-    - [mybatis注解 CRUD](#mybatis注解-crud)
-    - [mybatis注解 一对多](#mybatis注解-一对多)
-    - [mybatis注解 多对一](#mybatis注解-多对一)
-    - [mybatis注解 多对多](#mybatis注解-多对多)
-
-<!-- /TOC -->
-
-# mybatis注解
+---
+title: mybatis注解
+category: mybatis
+order: 3
+---
 
 ## mybatis注解 CRUD
 
