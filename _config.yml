@@ -1,7 +1,7 @@
 # ----
 # Site
 
-title: Edition Template
+title: ywf-java-guide
 url: "https://long-pig.cloudvent.net"
 baseurl:
 google_analytics_key:
@@ -15,7 +15,7 @@ author:
   email:
   twitter: # twitter username without the @ symbol
 social:
-  name: Edition Template
+  name: ywf-java-guide
   links:
     - https://github.com/CloudCannon/edition-jekyll-template
 
