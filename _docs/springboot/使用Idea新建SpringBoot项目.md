@@ -4,8 +4,6 @@ category: springboot
 order: 1
 ---
 
-# 
-
 步骤如下：
 
 菜单栏中选择File–New–Project，出现如下图所示，然后选择Spring Initializr。
