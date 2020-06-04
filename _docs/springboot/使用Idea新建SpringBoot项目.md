@@ -1,8 +1,9 @@
 ---
-title:使用Idea新建SpringBoot项目
+title: 使用Idea新建SpringBoot项目
 category: springboot
 order: 1
 ---
+
 
 步骤如下：
 
