@@ -1,3 +1,8 @@
+---
+title:SpringCloud整合nacos
+category: springcloud
+order: 1
+---
 <!-- TOC -->
 
 - [SpringCloud整合nacos](#springcloud整合nacos)
@@ -11,6 +16,8 @@
     - [Nacos配置中心](#nacos配置中心)
 
 <!-- /TOC -->
+
+
 # SpringCloud整合nacos
 
 ## 什么是Nacos?
@@ -36,7 +43,7 @@ Nacos依赖于Java环境，所以必须安装Java环境。然后从官网下载N
 - 浏览器访问： http://localhost:8848/nacos
 - 用户名: nacos 密码 nacos
 
-![img](img/sc01.png)
+![img](../../images/springcloud/sc01.png)
 
 
 
@@ -424,7 +431,7 @@ nacos中**nacos-provider-dev.yaml**
 
 dataId:**${prefix}-${spring.profile.active}.${file-extension}**
 
-![img](img/sc02.png)
+![img](../../images/springcloud/sc02.png)
 
 **ProviderController**
 

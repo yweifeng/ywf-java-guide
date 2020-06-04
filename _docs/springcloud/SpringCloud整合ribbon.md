@@ -1,3 +1,9 @@
+---
+title: SpringCloud整合ribbon(负载均衡)
+category: springcloud
+order: 2
+---
+
 # SpringCloud整合ribbon(负载均衡)
 
 **pom.xml**
