@@ -109,4 +109,5 @@ public class TestSchedule {
 }
 ```
 
-![img](img/sb06.png)
+![img](../../images/springboot/sb06.png)
+
