@@ -1,4 +1,8 @@
-# java整合hbase
+---
+title: java整合hbase
+category: hbase
+order: 3
+---
 
 ### 环境
 

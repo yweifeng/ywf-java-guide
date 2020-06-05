@@ -1,4 +1,10 @@
-# storm介绍
+---
+title: storm介绍
+category: storm
+order: 2
+---
+
+
 
 官网地址：[http://storm.apache.org/](http://storm.apache.org/)
 
@@ -16,11 +22,11 @@ Apache Storm可以非常容易和队列和数据库产品进行无缝集成。
 
 ## 架构
 
-![img](img/storm01.png)
+![img](../../images/storm/storm01.png)
 
 
 
-![img](img/storm03.png)
+![img](../../images/storm/storm03.png)
 
 ### 架构中的核心概念
 
@@ -45,7 +51,7 @@ Apache Storm可以非常容易和队列和数据库产品进行无缝集成。
 
 ## Storm Topology基本概念
 
-![img](img/storm02.png)
+![img](../../images/storm/storm02.png)
 
 ### 拓扑程序中基本概念
 

@@ -1,9 +1,8 @@
-
-# hadoop快速入门
-
-```
-http://hadoop.apache.org/docs/r1.0.4/cn/quickstart.html
-```
+---
+title: hadoop集群部署
+category: hadoop
+order: 1
+---
 
 # 节点目录
 

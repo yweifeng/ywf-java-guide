@@ -1,38 +1,17 @@
-<!-- TOC -->
+---
+title: mapreduce原理和使用
+category: hadoop
+order: 4
+---
 
-- [mapreduce使用](#mapreduce使用)
-    - [MapReduce原理](#mapreduce原理)
-        - [MapReduce架构](#mapreduce架构)
-        - [MapReduce执行过程](#mapreduce执行过程)
-        - [MapReduce的map与reduce过程](#mapreduce的map与reduce过程)
-            - [`MapReduce`流程总览](#mapreduce流程总览)
-            - [`MapReduce`详细流程](#mapreduce详细流程)
-            - [`Map`端分析：](#map端分析)
-            - [`Shuffle`过程分析：](#shuffle过程分析)
-                - [`map`端的`shuffle`](#map端的shuffle)
-                - [`Reduce`端的`shuffle`](#reduce端的shuffle)
-            - [`Reduce`端分析：](#reduce端分析)
-    - [MapReduce案例](#mapreduce案例)
-        - [准备工作](#准备工作)
-            - [上传数据到hdfs](#上传数据到hdfs)
-            - [添加输出目录](#添加输出目录)
-        - [java代码](#java代码)
-            - [pom.xml](#pomxml)
-            - [WordCountMapper.java](#wordcountmapperjava)
-            - [WordCountReducer.java](#wordcountreducerjava)
-            - [WordCountJob.java](#wordcountjobjava)
-        - [运行jar包](#运行jar包)
-        - [查看结果](#查看结果)
 
-<!-- /TOC -->
-# mapreduce使用
 
 ## MapReduce原理
 
 ### MapReduce架构
 
 在MapReduce中，用于执行MapReduce任务的机器有两个角色：**JobTracker**和**TaskTracker**。其中**JobTracker是用于调度工作的**。**TaskTracker是用于执行工作的**。一个Hadoop集群中只有一台JobTracker。MapReduce架构图如下：
-![img](img/ha01.png)
+![img](../../images/hadoop/ha01.png)
 
 客户端向JobTracker提交一个作业，JobTracker把这个作业拆分成很多份，然后分配给TaskTracker去执行，TaskTracker会隔一段时间向JobTracker发送心跳信息（Heartbeat），如果JobTracker在一段时间内没有收到TaskTracker的心跳信息，JobTracker会认为TaskTracker挂掉了，会把TaskTracker的作业任务分配给其他TaskTracker。
 
@@ -40,7 +19,7 @@
 
 ### MapReduce执行过程
 
-![img](img/ha02.png)
+![img](../../images/hadoop/ha02.png)
 
 **执行过程详细步骤：**
 
@@ -60,13 +39,13 @@ Map端从HDFS读取一个文件（一个文件在HDFS有多个块），将这个
 
 shuffle过程其实是包含在map和reduce中的，并不是独立的一个阶段。
 
-![img](img/ha03.png)
+![img](../../images/hadoop/ha03.png)
 
 
 
 #### `MapReduce`详细流程
 
-![img](img/ha04.png)
+![img](../../images/hadoop/ha04.png)
 
 #### `Map`端分析：
 

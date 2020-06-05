@@ -1,4 +1,8 @@
-# Storm集群部署
+---
+title: storm集群部署
+category: storm
+order: 1
+---
 
 > 环境介绍 jdk1.8、storm1.2.3 、zookeeper3.4.12 、centos7
 

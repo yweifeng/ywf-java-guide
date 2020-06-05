@@ -1,4 +1,10 @@
-# hdfs常用命令
+---
+title: hdfs常用命令
+category: hadoop
+order: 3
+---
+
+
 
 ### 查看hdfs帮助
 

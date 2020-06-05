@@ -1,28 +1,10 @@
-<!-- TOC -->
+---
+title: HBase简介和原理
+category: hbase
+order: 2
+---
 
-- [HBase简介](#hbase简介)
-    - [什么是HBase](#什么是hbase)
-    - [HBase的特点](#hbase的特点)
-    - [HBase架构](#hbase架构)
-    - [HBase中的角色](#hbase中的角色)
-        - [HMaster](#hmaster)
-        - [RegionServer](#regionserver)
-        - [其他组件](#其他组件)
-    - [HBase数据结构](#hbase数据结构)
-        - [RowKey](#rowkey)
-        - [Column Family](#column-family)
-        - [Cell](#cell)
-        - [Time Stamp](#time-stamp)
-        - [namespace](#namespace)
-    - [HBase原理](#hbase原理)
-        - [读流程](#读流程)
-        - [写流程](#写流程)
-        - [数据Flush过程](#数据flush过程)
-        - [数据合并过程](#数据合并过程)
 
-<!-- /TOC -->
-
-# HBase简介
 
 ## 什么是HBase
 
@@ -67,7 +49,7 @@ Hbase的扩展性主要体现在两个方面，一个是基于上层处理能力
 
 
 
-![img](img/hbase2.png)
+![img](../../images/hbase/hbase2.png)
 
 
 
@@ -278,7 +260,7 @@ HBASE 中通过rowkey和columns确定的为一个存贮单元称为cell。每个
 
 ### namespace
 
-![img](img/hbase5.png) 
+![img](../../images/hbase/hbase5.png) 
 
 **1) Table**：表，所有的表都是命名空间的成员，即表必属于某个命名空间，如果没有指定，则在default默认的命名空间中。
 
@@ -294,7 +276,7 @@ HBASE 中通过rowkey和columns确定的为一个存贮单元称为cell。每个
 
 ### 读流程
 
-![img](img/hbase3.png)
+![img](../../images/hbase/hbase3.png)
 
 1）Client 先访问 zookeeper，从 meta 表读取 region 的位置，然后读取 meta 表中的数据。meta
 
@@ -318,7 +300,7 @@ HBASE 中通过rowkey和columns确定的为一个存贮单元称为cell。每个
 
 ### 写流程
 
-![img](img/hbase4.png)
+![img](../../images/hbase/hbase4.png)
 
 1）Client 向 HregionServer 发送写请求；
 

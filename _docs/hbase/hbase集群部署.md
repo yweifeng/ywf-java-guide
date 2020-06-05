@@ -1,4 +1,10 @@
-# hbase集群部署
+---
+title: hbase集群部署
+category: hbase
+order: 1
+---
+
+
 
 ### 环境配置
 
@@ -188,4 +194,4 @@ cd /opt/hbase/bin
 
 [http://192.168.111.140:16010/master-status](http://192.168.111.140:16010/master-status)
 
-![img](img/hbase1.png)
+![img](../../images/hbase/hbase1.png)

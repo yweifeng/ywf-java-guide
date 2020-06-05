@@ -1,25 +1,10 @@
-<!-- TOC -->
+---
+title: hadoop介绍
+category: hadoop
+order: 2
+---
 
-- [hadoop介绍](#hadoop介绍)
-    - [一.hadoop是什么](#一hadoop是什么)
-    - [二 .hadoop能干什么](#二-hadoop能干什么)
-    - [三.hadoop的核心](#三hadoop的核心)
-    - [四.HDFS的架构](#四hdfs的架构)
-    - [五.Hadoop的特点](#五hadoop的特点)
-    - [六.NameNode](#六namenode)
-        - [1.简介](#1简介)
-        - [2.NameNode的工作特点](#2namenode的工作特点)
-        - [3.什么时候checkpoint](#3什么时候checkpoint)
-    - [七.SecondaryNameNode](#七secondarynamenode)
-        - [1.简介](#1简介-1)
-        - [2.工作流程](#2工作流程)
-    - [八.DataNode](#八datanode)
-    - [九.HDFS](#九hdfs)
-        - [（1）读过程](#1读过程)
-        - [（2）写过程](#2写过程)
 
-<!-- /TOC -->
-# hadoop介绍
 
 ## 一.hadoop是什么
 
@@ -71,11 +56,13 @@ datanode负责：
 
 
 
+
 Secondary NameNode负责：
 
     合并fsimage和edits文件来更新NameNode的metedata
 
  
+
 
 
 
@@ -120,7 +107,7 @@ Hadoop会维护一个人fsimage文件，也就是NameNode中metedata的镜像，
 fs.checkpoint.period 指定两次checkpoint的最大时间间隔，默认3600秒。 
 fs.checkpoint.size    规定edits文件的最大值，一旦超过这个值则强制checkpoint，不管是否到达最大时间间隔。默认大小是64M。
 
- ![img](img/hadoop01.png)
+ ![img](../../images/hadoop/hadoop01.png)
 
 
 
@@ -158,7 +145,7 @@ Replication:多复本。默认是三个。
 
 ### （1）读过程
 
-![img](img/hadoop02.png)
+![img](../../images/hadoop/hadoop02.png)
 
  
 
@@ -176,7 +163,7 @@ Replication:多复本。默认是三个。
 
 ### （2）写过程
 
-![img](img/hadoop03.png)
+![img](../../images/hadoop/hadoop03.png)
 
 1. Client 发起文件上传请求, 通过 RPC 与 NameNode 建立通讯, NameNode 检查目标文件是否已存在, 父目录是否存在, 返回是否可以上传 。
 2. Client 请求第一个 block 该传输到哪些 DataNode 服务器上。
