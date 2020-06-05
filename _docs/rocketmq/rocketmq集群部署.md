@@ -1,5 +1,10 @@
+---
+title: RocketMQ集群部署
+category: Rocketmq
+order: 1
+---
 
-# RocketMQ集群部署
+
 
 RocketMQ是阿里巴巴2016年MQ中间件，使用Java语言开发，在阿里内部，RocketMQ承接了例如“双11”等高并发场景的消息流转，能够处理万亿级别的消息。
 
