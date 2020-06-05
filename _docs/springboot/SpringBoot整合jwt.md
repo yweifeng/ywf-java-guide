@@ -1,6 +1,7 @@
 ---
 title: SpringBoot整合jwt
 category: springboot
+category-order: 1
 order: 18
 ---
 

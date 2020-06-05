@@ -1,6 +1,7 @@
 ---
 title: SpringBoot整合Druid监控
 category: springboot
+category-order: 1
 order: 12
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: SpringBoot整合elasticsearch
 category: springboot
+category-order: 1
 order: 15
 ---
 

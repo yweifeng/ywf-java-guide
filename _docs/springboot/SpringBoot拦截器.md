@@ -1,10 +1,11 @@
 ---
 title: SpringBoot拦截器
 category: springboot
+category-order: 1
 order: 4
 ---
 
-# SpringBoot拦截器
+
 
 在实际开发中，总存在着这样的场景，比如拦截请求的ip地址，或者在所有的请求都返回相同的数据，如果每一个方法都写出相同数据固然可以实现，但是随着项目的变大，重复的代码会越来越多，所以在这种情况我们可以用拦截器来实现。
 

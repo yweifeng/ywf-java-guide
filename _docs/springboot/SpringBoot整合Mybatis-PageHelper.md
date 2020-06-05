@@ -1,6 +1,7 @@
 ---
 title: SpringBoot整合Mybatis-PageHelper
 category: springboot
+category-order: 1
 order: 11
 ---
 

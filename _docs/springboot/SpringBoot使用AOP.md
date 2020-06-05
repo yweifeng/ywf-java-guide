@@ -1,6 +1,7 @@
 ---
 title: SpringBoot使用AOP
 category: springboot
+category-order: 1
 order: 5
 ---
 

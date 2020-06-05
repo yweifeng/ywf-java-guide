@@ -1,6 +1,7 @@
 ---
 title: Springboot集成kafka
 category: springboot
+category-order: 1
 order: 16
 ---
 

@@ -1,10 +1,9 @@
 ---
 title: SpringBoot定时任务
 category: springboot
+category-order: 1
 order: 2
 ---
-
-项目中很多时候会使用到定时任务，这篇文章介绍一下springboot整合定时任务。
 
 springboot整合定时任务其实就两点，
 1.创建一个能被定时任务类，方法上加入@Scheduled注解
