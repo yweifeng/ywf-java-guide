@@ -6,7 +6,7 @@ order: 3
 
 
 
-##### 下载和安装mycat
+### 下载和安装mycat
 
 ```shell
 #下载mycat
@@ -18,7 +18,7 @@ http://dl.mycat.io/1.6.5/
 
 
 
-##### 修改schema.xml 和 server.xml
+### 修改schema.xml 和 server.xml
 
 schema.xml
 
@@ -54,7 +54,7 @@ server.xml
 
 
 
-##### 修改log级别
+### 修改log级别
 
 ```
 进入mycat/conf
@@ -66,7 +66,7 @@ server.xml
 
 
 
-##### 启动mycat
+### 启动mycat
 
 ```shell
 [root@localhost bin]# ./mycat start
@@ -76,7 +76,7 @@ server.xml
 
 
 
-##### 验证
+### 验证
 
 ```shell
 [root@localhost bin]# mysql -uroot -p -h127.0.0.1 -P3310 mycat_ywf;

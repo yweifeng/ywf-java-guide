@@ -4,9 +4,9 @@ category: Rocketmq
 order: 2
 ---
 
-# MQ介绍
 
-## 为什么要用MQ
+
+### 为什么要用MQ
 
 消息队列是一种“先进先出”的数据结构
 
@@ -46,7 +46,7 @@ order: 2
 
 ![](../../images/rocketmq/mq-2.png)
 
-## MQ的优点和缺点
+### MQ的优点和缺点
 
 优点：解耦、削峰、数据分发
 
@@ -70,13 +70,17 @@ order: 2
 
   如何保证消息数据处理的一致性？
 
-## 各种MQ产品的比较
+
+
+### 各种MQ产品的比较
 
 常见的MQ产品包括Kafka、ActiveMQ、RabbitMQ、RocketMQ。 
 
 ![](../../images/rocketmq/MQ比较.png)
 
-# 消息发送样例
+
+
+### 消息发送样例
 
 * 导入MQ客户端依赖
 
@@ -109,11 +113,13 @@ order: 2
 5.启动消费者consumer
 ```
 
-## 基本样例
 
-### 消息发送
 
-#### ）发送同步消息
+### 基本样例
+
+#### 消息发送
+
+##### 发送同步消息
 
 这种可靠性同步地发送方式使用的比较广泛，比如：重要的消息通知，短信通知。
 
@@ -143,7 +149,7 @@ public class SyncProducer {
 }
 ```
 
-#### ）发送异步消息
+##### 发送异步消息
 
 异步消息通常用在对响应时间敏感的业务场景，即发送端不能容忍长时间地等待Broker的响应。
 
@@ -184,7 +190,7 @@ public class AsyncProducer {
 }
 ```
 
-#### ）单向发送消息
+##### 单向发送消息
 
 这种方式主要用在不特别关心发送结果的场景，例如日志发送。
 
@@ -213,9 +219,11 @@ public class OnewayProducer {
 }
 ```
 
-### 消费消息
 
-#### ）负载均衡模式
+
+#### 消费消息
+
+##### 负载均衡模式
 
 消费者采用负载均衡方式消费消息，多个消费者共同消费队列消息，每个消费者处理的消息不同
 
@@ -245,7 +253,9 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-#### ）广播模式
+
+
+##### 广播模式
 
 消费者采用广播的方式消费消息，每个消费者消费的消息都是相同的
 
@@ -275,7 +285,9 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-## 顺序消息
+
+
+### 顺序消息
 
 消息有序指的是可以按照消息的发送顺序来消费(FIFO)。RocketMQ可以严格的保证消息有序，可以分为分区有序或者全局有序。
 
@@ -283,7 +295,7 @@ public static void main(String[] args) throws Exception {
 
 下面用订单进行分区有序的示例。一个订单的顺序流程是：创建、付款、推送、完成。订单号相同的消息会被先后发送到同一个队列中，消费时，同一个OrderId获取到的肯定是同一个队列。
 
-### 顺序消息生产
+#### 顺序消息生产
 
 ```java
 /**
@@ -422,7 +434,7 @@ public class Producer {
 }
 ```
 
-### 顺序消费消息
+#### 顺序消费消息
 
 ```java
 /**
@@ -471,11 +483,11 @@ public class ConsumerInOrder {
 }
 ```
 
-## 延时消息
+### 延时消息
 
 比如电商里，提交了一个订单就可以发送一个延时消息，1h后去检查这个订单的状态，如果还是未付款就取消订单释放库存。
 
-### 启动消息消费者
+#### 启动消息消费者
 
 ```java
 public class ScheduledMessageConsumer {
@@ -501,7 +513,7 @@ public class ScheduledMessageConsumer {
 }
 ```
 
-### 发送延时消息
+#### 发送延时消息
 
 ```java
 public class ScheduledMessageProducer {
@@ -524,11 +536,11 @@ public class ScheduledMessageProducer {
 }
 ```
 
-### 验证
+#### 验证
 
 您将会看到消息的消费比存储时间晚10秒
 
-### 使用限制
+#### 使用限制
 
 ```java
 // org/apache/rocketmq/store/config/MessageStoreConfig.java
@@ -537,11 +549,13 @@ private String messageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m
 
 现在RocketMq并不支持任意时间的延时，需要设置几个固定的延时等级，从1s到2h分别对应着等级1到18
 
-## 批量消息
+
+
+### 批量消息
 
 批量发送消息能显著提高传递小消息的性能。限制是这些批量消息应该有相同的topic，相同的waitStoreMsgOK，而且不能是延时消息。此外，这一批消息的总大小不应超过4MB。
 
-### 发送批量消息
+#### 发送批量消息
 
 如果您每次只发送不超过4MB的消息，则很容易使用批处理，样例如下：
 
@@ -619,7 +633,9 @@ while (splitter.hasNext()) {
 }
 ```
 
-## 过滤消息
+
+
+### 过滤消息
 
 在大多数情况下，TAG是一个简单而有用的设计，其可以来选择您想要的消息。例如：
 
@@ -647,7 +663,7 @@ consumer.subscribe("TOPIC", "TAGA || TAGB || TAGC");
 ------------
 ```
 
-### SQL基本语法
+#### SQL基本语法
 
 RocketMQ只定义了一些基本语法来支持这个特性。你也可以很容易地扩展它。
 
@@ -669,7 +685,7 @@ RocketMQ只定义了一些基本语法来支持这个特性。你也可以很容
 public void subscribe(finalString topic, final MessageSelector messageSelector)
 ```
 
-### 消息生产者
+#### 消息生产者
 
 发送消息时，你能通过`putUserProperty`来设置消息的属性
 
@@ -687,7 +703,7 @@ SendResult sendResult = producer.send(msg);
 producer.shutdown();
 ```
 
-### 消息消费者
+#### 消息消费者
 
 用MessageSelector.bySql来使用sql筛选消息
 
@@ -704,9 +720,11 @@ consumer.registerMessageListener(new MessageListenerConcurrently() {
 consumer.start();
 ```
 
-## 事务消息
 
-### 流程分析
+
+### 事务消息
+
+#### 流程分析
 
 ![](../../images/rocketmq/事务消息.png)
 
@@ -714,7 +732,7 @@ consumer.start();
 
 上图说明了事务消息的大致方案，其中分为两个流程：正常事务消息的发送及提交、事务消息的补偿流程。
 
-#### ）事务消息发送及提交
+##### 事务消息发送及提交
 
 (1) 发送消息（half消息）。
 
@@ -724,7 +742,7 @@ consumer.start();
 
 (4) 根据本地事务状态执行Commit或者Rollback（Commit操作生成消息索引，消息对消费者可见）
 
-#### ）事务补偿
+##### 事务补偿
 
 (1) 对没有Commit/Rollback的事务消息（pending状态的消息），从服务端发起一次“回查”
 
@@ -734,7 +752,7 @@ consumer.start();
 
 其中，补偿阶段用于解决消息Commit或者Rollback发生超时或者失败的情况。
 
-#### ）事务消息状态
+##### 事务消息状态
 
 事务消息共有三种状态，提交状态、回滚状态、中间状态：
 
@@ -742,9 +760,9 @@ consumer.start();
 * TransactionStatus.RollbackTransaction: 回滚事务，它代表该消息将被删除，不允许被消费。
 * TransactionStatus.Unknown: 中间状态，它代表需要检查消息队列来确定状态。
 
-### 发送事务消息
+#### 发送事务消息
 
-#### ) 创建事务性生产者
+##### 创建事务性生产者
 
 使用 `TransactionMQProducer`类创建生产者，并指定唯一的 `ProducerGroup`，就可以设置自定义线程池来处理这些检查请求。执行本地事务后、需要根据执行结果对消息队列进行回复。回传的事务状态在请参考前一节。
 
@@ -777,7 +795,7 @@ public class Producer {
 }
 ```
 
-#### ）实现事务的监听接口
+##### 实现事务的监听接口
 
 当发送半消息成功时，我们使用 `executeLocalTransaction` 方法来执行本地事务。它返回前一节中提到的三个事务状态之一。`checkLocalTranscation` 方法用于检查本地事务状态，并回应消息队列的检查请求。它也是返回前一节中提到的三个事务状态之一。
 
@@ -805,7 +823,7 @@ public class TransactionListenerImpl implements TransactionListener {
 }
 ```
 
-### 使用限制
+#### 使用限制
 
 1. 事务消息不支持延时消息和批量消息。
 2. 为了避免单个消息被检查太多次而导致半队列消息累积，我们默认将单个消息的检查次数限制为 15 次，但是用户可以通过 Broker 配置文件的 `transactionCheckMax`参数来修改此限制。如果已经检查某条消息超过 N 次的话（ N = `transactionCheckMax` ） 则 Broker 将丢弃此消息，并在默认情况下同时打印错误日志。用户可以通过重写 `AbstractTransactionCheckListener` 类来修改这个行为。

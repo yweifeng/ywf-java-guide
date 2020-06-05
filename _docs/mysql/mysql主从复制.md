@@ -6,7 +6,7 @@ order: 1
 
 
 
-##### 工作原理
+### 工作原理
 
 ```
 1、主库会开启一个log dump线程，用来给从库的I/O线程传输binlog。
@@ -21,7 +21,7 @@ order: 1
 
 
 
-##### 好处
+### 好处
 
 ```
 1、数据备份、保证数据的安全和容灾
@@ -31,7 +31,7 @@ order: 1
 
 
 
-##### 配置环境
+### 配置环境
 
 ```
 虚拟机环境 （centos 7.5 64位）:
@@ -42,7 +42,7 @@ mysql 版本：mysql 5.7
 
 
 
-##### mysql安装
+### mysql安装
 
 ```shell
 #下载并安装mysql yum
@@ -94,7 +94,7 @@ mysql> grant all privileges on *.* to 'root' @'%' identified by '!QAZ2wsx';
 
 
 
-##### 主库配置
+### 主库配置
 
 ```shell
 #修改主库 /etc/my.cnf
@@ -129,7 +129,7 @@ mysql> GRANT REPLICATION SLAVE ON *.* TO 'master'@'%' IDENTIFIED BY '!QAZ2wsx' W
 
 
 
-##### 配置从库服务器
+### 配置从库服务器
 
 ```shell
 #修改从库 /etc/my.cnf

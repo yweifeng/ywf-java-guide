@@ -6,17 +6,20 @@ order: 1
 
 
 
-RocketMQ是阿里巴巴2016年MQ中间件，使用Java语言开发，在阿里内部，RocketMQ承接了例如“双11”等高并发场景的消息流转，能够处理万亿级别的消息。
+> RocketMQ是阿里巴巴2016年MQ中间件，使用Java语言开发，在阿里内部，RocketMQ承接了例如“双11”等高并发场景的消息流转，能够处理万亿级别的消息。
+>
 
-## 准备工作
 
-### 下载RocketMQ
+
+### 准备工作
+
+#### 下载RocketMQ
 
 RocketMQ最新版本：4.5.1
 
 [下载地址](https://www.apache.org/dyn/closer.cgi?path=rocketmq/4.5.1/rocketmq-all-4.5.1-bin-release.zip)
 
-### 环境要求
+#### 环境要求
 
 * Linux64位系统
 
@@ -24,22 +27,26 @@ RocketMQ最新版本：4.5.1
 
 * 源码安装需要安装Maven 3.2.x
 
-## 安装RocketMQ
 
-### 安装步骤
+
+### 安装RocketMQ
+
+#### 安装步骤
 
 本教程以二进制包方式安装
 
 1. 解压安装包
 2. 进入安装目录
 
-### 目录介绍
+#### 目录介绍
 
 * bin：启动脚本，包括shell脚本和CMD脚本
 * conf：实例配置文件 ，包括broker配置文件、logback配置文件等
 * lib：依赖jar包，包括Netty、commons-lang、FastJSON等
 
-## 启动RocketMQ
+
+
+### 启动RocketMQ
 
 1. 启动NameServer
 
@@ -73,9 +80,11 @@ vi runserver.sh
 
 ```JAVA_OPT="${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn128m -XX:MetaspaceSize=128m  -XX:MaxMetaspaceSize=320m"```
 
-## 2.4 测试RocketMQ
 
-### 2.4.1 发送消息
+
+###  测试RocketMQ
+
+#### 发送消息
 
 ```sh
 # 设置环境变量
@@ -84,7 +93,7 @@ export NAMESRV_ADDR=localhost:9876
 sh bin/tools.sh org.apache.rocketmq.example.quickstart.Producer
 ```
 
-### 2.4.2 接收消息
+#### 接收消息
 
 ```shell
 # 设置环境变量
@@ -93,7 +102,7 @@ export NAMESRV_ADDR=localhost:9876
 sh bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer
 ```
 
-## 2.5 关闭RocketMQ
+#### 关闭RocketMQ
 
 ```shell
 # 关闭NameServer
@@ -102,9 +111,11 @@ sh bin/mqshutdown namesrv
 sh bin/mqshutdown broker
 ```
 
-# 3. RocketMQ集群搭建
 
-## 3.1 各角色介绍
+
+### RocketMQ集群搭建
+
+#### 各角色介绍
 
 * Producer：消息的发送者；举例：发信者
 * Consumer：消息接收者；举例：收信者
@@ -115,9 +126,11 @@ sh bin/mqshutdown broker
 
 ![](E:/ywf-java-guide/doc/rocketmq/img/RocketMQ角色.jpg)
 
-## 3.2 集群搭建方式
 
-### 3.2.1 集群特点
+
+### 集群搭建方式
+
+### 集群特点
 
 - NameServer是一个几乎无状态节点，可集群部署，节点之间无任何信息同步。
 
@@ -125,42 +138,46 @@ sh bin/mqshutdown broker
 - Producer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer取Topic路由信息，并向提供Topic服务的Master建立长连接，且定时向Master发送心跳。Producer完全无状态，可集群部署。
 - Consumer与NameServer集群中的其中一个节点（随机选择）建立长连接，定期从NameServer取Topic路由信息，并向提供Topic服务的Master、Slave建立长连接，且定时向Master、Slave发送心跳。Consumer既可以从Master订阅消息，也可以从Slave订阅消息，订阅规则由Broker配置决定。
 
-### 3.2.3 集群模式
+### 集群模式
 
-#### 1）单Master模式
+#### 单Master模式
 
 这种方式风险较大，一旦Broker重启或者宕机时，会导致整个服务不可用。不建议线上环境使用,可以用于本地测试。
 
-#### 2）多Master模式
+#### 多Master模式
 
 一个集群无Slave，全是Master，例如2个Master或者3个Master，这种模式的优缺点如下：
 
 - 优点：配置简单，单个Master宕机或重启维护对应用无影响，在磁盘配置为RAID10时，即使机器宕机不可恢复情况下，由于RAID10磁盘非常可靠，消息也不会丢（异步刷盘丢失少量消息，同步刷盘一条不丢），性能最高；
 - 缺点：单台机器宕机期间，这台机器上未被消费的消息在机器恢复之前不可订阅，消息实时性会受到影响。
 
-#### 3）多Master多Slave模式（异步）
+#### 多Master多Slave模式（异步）
 
 每个Master配置一个Slave，有多对Master-Slave，HA采用异步复制方式，主备有短暂消息延迟（毫秒级），这种模式的优缺点如下：
 
 - 优点：即使磁盘损坏，消息丢失的非常少，且消息实时性不会受影响，同时Master宕机后，消费者仍然可以从Slave消费，而且此过程对应用透明，不需要人工干预，性能同多Master模式几乎一样；
 - 缺点：Master宕机，磁盘损坏情况下会丢失少量消息。
 
-#### 4）多Master多Slave模式（同步）
+#### 多Master多Slave模式（同步）
 
 每个Master配置一个Slave，有多对Master-Slave，HA采用同步双写方式，即只有主备都写成功，才向应用返回成功，这种模式的优缺点如下：
 
 - 优点：数据与服务都无单点故障，Master宕机情况下，消息无延迟，服务可用性与数据可用性都非常高；
 - 缺点：性能比异步复制模式略低（大约低10%左右），发送单个消息的RT会略高，且目前版本在主节点宕机后，备机不能自动切换为主机。
 
-## 3.3 双主双从集群搭建
 
-### 3.3.1 总体架构
+
+### 双主双从集群搭建
+
+#### 总体架构
 
 消息高可用采用2m-2s（同步双写）方式
 
 ![](E:/ywf-java-guide/doc/rocketmq/img/RocketMQ集群.png)
 
-### 3.3.2 集群工作流程
+
+
+#### 集群工作流程
 
 1. 启动NameServer，NameServer起来后监听端口，等待Broker、Producer、Consumer连上来，相当于一个路由控制中心。
 2. Broker启动，跟所有的NameServer保持长连接，定时发送心跳包。心跳包中包含当前Broker信息(IP+端口等)以及存储所有Topic信息。注册成功后，NameServer集群中就有Topic跟Broker的映射关系。
@@ -168,14 +185,16 @@ sh bin/mqshutdown broker
 4. Producer发送消息，启动时先跟NameServer集群中的其中一台建立长连接，并从NameServer中获取当前发送的Topic存在哪些Broker上，轮询从队列列表中选择一个队列，然后与队列所在的Broker建立长连接从而向Broker发消息。
 5. Consumer跟Producer类似，跟其中一台NameServer建立长连接，获取当前订阅Topic存在哪些Broker上，然后直接跟Broker建立连接通道，开始消费消息。
 
-### 3.3.3 服务器环境
+
+
+#### 服务器环境
 
 | **序号** | **IP**          | **角色**                 | **架构模式**    |
 | -------- | --------------- | ------------------------ | --------------- |
 | 1        | 192.168.111.129 | nameserver、brokerserver | Master1、Slave2 |
 | 2        | 192.168.111.130 | nameserver、brokerserver | Master2、Slave1 |
 
-### 3.3.4 Host添加信息
+####  Host添加信息
 
 ```bash
 vim /etc/hosts
@@ -200,7 +219,7 @@ vim /etc/hosts
 systemctl restart network
 ```
 
-### 3.3.5 防火墙配置
+#### 防火墙配置
 
 宿主机需要远程访问虚拟机的rocketmq服务和web服务，需要开放相关的端口号，简单粗暴的方式是直接关闭防火墙
 
@@ -232,7 +251,7 @@ firewall-cmd --remove-port=11011/tcp --permanent
 firewall-cmd --reload
 ```
 
-### 3.3.6 环境变量配置
+#### 环境变量配置
 
 ```bash
 vim /etc/profile
@@ -253,7 +272,7 @@ export ROCKETMQ_HOME PATH
 source /etc/profile
 ```
 
-### 3.3.7 创建消息存储路径(不同的broker创建对应的目录)
+#### 创建消息存储路径(不同的broker创建对应的目录)
 
 ```bash
 # 9
@@ -277,9 +296,9 @@ mkdir /opt/rocketmq/store_a_s/consumequeue
 mkdir /opt/rocketmq/store_a_s/index
 ```
 
-### 3.3.8 broker配置文件
+#### broker配置文件
 
-#### 1）master1
+##### 1）master1
 
 服务器：192.168.111.129
 
@@ -352,7 +371,7 @@ flushDiskType=SYNC_FLUSH
 # pullMessageThreadPoolNums=128
 ```
 
-#### 2）slave2
+##### 2）slave2
 
 服务器：192.168.111.129
 
@@ -425,7 +444,7 @@ flushDiskType=ASYNC_FLUSH
 # pullMessageThreadPoolNums=128
 ```
 
-#### 3）master2
+##### 3）master2
 
 服务器：192.168.111.130
 
@@ -498,7 +517,7 @@ flushDiskType=SYNC_FLUSH
 # pullMessageThreadPoolNums=128
 ```
 
-#### 4）slave1
+##### 4）slave1
 
 服务器：192.168.111.130
 
@@ -571,9 +590,9 @@ flushDiskType=ASYNC_FLUSH
 # pullMessageThreadPoolNums=128
 ```
 
-### 3.3.9 修改启动脚本文件
+#### 修改启动脚本文件
 
-#### 1）runbroker.sh
+##### 1）runbroker.sh
 
 ```sh
 vi /opt/rocketmq/bin/runbroker.sh
@@ -597,9 +616,11 @@ vim /opt/rocketmq/bin/runserver.sh
 JAVA_OPT="${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn128m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m"
 ```
 
-### 3.3.10 服务启动
 
-#### 1）启动NameServe集群
+
+#### 服务启动
+
+##### 1）启动NameServe集群
 
 分别在192.168.111.129和192.168.111.130启动NameServer
 
@@ -608,7 +629,7 @@ cd /opt/rocketmq/bin
 nohup sh mqnamesrv &
 ```
 
-#### 2）启动Broker集群
+##### 2）启动Broker集群
 
 * 在192.168.111.129上启动master1和slave2
 
@@ -642,13 +663,13 @@ cd /opt/rocketmq/bin
 nohup sh mqbroker -c /opt/rocketmq/rocketmq-all-4.5.1-bin-release/conf/2m-2s-sync/broker-a-s.properties &
 ```
 
-### 3.3.11 查看进程状态
+#### 查看进程状态
 
 启动后通过JPS查看启动进程
 
 ![](E:/ywf-java-guide/doc/rocketmq/img/jps1.png)
 
-### 3.3.12 查看日志
+#### 查看日志
 
 ```sh
 # 查看nameServer日志
@@ -657,9 +678,11 @@ tail -500f ~/logs/rocketmqlogs/namesrv.log
 tail -500f ~/logs/rocketmqlogs/broker.log
 ```
 
-## 3.4 mqadmin管理工具
 
-### 3.4.1 使用方式
+
+### mqadmin管理工具
+
+#### 使用方式
 
 进入RocketMQ安装位置，在bin目录下执行```./mqadmin {command} {args}``` 
 
@@ -1486,8 +1509,7 @@ tail -500f ~/logs/rocketmqlogs/broker.log
   <td class=xl68 width=87 style='width:65pt'>是否重置c++客户端offset</td>
  </tr>
 </table>
-
-#### 5）消费者、消费组相关
+#### 消费者、消费组相关
 
 <table border=0 cellpadding=0 cellspacing=0 width=714>
  <col width=177>
@@ -1679,7 +1701,7 @@ tail -500f ~/logs/rocketmqlogs/broker.log
  </tr>
 </table>
 
-#### 6）连接相关
+#### 连接相关
 
 <table border=0 cellpadding=0 cellspacing=0 width=714>
  <col width=177>
@@ -1730,7 +1752,7 @@ tail -500f ~/logs/rocketmqlogs/broker.log
  </tr>
 </table>
 
-#### 7）NameServer相关
+#### NameServer相关
 
 <table border=0 cellpadding=0 cellspacing=0 width=714>
  <col width=177>
@@ -1821,7 +1843,7 @@ tail -500f ~/logs/rocketmqlogs/broker.log
  </tr>
 </table>
 
-#### 8）其他
+#### 其他
 
 <table border=0 cellpadding=0 cellspacing=0 width=714>
  <col width=177>
@@ -1848,21 +1870,23 @@ tail -500f ~/logs/rocketmqlogs/broker.log
  </tr>
 </table>
 
-### 3.4.3 注意事项
+### 注意事项
 
 * 几乎所有命令都需要配置-n表示NameServer地址，格式为ip:port
 * 几乎所有命令都可以通过-h获取帮助
 * 如果既有Broker地址（-b）配置项又有clusterName（-c）配置项，则优先以Broker地址执行命令；如果不配置Broker地址，则对集群中所有主机执行命令
 
-## 3.5 集群监控平台搭建
 
-### 3.5.1 概述
+
+### 集群监控平台搭建
+
+#### 概述
 
 `RocketMQ`有一个对其扩展的开源项目[incubator-rocketmq-externals](https://github.com/apache/rocketmq-externals)，这个项目中有一个子模块叫`rocketmq-console`，这个便是管理控制台项目了，先将[incubator-rocketmq-externals](https://github.com/apache/rocketmq-externals)拉到本地，因为我们需要自己对`rocketmq-console`进行编译打包运行。
 
 ![](E:/ywf-java-guide/doc/rocketmq/img/rocketmq-console.png)
 
-### 3.5.2 下载并编译打包
+#### 下载并编译打包
 
 ```sh
 git clone https://github.com/apache/rocketmq-externals

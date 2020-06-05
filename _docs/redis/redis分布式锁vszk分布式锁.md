@@ -4,7 +4,9 @@ category: redis
 order: 3
 ---
 
-## jdk的实现方式
+
+
+### jdk的实现方式
 
 **思路**：另启一个服务，利用jdk并发工具来控制唯一资源，如在服务中维护一个concurrentHashMap，其他服务对某个key请求锁时，通过该服务暴露的端口，以网络通信的方式发送消息，服务端解析这个消息，将concurrentHashMap中的key对应值设为true，分布式锁请求成功，[demo中写了一个基于netty通信的分布式锁](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FLiuWillow%2Fdistributed-lock%2Ftree%2Fmaster%2Fsingle-lock-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Flwl%2Fserver)，当然你想用java的bio、nio或者整合dubbo、spring cloud feign来实现通信也没问题
 
@@ -14,7 +16,7 @@ order: 3
 
 
 
-## redis的实现方式
+### redis的实现方式
 
 **原理**：利用redis的setnx的特性，能够保证同一时间内只有一个请求能够对相同的key执行setnx指令，我们可以理解为只有一个请求能够抢到这个锁，由于redis是单线程的，可以非常简单地实现这个功能。但是这里的锁的概念与我们平时锁理解的有一点区别，如mysql中的互斥锁，行数据被锁定以后，其他任何线程都无法对其进行删改操作，但是redis里只保证setnx的操作有这个特性，其他请求依然可以在key被锁住的情况下，执行del和set等操作，下面是redis分布式锁的各种实现方式和缺点，按照时间的发展排序：
 
@@ -66,7 +68,7 @@ order: 3
    
    
 
-## 基于zookeeper实现的分布式锁
+### zookeeper的实现方式
 
 - 1、利用临时节点特性
    zookeeper的临时节点有两个特性，一是节点名称不能重复，二是会随着客户端退出而销毁，因此直接将key作为节点名称，能够成功创建的客户端则获取成功，失败的客户端监听成功的节点的删除事件
@@ -82,7 +84,7 @@ order: 3
 
 
 
-## 总结
+### 总结
 
 - 基于jdk的并发工具自己实现的锁
   

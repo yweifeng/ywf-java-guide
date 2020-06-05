@@ -4,7 +4,9 @@ category: lua
 order: 1
 ---
 
-## Redis中使用Lua的好处
+
+
+### Redis中使用Lua的好处
 
 - 减少网络开销。可以将多个请求通过脚本的形式一次发送，减少网络时延
 - 原子操作。redis会将整个脚本作为一个整体执行，中间不会被其他命令插入。因此在编写脚本的过程中无需担心会出现竞态条件，无需使用事务。
@@ -12,7 +14,7 @@ order: 1
 
 
 
-##  redis 脚本常用命令
+###  redis 脚本常用命令
 
 [Lua官方教程地址](https://www.runoob.com/lua/lua-tutorial.html)
 
@@ -38,7 +40,7 @@ order: 1
 
 
 
-## Centos7安装lua
+### Centos7安装lua
 
 ```shell
 # 下载redline库的支持
@@ -56,9 +58,9 @@ make install
 
 
 
-## 编写简单的lua脚本运行
+### 编写简单的lua脚本运行
 
-### 方式一 EVAL
+#### 方式一 EVAL
 
 ```shell
 EVAL "return 'hello word'" 0
@@ -67,7 +69,7 @@ EVAL "return 'hello word'" 0
 
 
 
-### 方式二 SCRIPT LOAD
+#### 方式二 SCRIPT LOAD
 
 ```shell
 SCRIPT LOAD "return 'hello word'"
@@ -76,7 +78,7 @@ SCRIPT LOAD "return 'hello word'"
 
 
 
-### 方式三 EVALSHA
+#### 方式三 EVALSHA
 
 ```shell
 EVALSHA 45396e13903003ec8916158e409f5f89dee43ed1 0
@@ -85,7 +87,7 @@ EVALSHA 45396e13903003ec8916158e409f5f89dee43ed1 0
 
 
 
-### 方式四 加载lua脚本文件
+#### 方式四 加载lua脚本文件
 
 ```shell
 # 与redis-cli同目录创建lua目录
