@@ -4,8 +4,6 @@ category: hbase
 order: 1
 ---
 
-
-
 ### 环境配置
 
 | IP地址          | hosts  |
