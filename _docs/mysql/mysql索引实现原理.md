@@ -1,7 +1,7 @@
 ---
-title: mysql索引实现原理
+title: mysql索引原理
 category: mysql
-order:2
+order: 2
 ---
 
 ## B+树索引
