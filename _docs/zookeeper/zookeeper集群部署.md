@@ -1,5 +1,8 @@
-
-# zookeeper集群部署
+---
+title: zookeeper集群部署
+category: zookeeper
+order: 1
+---
 
 #### 下载zookeeper安装包 [zookeeper-3.4.12.tar](https://links.jianshu.com/go?to=https%3A%2F%2Fpan.baidu.com%2Fs%2F1uvbXJvjqOetpUB8Y7aT05Q)
 

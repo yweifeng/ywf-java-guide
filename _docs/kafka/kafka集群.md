@@ -1,6 +1,10 @@
-# kafka集群
+---
+title: kafka集群部署
+category: kafka
+order: 1
+---
 
-## 集群部署
+
 
 ### 服务器环境
 

@@ -1,8 +1,14 @@
-# zookeeper分布式锁
+---
+title: zookeeper分布式锁
+category: zookeeper
+order: 2
+---
+
+
 
 ## 什么是zookeeper
 
-![img](img/zk1.png)
+![img](../../images/zookeeper/zk1.png)
 
 
 
@@ -64,7 +70,7 @@ Zookeeper > 缓存 > 数据库
 
 ## zookeeper分布式锁实现思路
 
-![img](img/zk2.png)
+![img](../../images/zookeeper/zk2.png)
 
 
 
