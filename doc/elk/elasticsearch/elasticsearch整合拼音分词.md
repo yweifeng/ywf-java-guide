@@ -1,4 +1,10 @@
-# elasticsearch整合拼音分词
+---
+title: elasticsearch整合拼音分词
+category: elasticsearch
+order: 5
+---
+
+
 
 ## 插件安装
 

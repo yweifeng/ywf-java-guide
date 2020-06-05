@@ -1,4 +1,10 @@
-# ES集群搭建
+---
+title: ES集群搭建
+category: elasticsearch
+order: 2
+---
+
+
 
 虚拟机环境 **centos7**、**Elasticsearch6.7.1**  
 
@@ -151,5 +157,5 @@ http://192.168.111.129:9200/
 
 http://192.168.111.130:9200/
 
-![img](img/es08.png)
+![img](../../../images/elasticsearch/es08.png)
 

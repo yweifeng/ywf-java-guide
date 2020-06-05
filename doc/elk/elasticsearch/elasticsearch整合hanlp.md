@@ -1,31 +1,9 @@
-<!-- TOC -->
+---
+title: elasticsearch整合hanlp
+category: elasticsearch
+order: 6
+---
 
-- [下载与配置](#下载与配置)
-    - [方式一、Maven](#方式一maven)
-    - [方式二、下载jar、data、hanlp.properties](#方式二下载jardatahanlpproperties)
-        - [1、下载：[data.zip](http://nlp.hankcs.com/download.php?file=data)](#1下载dataziphttpnlphankcscomdownloadphpfiledata)
-        - [2、下载jar和配置文件：[hanlp-release.zip](http://nlp.hankcs.com/download.php?file=jar)](#2下载jar和配置文件hanlp-releaseziphttpnlphankcscomdownloadphpfilejar)
-- [调用方法](#调用方法)
-    - [1. 第一个Demo](#1-第一个demo)
-    - [2. 标准分词](#2-标准分词)
-    - [3. NLP分词](#3-nlp分词)
-    - [4. 索引分词](#4-索引分词)
-    - [5. N-最短路径分词](#5-n-最短路径分词)
-    - [6. CRF分词](#6-crf分词)
-    - [7. 极速词典分词](#7-极速词典分词)
-    - [8. 用户自定义词典](#8-用户自定义词典)
-    - [9. 中国人名识别](#9-中国人名识别)
-    - [10. 音译人名识别](#10-音译人名识别)
-    - [11. 日本人名识别](#11-日本人名识别)
-    - [12. 地名识别](#12-地名识别)
-    - [13. 机构名识别](#13-机构名识别)
-    - [14. 关键词提取](#14-关键词提取)
-    - [15. 自动摘要](#15-自动摘要)
-    - [16. 拼音转换](#16-拼音转换)
-    - [17. 简繁转换](#17-简繁转换)
-    - [18. 文本推荐](#18-文本推荐)
-
-<!-- /TOC -->
 HanLP: Han Language Processing
 =====
 

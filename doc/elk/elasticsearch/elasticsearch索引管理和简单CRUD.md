@@ -1,21 +1,10 @@
-<!-- TOC -->
+---
+title: elasticsearch索引管理和简单CRUD
+category: elasticsearch
+order: 7
+---
 
-- [elasticsearch索引管理和简单CRUD](#elasticsearch索引管理和简单crud)
-    - [创建索引](#创建索引)
-    - [修改索引副本数量](#修改索引副本数量)
-    - [查询索引分片信息](#查询索引分片信息)
-    - [查看索引mapping](#查看索引mapping)
-    - [新建索引mapping](#新建索引mapping)
-    - [简单的CRUD](#简单的crud)
-        - [新增数据](#新增数据)
-        - [查询数据](#查询数据)
-        - [修改数据](#修改数据)
-            - [**方式一：全量替换**](#方式一全量替换)
-            - [**方式二：局部修改**](#方式二局部修改)
-        - [删除数据](#删除数据)
 
-<!-- /TOC -->
-# elasticsearch索引管理和简单CRUD
 
 ## 创建索引
 

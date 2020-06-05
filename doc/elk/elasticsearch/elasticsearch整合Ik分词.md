@@ -1,4 +1,10 @@
-# elasticsearch整合Ik分词
+---
+title: elasticsearch整合Ik分词
+category: elasticsearch
+order: 4
+---
+
+
 
 ## IK简介
 
@@ -44,13 +50,13 @@ ik插件提供了两种分词模式：**ik_max_word**和**ik_smart**：
 
 使用**kibana**测试**ik_max_word**
 
-![img](img/es09.png)
+![img](../../../images/elasticsearch/es09.png)
 
 
 
 使用**kibana**测试**ik_smart**
 
-![img](img/es10.png)
+![img](../../../images/elasticsearch/es10.png)
 
 
 

@@ -1,16 +1,10 @@
-<!-- TOC -->
+---
+title: elasticsearch乐观锁和悲观锁的使用
+category: elasticsearch
+order: 11
+---
 
-- [elasticsearch乐观锁和悲观锁的使用](#elasticsearch乐观锁和悲观锁的使用)
-    - [乐观锁](#乐观锁)
-        - [内部version](#内部version)
-        - [外部version](#外部version)
-    - [悲观锁](#悲观锁)
-        - [全局锁](#全局锁)
-        - [document锁](#document锁)
-        - [共享锁与排它锁](#共享锁与排它锁)
 
-<!-- /TOC -->
-# elasticsearch乐观锁和悲观锁的使用
 
 > 多个线程去同时访问es中的一份数据，然后各自去修改之后更新到es，由于线程的先后顺序不同，可能会导致后续的修改覆盖掉之前的修改，显然一些场景下我们是不允许发生这种并发冲突的问题，例如电商库存的修改等
 

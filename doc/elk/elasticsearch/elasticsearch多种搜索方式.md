@@ -1,20 +1,10 @@
-<!-- TOC -->
+---
+title: elasticsearch多种搜索方式
+category: elasticsearch
+order: 9
+---
 
-- [elasticsearch多种搜索方式](#elasticsearch多种搜索方式)
-    - [**bulk模拟数据**](#bulk模拟数据)
-    - [query string search](#query-string-search)
-    - [query DSL](#query-dsl)
-    - [filter DSL](#filter-dsl)
-    - [**query 和 filter的区别**](#query-和-filter的区别)
-    - [query filter 组合使用](#query-filter-组合使用)
-    - [full-text search（全文检索）](#full-text-search全文检索)
-        - [提高查询精度](#提高查询精度)
-        - [控制查询精度](#控制查询精度)
-    - [phrase search（短语搜索）](#phrase-search短语搜索)
-    - [highlight search（高亮搜索结果）](#highlight-search高亮搜索结果)
 
-<!-- /TOC -->
-# elasticsearch多种搜索方式
 
 ## **bulk模拟数据**
 

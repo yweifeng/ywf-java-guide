@@ -1,4 +1,10 @@
-# Elasticsearch-head插件安装
+---
+title: Elasticsearch-head插件安装
+category: elasticsearch
+order: 3
+---
+
+
 
 ## 安装Git
 
@@ -51,7 +57,7 @@ vim /opt/elk/elasticsearch-head/Gruntfile.js
 hostname: '0.0.0.0'  或者是 hostname: '*'
 ```
 
-![img](img/es03.png)
+![img](../../../images/elasticsearch/es03.png)
 
 ## 关闭防火墙
 
@@ -91,4 +97,4 @@ nohup grunt  server &
 
 [192.168.111.128:9100](192.168.111.128:9100)
 
-![img](img/es05.png)
+![img](../../../images/elasticsearch/es05.png)
