@@ -4,7 +4,9 @@ category: hadoop
 order: 1
 ---
 
-# 节点目录
+
+
+### 节点目录
 
 HDFS daemon：  NameNode, SecondaryNameNode, DataNode
 
@@ -13,8 +15,6 @@ YARN damones： ResourceManager, NodeManager, WebAppProxy
 MapReduce Job History Server
 
 
-
-## 集群部署搭建
 
 ### 环境配置
 
@@ -364,9 +364,9 @@ hdfs dfs -put /opt/2.txt /wordcountdemo/input
 
 
 
-## java 调用hdfs
+### java 调用hdfs
 
-### 建立maven项目，引入依赖
+#### 建立maven项目，引入依赖
 
 ```xml
 <properties>
@@ -383,11 +383,11 @@ hdfs dfs -put /opt/2.txt /wordcountdemo/input
 
 
 
-### 拷贝core-site.xml、hdfs-site.xml和log4j.properties到resources
+#### 拷贝core-site.xml、hdfs-site.xml和log4j.properties到resources
 
 
 
-### 运行出现 以下异常解决方法
+#### 运行出现 以下异常解决方法
 
 ```java
 java.io.FileNotFoundException: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset. 
