@@ -1,4 +1,10 @@
-# kibana部署
+---
+title: kibana部署
+category: kibana
+order: 1
+---
+
+
 
 ## 下载
 
@@ -39,10 +45,10 @@ nohup ./kibana &
 
 ## 浏览器访问
 
-![img](img/es06.png)
+![img](../../../images/kibana/k1.png)
 
 点击**Dev Tool** 可以进行es语句操作
 
 ## 查询集群状态
 
-![img](img/es07.png)
+![img](../../../images/kibana/k2.png)

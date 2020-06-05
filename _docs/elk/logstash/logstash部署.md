@@ -1,10 +1,16 @@
-# logstash部署
+---
+title: logstash介绍和部署
+category: logstash
+order: 1
+---
+
+
 
 ## logstash介绍
 
 Logstash使用管道方式进行日志的搜集处理和输出。Logstash管道有两个必需的元素，输入和输出，以及一个可选元素过滤器。输入插件从数据源那里消费数据，过滤器插件根据你的期望修改数据，输出插件将数据写入目的地。在logstash中，包括了三个阶段:输入input --> 处理filter（不是必须的） --> 输出output
 
-![img](img/l2.png)
+![img](../../../images/logstash/l2.png)
 
 
 
