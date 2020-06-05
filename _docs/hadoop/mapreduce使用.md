@@ -6,8 +6,6 @@ order: 4
 
 
 
-## MapReduce原理
-
 ### MapReduce架构
 
 在MapReduce中，用于执行MapReduce任务的机器有两个角色：**JobTracker**和**TaskTracker**。其中**JobTracker是用于调度工作的**。**TaskTracker是用于执行工作的**。一个Hadoop集群中只有一台JobTracker。MapReduce架构图如下：
@@ -95,7 +93,7 @@ Merge有三种形式：1、内存到内存；2、内存到磁盘；3、磁盘到
 
 
 
-## MapReduce案例
+### MapReduce案例
 
 > WordCount案例：linux的 hello.txt 上传到 hdfs中，使用mapreduce统计单词出现次数，并保存结果到hdfs中。
 >
