@@ -4,15 +4,11 @@ category: kibana
 order: 1
 ---
 
-
-
 ### 下载
 
 从官网[https://www.elastic.co/cn/downloads/kibana](https://www.elastic.co/cn/downloads/kibana)下载与elasticsearch版本一致的kibana。
 
 历史版本可以点击[past releases](https://www.elastic.co/downloads/past-releases#kibana).进行选择。
-
-
 
 ### 安装
 
@@ -22,8 +18,6 @@ tar -zxvf kibana-6.7.1-linux-x86_64.tar.gz
 # 重命名
 mv kibana-6.7.1-linux-x86_64 kibana
 ```
-
-
 
 ### 修改配置文件
 
@@ -40,8 +34,6 @@ elasticsearch.hosts: ["http://192.168.111.128:9200","http://192.168.111.129:9200
 kibana.index: ".newkibana"
 ```
 
-
-
 ### 启动kibana
 
 ```shell
@@ -49,15 +41,11 @@ cd bin
 nohup ./kibana &
 ```
 
-
-
 ### 浏览器访问
 
 ![img](../../../images/kibana/k1.png)
 
 点击**Dev Tool** 可以进行es语句操作
-
-
 
 ### 查询集群状态
 
