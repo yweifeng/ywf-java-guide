@@ -1,7 +1,6 @@
 ---
 title: springboot集成ehcache
 category: springboot
-category-order: 1
 order: 6
 ---
 

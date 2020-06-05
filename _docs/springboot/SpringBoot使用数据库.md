@@ -1,7 +1,6 @@
 ---
 title: SpringBoot使用数据库
 category: springboot
-category-order: 1
 order: 8
 ---
 

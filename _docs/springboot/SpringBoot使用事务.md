@@ -1,7 +1,6 @@
 ---
 title: SpringBoot使用事务
 category: springboot
-category-order: 1
 order: 13
 ---
 

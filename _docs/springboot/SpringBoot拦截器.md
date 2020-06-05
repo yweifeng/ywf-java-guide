@@ -1,7 +1,6 @@
 ---
 title: SpringBoot拦截器
 category: springboot
-category-order: 1
 order: 4
 ---
 

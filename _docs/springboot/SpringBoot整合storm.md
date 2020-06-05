@@ -1,7 +1,6 @@
 ---
 title: SpringBoot整合storm
 category: springboot
-category-order: 1
 order: 17
 ---
 

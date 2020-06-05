@@ -1,7 +1,6 @@
 ---
 title: SpringBoot使用Swagger2
 category: springboot
-category-order: 1
 order: 7
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: SpringBoot定时任务
 category: springboot
-category-order: 1
 order: 2
 ---
 

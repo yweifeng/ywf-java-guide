@@ -1,7 +1,6 @@
 ---
 title: SpringBoot整合redis
 category: springboot
-category-order: 1
 order: 14
 ---
 
