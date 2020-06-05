@@ -5,7 +5,7 @@ title: ywf-java-guide
 url: "https://long-pig.cloudvent.net"
 baseurl:
 google_analytics_key:
-show_full_navigation: false
+show_full_navigation: true
 
 # Values for the jekyll-seo-tag gem (https://github.com/jekyll/jekyll-seo-tag)
 logo: /siteicon.png
