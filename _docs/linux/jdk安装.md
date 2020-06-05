@@ -30,6 +30,8 @@ javapackages-tools-3.4.1-11.el7.noarch
 java-1.8.0-openjdk-headless-1.8.0.232.b09-0.el7_7.x86_64
 ```
 
+
+
 ### 卸载openjdk 
 
 ```shell
@@ -42,6 +44,8 @@ rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.232.b09-0.el7_7.x86_64
 #或者
 yum remove *openjdk*
 ```
+
+
 
 ### 安装新的jdk
 
@@ -56,6 +60,8 @@ wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2F
 
 ```
 
+
+
 ### 配置环境变量
 
 vim /etc/profile
@@ -66,6 +72,8 @@ CLASSPATH=$JAVA_HOME/lib/
 PATH=$PATH:$JAVA_HOME/bin
 export PATH JAVA_HOME CLASSPATH
 ```
+
+
 
 ### 重启配置信息并校验
 

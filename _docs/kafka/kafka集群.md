@@ -52,6 +52,8 @@ source /etc/hosts
 192.168.111.142 slave2
 ```
 
+
+
 #### 修改配置文件 server.properties 
 
 ```shell
@@ -67,6 +69,8 @@ zookeeper.connect=master:2181,slave1:2181,slave2:2181
 # 如果创建topic时没有给出划分partitions个数，这个数字将是topic下partitions数目的默认数值。
 num.partitions=3
 ```
+
+
 
 #### 拷贝到其他服务器
 
@@ -85,12 +89,16 @@ slave1: broker.id=2
 slave2: broker.id=3
 ```
 
+
+
 #### 启动kafka
 
 ```shell
 # 各服务器单独启动kafka
 bin/kafka-server-start.sh -daemon config/server.properties 
 ```
+
+
 
 #### 创建并查看topic
 
@@ -101,6 +109,8 @@ kafka-topics.sh --create --zookeeper master:2181,slave1:2181,slave2:2181 --repli
 # 查看topic
 kafka-topics.sh --describe --zookeeper master:2181,slave1:2181,slave2:2181 --topic topic-ywf
 ```
+
+
 
 #### 生产消费
 
@@ -117,6 +127,8 @@ kafka-console-consumer.sh --bootstrap-server master:9092,slave1:9092,slave2:9092
 kafka-console-consumer.sh --bootstrap-server master:9092,slave1:9092,slave2:9092 --from-beginning --topic topic-ywf
 
 ```
+
+
 
 #### 其他命令
 
