@@ -1,4 +1,8 @@
-### mycat 读写分离
+---
+title: mycat 读写分离
+category: mysql
+order: 3
+---
 
 
 

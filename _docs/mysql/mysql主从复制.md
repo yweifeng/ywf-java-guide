@@ -1,4 +1,8 @@
-### mysql 主从复制
+---
+title: mysql主从复制
+category: mysql
+order: 1
+---
 
 
 
@@ -13,7 +17,7 @@
 
  
 
-![img](img/mysql01.png) 
+![img](../../images/mysql/mysql01.png) 
 
 
 

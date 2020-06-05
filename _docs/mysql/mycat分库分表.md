@@ -1,6 +1,10 @@
-##### mycat 分库分表
+---
+title: mycat 分库分表
+category: mysql
+order: 4
+---
 
-##### 配置schema.xml
+### 配置schema.xml
 
 ```xml
 
@@ -38,7 +42,7 @@
 
 
 
-##### 配置rule.xml
+### 配置rule.xml
 
 ```xml
 <!--添加rule规则-->
@@ -58,7 +62,7 @@
 
 
 
-##### 配置server.xml
+### 配置server.xml
 
 ```xml
 #修改sequnceHandlerType为0  读取sequence_conf.properties
@@ -67,7 +71,7 @@
 
 
 
-##### 验证
+### 验证
 
 ```shell
 #登录管理窗口
