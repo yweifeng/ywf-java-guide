@@ -1,6 +1,7 @@
 ---
 title: 使用Idea新建SpringBoot项目
 category: springboot
+category-order: 1
 order: 1
 ---
 
