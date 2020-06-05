@@ -1,4 +1,10 @@
-# 使用redis+lua进行商品秒杀
+---
+title: redis+lua进行商品秒杀
+category: lua
+order: 4
+---
+
+
 
 ### pom.xml
 

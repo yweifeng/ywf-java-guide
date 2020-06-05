@@ -1,3 +1,9 @@
+---
+title: redis使用lua
+category: lua
+order: 1
+---
+
 ## Redis中使用Lua的好处
 
 - 减少网络开销。可以将多个请求通过脚本的形式一次发送，减少网络时延

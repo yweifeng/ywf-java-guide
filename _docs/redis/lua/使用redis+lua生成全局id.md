@@ -1,4 +1,10 @@
-# 使用redis+lua生成全局id
+---
+title: redis+lua生成全局id
+category: lua
+order: 3
+---
+
+
 
 > 背景：数据库采用分库分表、系统架构采用微服务架构，需要提供一个全局的分布式ID
 
@@ -309,4 +315,4 @@ JMeter   100个并发测试
 
 [localhost:8080/testGeneratorId?key=order](localhost:8080/testGeneratorId?key=order)
 
-![img](img/lua1.png)
+![img](../../../images/lua/lua1.png)

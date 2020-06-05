@@ -1,4 +1,8 @@
-[Redis持久化AOF和RDB对比](https://www.cnblogs.com/yhq-qhh/p/10140586.html)
+---
+title: Redis持久化AOF和RDB对比
+category: redis
+order: 4
+---
 
 | RDB持久化                           | AOF持久化                                           |
 | ----------------------------------- | --------------------------------------------------- |

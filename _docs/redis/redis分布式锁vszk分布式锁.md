@@ -1,3 +1,9 @@
+---
+title: redis分布式锁vszk分布式锁
+category: redis
+order: 3
+---
+
 ## jdk的实现方式
 
 **思路**：另启一个服务，利用jdk并发工具来控制唯一资源，如在服务中维护一个concurrentHashMap，其他服务对某个key请求锁时，通过该服务暴露的端口，以网络通信的方式发送消息，服务端解析这个消息，将concurrentHashMap中的key对应值设为true，分布式锁请求成功，[demo中写了一个基于netty通信的分布式锁](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FLiuWillow%2Fdistributed-lock%2Ftree%2Fmaster%2Fsingle-lock-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Flwl%2Fserver)，当然你想用java的bio、nio或者整合dubbo、spring cloud feign来实现通信也没问题
@@ -79,7 +85,7 @@
 ## 总结
 
 - 基于jdk的并发工具自己实现的锁
-   
+  
    ```
    优点：不需要引入中间件，架构简单
    缺点：编写一个可靠、高可用、高效率的分布式锁服务，难度较大
@@ -88,7 +94,7 @@
    
    
 - redis set px nx + 唯一id + lua脚本
-   
+  
    ```
    优点：redis本身的读写性能很高，因此基于redis的分布式锁效率比较高
    缺点：依赖中间件，分布式环境下可能会有节点数据同步问题，可靠性有一定的影响，如果发生则需要人工介入
@@ -97,7 +103,7 @@
    
    
 - 基于redis的redlock
-   
+  
    ```
    优点：可以解决redis集群的同步可用性问题
    缺点：依赖中间件，并没有被广泛验证，维护成本高，需要多个独立的master节点；需要同时对多个节点申请锁，降低了一些效率
@@ -106,7 +112,7 @@
    
    
 - 基于zookeeper的分布式锁
-   
+  
    ```
    优点：不存在redis的超时、数据同步（zookeeper是同步完以后才返回）、主从切换（zookeeper主从切
    换的过程中服务是不可用的）的问题，可靠性很高

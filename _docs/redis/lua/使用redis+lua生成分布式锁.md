@@ -1,4 +1,8 @@
-# 使用redis+lua生成分布式锁
+---
+title: redis+lua生成分布式锁
+category: lua
+order: 2
+---
 
 ### pom.xml
 

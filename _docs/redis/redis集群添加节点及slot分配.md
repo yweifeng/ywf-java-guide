@@ -1,4 +1,8 @@
-# redis集群添加节点及slot分配
+---
+title: redis集群添加节点及slot分配
+category: redis
+order: 2
+---
 
 ### 添加设置配置文件
 
