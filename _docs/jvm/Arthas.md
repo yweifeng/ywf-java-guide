@@ -1,4 +1,8 @@
-# Arthas
+---
+title: Arthas
+category: jvm
+order: 6
+---
 
 ## 前言
 
@@ -94,13 +98,13 @@ java -jar arthas-boot.jar [PID]
 
 ### 全局监控  dashboard
 
-![img](img/jvm50.png)
+![img](../../images/jvm/jvm50.png)
 
 
 
 ### CPU飙升  thread
 
-![img](img/jvm51.png)
+![img](../../images/jvm/jvm51.png)
 
 - 分析：Thread ID为8的线程内存占用99%, 查看thread 8详情。
 
@@ -108,11 +112,11 @@ java -jar arthas-boot.jar [PID]
 thread 8
 ```
 
-![img](img/jvm52.png)
+![img](../../images/jvm/jvm52.png)
 
 - **分析**：找到出现问题的代码为 YwfArthas.java 第19行。
 
-![img](img/jvm54.png)
+![img](../../images/jvm/jvm54.png)
 
 
 
@@ -139,7 +143,7 @@ thread 8
 
 ### 线程死锁  thread -b
 
-![img](img/jvm55.png)
+![img](../../images/jvm/jvm55.png)
 
 - **分析**：ID=8 和 ID=9 的线程产生死锁， 问题代码行: YwfArthas.java 47行
 
@@ -305,7 +309,7 @@ Affect(class-cnt:1 , method-cnt:1) cost in 65 ms.
 [arthas@47220]$ monitor -c 10  com.ywf.arthas.YwfArthas methodTrace
 ```
 
-![img](img/jvm56.png)
+![img](../../images/jvm/jvm56.png)
 
 
 
