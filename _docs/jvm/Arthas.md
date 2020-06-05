@@ -4,13 +4,13 @@ category: jvm
 order: 6
 ---
 
-## 前言
+
 
 >  在使用 **Arthas** 之前，当遇到 Java 线上问题时，如 CPU 飙升、负载突高、内存溢出等问题，你需要查命令，查网络，然后 jps、jstack、jmap、jhat、jstat、hprof 等一通操作。最终焦头烂额，还不一定能查出问题所在。而现在，大多数的常见问题你都可以使用 **Arthas** 轻松定位，迅速解决，及时止损，准时下班。
 
 
 
-## Arthas 介绍
+### Arthas 介绍
 
 **Arthas** 是 `Alibaba` 在 2018 年 9 月开源的 **Java 诊断**工具。支持 `JDK6+`， 采用命令行交互模式，提供 `Tab` 自动不全，可以方便的定位和诊断线上程序运行问题。截至本篇文章编写时，已经收获 `Star` 17000+。
 
@@ -22,7 +22,7 @@ order: 6
 
 
 
-## Arthas 使用场景
+### Arthas 使用场景
 
 得益于 **Arthas** 强大且丰富的功能，让 **Arthas** 能做的事情超乎想象。下面仅仅列举几项常见的使用情况，更多的使用场景可以在熟悉了 **Arthas** 之后自行探索。
 
@@ -37,7 +37,7 @@ order: 6
 
 
 
-## 安装
+### 安装
 
 可以在官方 Github 上进行下载，如果速度较慢，可以尝试国内的码云 Gitee 下载。
 
@@ -52,7 +52,7 @@ java -jar arthas-boot.jar -h
 
 
 
-## 运行
+### 运行
 
 **Arthas** 只是一个 java 程序，所以可以直接用 `java -jar` 运行。运行时或者运行之后要选择要监测的 Java 进程。
 
@@ -73,7 +73,7 @@ java -jar arthas-boot.jar [PID]
 
 
 
-## 常用命令
+### 常用命令
 
 | 命令                                                         | 介绍                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -94,15 +94,15 @@ java -jar arthas-boot.jar [PID]
 
 
 
-## 常用操作
+### 常用操作
 
-### 全局监控  dashboard
+#### 全局监控  dashboard
 
 ![img](../../images/jvm/jvm50.png)
 
 
 
-### CPU飙升  thread
+#### CPU飙升  thread
 
 ![img](../../images/jvm/jvm51.png)
 
@@ -120,7 +120,7 @@ thread 8
 
 
 
-### 线程池线程状态
+#### 线程池线程状态
 
 **RUNNABLE** 运行中
 **TIMED_WAITIN** 调用了以下方法的线程会进入**TIMED_WAITING**：
@@ -141,7 +141,7 @@ thread 8
 
 
 
-### 线程死锁  thread -b
+#### 线程死锁  thread -b
 
 ![img](../../images/jvm/jvm55.png)
 
@@ -192,7 +192,7 @@ private static void deadThread() {
 
 
 
-### 反编译 jad
+#### 反编译 jad
 
 ```shell
 #jad 类包路径
@@ -201,7 +201,7 @@ private static void deadThread() {
 
 
 
-### 查看字段信息 sc -d -f 
+#### 查看字段信息 sc -d -f 
 
 ```shell
 # sc -d -f 
@@ -234,7 +234,7 @@ Affect(row-cnt:1) cost in 37 ms.
 
 
 
-### 查看方法信息 sm
+#### 查看方法信息 sm
 
 ```shell
 [arthas@46745]$ sm com.ywf.arthas.YwfArthas
@@ -251,7 +251,7 @@ Affect(row-cnt:7) cost in 9 ms.
 
 
 
-### 运行较慢、耗时较长 trace
+#### 运行较慢、耗时较长 trace
 
 - 模拟代码如下：
 
@@ -301,7 +301,7 @@ Affect(class-cnt:1 , method-cnt:1) cost in 65 ms.
 
 
 
-### 统计方法耗时 monitor -c 
+#### 统计方法耗时 monitor -c 
 
 - 每个10秒统计一次
 
@@ -313,7 +313,7 @@ Affect(class-cnt:1 , method-cnt:1) cost in 65 ms.
 
 
 
-### 观察方法的调用路径 stack 
+#### 观察方法的调用路径 stack 
 
 ```shell
 [arthas@47220]$ stack  com.ywf.arthas.YwfArthas methodFast
@@ -326,7 +326,7 @@ ts=2020-03-20 11:20:47;thread_name=main;id=1;is_daemon=false;priority=5;TCCL=sun
 
 
 
-## 热更新 redefine
+#### 热更新 redefine
 
 ```shell
 # redefine class路径
