@@ -6,7 +6,7 @@ order: 1
 
 
 
-## mybatis 事务管理
+### mybatis 事务管理
 
 **@Transactional注解属性如下**
 
@@ -14,7 +14,7 @@ order: 1
 
 
 
-### 隔离级别
+#### 隔离级别
 
 隔离级别是指若干个并发的事务之间的隔离程度，与我们开发时候主要相关的场景包括：脏读取、重复读、幻读。
 
@@ -44,7 +44,7 @@ public enum Isolation {
 
 
 
-### 传播行为
+#### 传播行为
 
 所谓事务的传播行为是指，如果在开始当前事务之前，一个事务上下文已经存在，此时有若干选项可以指定一个事务性方法的执行行为。
 
@@ -78,7 +78,7 @@ public enum Propagation {
 
 
 
-### 用法
+#### 用法
 
 @Transactional 可以作用于接口、接口方法、类以及类方法上。当作用于类上时，该类的所有 **public** 方法将都具有该类型的事务属性，同时，我们也可以在方法级别使用该标注来覆盖类级别的定义。
 
@@ -107,9 +107,9 @@ public class AdminApplication {
 
 
 
-## mybatis 延迟加载
+### mybatis 延迟加载
 
-###  什么是延迟加载
+####  什么是延迟加载
 
 - 就是在需要用到数据的时候才进行加载，不需要用到数据的时候就不加载数据。延迟加载也称为懒加载。 
 
@@ -119,9 +119,9 @@ public class AdminApplication {
 
 
 
-### 如何实现延迟加载
+#### 如何实现延迟加载
 
-#### 一对多实现延迟加载
+##### 一对多实现延迟加载
 
 > 场景：打印出所有部门的部门名称，此时不想加载用户信息
 
@@ -244,7 +244,7 @@ void lazyOne2Many() {
 
 
 
-#### 多对一实现延迟加载
+##### 多对一实现延迟加载
 
 > 场景：打印出所有员工名称，此时不想加载部门信息
 
@@ -363,7 +363,7 @@ void lazyMany2One() {
 
 
 
-#### 多对多实现延迟加载
+##### 多对多实现延迟加载
 
 > 场景：打印出所有学生名称，此时不想关联课程信息
 
@@ -476,7 +476,7 @@ void lazyMany2Many() {
 
 
 
-## mybatis 一级缓存
+### mybatis 一级缓存
 
 Mybatis的一级缓存是指Session缓存。一级缓存的作用域默认是一个SqlSession。Mybatis默认开启一级缓存。
 也就是在同一个SqlSession中，执行相同的查询SQL，第一次会去数据库进行查询，并写到缓存中；
@@ -597,7 +597,7 @@ public class UserServiceImpl implements IUserService {
 
 
 
-## mybatis 二级缓存
+### mybatis 二级缓存
 
 MyBatis并不是简单地对整个Application就只有一个Cache缓存对象，它将缓存划分的更细，即是Mapper级别的，即每一个Mapper都可以拥有一个Cache对象，具体如下：
 

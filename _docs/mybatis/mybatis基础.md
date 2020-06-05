@@ -10,7 +10,9 @@ order: 2
 >
 > 项目代码：https://github.com/yweifeng/ywf-mybatis.git
 
-## mybatis 入门
+
+
+### mybatis 入门
 
 - **创建数据库**
 
@@ -268,7 +270,7 @@ class MybatisApplicationTests {
 
 
 
-## mybatis CRUD
+### mybatis CRUD
 
 - **UserMapper.xml**
 
@@ -311,7 +313,7 @@ class MybatisApplicationTests {
 
 
 
-## mybatis 一对多
+### mybatis 一对多
 
 - **模拟数据**
 
@@ -493,7 +495,7 @@ public class Employ {
 
 
 
-## mybatis 多对一
+### mybatis 多对一
 
 - **EmployMapper.xml**
 
@@ -519,7 +521,7 @@ public class Employ {
 
 
 
-## mybatis 多对多
+### mybatis 多对多
 
 - 模拟数据
 

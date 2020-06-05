@@ -4,7 +4,9 @@ category: mybatis
 order: 3
 ---
 
-## mybatis注解 CRUD
+
+
+### mybatis注解 CRUD
 
 - **IUserAnnotationMapper.java**
 
@@ -64,7 +66,7 @@ public interface IUserAnnotationMapper {
 
 
 
-## mybatis注解 一对多
+### mybatis注解 一对多
 
 - **IDeptAnnotationMapper.java**
 
@@ -126,7 +128,7 @@ public interface IEmployAnnotationMapper {
 
 
 
-## mybatis注解 多对一
+### mybatis注解 多对一
 
 - **IEmployAnnotationMapper.java**
 
@@ -186,7 +188,7 @@ public interface IDeptAnnotationMapper {
 
 
 
-## mybatis注解 多对多
+### mybatis注解 多对多
 
 - **IStudentAnnotationMapper.java**
 

@@ -4,7 +4,9 @@ category: mybatis
 order: 4
 ---
 
-## mybatis if
+
+
+### mybatis if
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -21,7 +23,7 @@ order: 4
 
 
 
-## mybatis where
+### mybatis where
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -40,7 +42,7 @@ order: 4
 
 
 
-## mybatis choose
+### mybatis choose
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -61,7 +63,7 @@ order: 4
 
 
 
-## mybatis bind
+### mybatis bind
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -83,7 +85,7 @@ order: 4
 
 
 
-## mybatis foreach
+### mybatis foreach
 
 foreach 用于迭代传入过来的参数。 
 它的属性介绍分别是
@@ -108,7 +110,7 @@ foreach 用于迭代传入过来的参数。
 
 
 
-### 单传参是array类型
+#### 单传参是array类型
 
 - **IDeptMapper.java**
 
@@ -164,7 +166,7 @@ List<Dept> deptList = deptService.findByForeach(idArray);
 
 
 
-### 单传参是List类型
+#### 单传参是List类型
 
 - **IDeptMapper.java**
 
@@ -222,7 +224,7 @@ List<Dept> deptList = deptService.findByForeach(idList);
 
 
 
-### 单传参是Map类型
+#### 单传参是Map类型
 
 - **IDeptMapper.java**
 
@@ -279,7 +281,7 @@ List<Dept> deptList = deptService.findByForeach(idMap);
 
 
 
-### 多参数（此情况一定用Map）
+#### 多参数（此情况一定用Map）
 
 - **IDeptMapper.java**
 
