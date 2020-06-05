@@ -6,19 +6,19 @@ order: 2
 
 
 
-## 一.hadoop是什么
+### hadoop是什么
 
 Hadoop被公认是一套行业大数据标准开源软件，在分布式环境下提供了海量数据的处理能力。几乎所有主流厂商都围绕Hadoop开发工具、开源软件、商业化工具和技术服务。今年大型IT公司，如EMC、Microsoft、Intel、Teradata、Cisco都明显增加了Hadoop方面的投入。
 
  
 
-## 二 .hadoop能干什么
+### hadoop能干什么
 
 hadoop擅长日志分析，facebook就用Hive来进行日志分析，2009年时facebook就有非编程人员的30%的人使用HiveQL进行数据分析；淘宝搜索中的自定义筛选也使用的Hive；利用Pig还可以做高级的数据处理，包括Twitter、LinkedIn 上用于发现您可能认识的人，可以实现类似Amazon.com的协同过滤的推荐效果。淘宝的商品推荐也是！在Yahoo！的40%的Hadoop作业是用pig运行的，包括垃圾邮件的识别和过滤，还有用户特征建模。（2012年8月25新更新，天猫的推荐系统是hive，少量尝试mahout！）
 
  
 
-## 三.hadoop的核心
+### hadoop的核心
 
 - **HDFS**: Hadoop Distributed File System  分布式文件系统
 - **YARN**: Yet Another Resource Negotiator   资源管理调度系统
@@ -27,46 +27,37 @@ hadoop擅长日志分析，facebook就用Hive来进行日志分析，2009年时f
 
  
 
-## 四.HDFS的架构
+### HDFS的架构
 
 主从结构
 
-    •主节点， namenode
+    主节点， namenode
     
-    •从节点，有很多个: datanode
+    从节点，有很多个: datanode
 
-namenode负责：
+**namenode**负责：
 
-    •接收用户操作请求
+    接收用户操作请求
     
-    •维护文件系统的目录结构
+    维护文件系统的目录结构
     
-    •管理文件与block之间关系，block与datanode之间关系
+    管理文件与block之间关系，block与datanode之间关系
 
-datanode负责：
+**datanode**负责：
 
-    •存储文件
+    存储文件
     
-    •文件被分成block存储在磁盘上
+    文件被分成block存储在磁盘上
     
-    •为保证数据安全，文件会有多个副本
+    为保证数据安全，文件会有多个副本
 
- 
-
-
-
-
-
-Secondary NameNode负责：
+**Secondary NameNode**负责：
 
     合并fsimage和edits文件来更新NameNode的metedata
 
  
 
-
-
-
-## 五.Hadoop的特点
+### Hadoop的特点
 
 **扩容能力（Scalable）**：能可靠地（reliably）存储和处理千兆字节（PB）数据。
 
@@ -78,9 +69,9 @@ Secondary NameNode负责：
 
  
 
-## 六.NameNode
+### NameNode
 
-### 1.简介
+#### 简介
 
 namenode是整个文件系统的管理节点。他维护着整个文件系统的文件目录树，文件/目录的元信息和每个文件对应的数据块列表。接收用户的操作请求。
 
@@ -94,7 +85,7 @@ namenode是整个文件系统的管理节点。他维护着整个文件系统的
 
  
 
-### 2.NameNode的工作特点
+#### NameNode的工作特点
 
 NameNode始终在内存中保存metedata，用于处理“读请求”，到有“写请求”到来时，NameNode首先会写editlog到磁盘，即向edits文件中写日志，成功返回后，才会修改内存，并且向客户端返回。
 
@@ -102,7 +93,7 @@ Hadoop会维护一个人fsimage文件，也就是NameNode中metedata的镜像，
 
  
 
-### 3.什么时候checkpoint
+#### 什么时候checkpoint
 
 fs.checkpoint.period 指定两次checkpoint的最大时间间隔，默认3600秒。 
 fs.checkpoint.size    规定edits文件的最大值，一旦超过这个值则强制checkpoint，不管是否到达最大时间间隔。默认大小是64M。
@@ -113,15 +104,15 @@ fs.checkpoint.size    规定edits文件的最大值，一旦超过这个值则�
 
  
 
-## 七.SecondaryNameNode
+### SecondaryNameNode
 
-### 1.简介
+#### 简介
 
 HA的一个解决方案。但不支持热备。配置即可。
 执行过程：从NameNode上下载元数据信息（fsimage,edits），然后把二者合并，生成新的fsimage，在本地保存，并将其推送到NameNode，替换旧的fsimage.
 默认在安装在NameNode节点上，但这样...不安全！
 
-### 2.工作流程
+#### 工作流程
 
 1. NamdeNode生成一个新的文件:edit.new。
 2. 每隔一段时间(默认1小时)，SNN将NN上最新的FSImage和积累的edits通过http协议下载到本地，并加载到内存。
@@ -131,7 +122,7 @@ HA的一个解决方案。但不支持热备。配置即可。
 
  
 
-## 八.DataNode
+### DataNode
 
 提供真实文件数据的存储服务。
 **文件块（block）**：最基本的存储单位。对于文件内容而言，一个文件的长度大小是size，那么从文件的０偏移开始，按照固定的大小，顺序对文件进行划分并编号，划分好的每一个块称一个Block。HDFS默认Block大小是128MB，以一个256MB文件，共有256/128=2个Block.
@@ -141,9 +132,9 @@ Replication:多复本。默认是三个。
 
  
 
-## 九.HDFS
+### HDFS
 
-### （1）读过程
+#### 读过程
 
 ![img](../../images/hadoop/hadoop02.png)
 
@@ -161,7 +152,7 @@ Replication:多复本。默认是三个。
 
 
 
-### （2）写过程
+#### 写过程
 
 ![img](../../images/hadoop/hadoop03.png)
 
