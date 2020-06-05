@@ -1,4 +1,10 @@
-# scp远程拷贝文件
+---
+title: scp远程拷贝文件
+category: linux
+order: 1
+---
+
+
 
 ```shell
 复制文件（本地>>远程）：scp /cloud/data/test.txt root@10.21.156.6:/cloud/data/

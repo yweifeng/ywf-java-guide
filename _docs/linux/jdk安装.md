@@ -1,6 +1,12 @@
-# jdk安装
+---
+title: jdk安装
+category: linux
+order: 1
+---
 
-## 1.1  检查一下系统中的jdk版本 
+
+
+### 检查一下系统中的jdk版本 
 
 ```shell
 [root@rocketmq-nameserver1 local]# clear
@@ -12,7 +18,7 @@ OpenJDK 64-Bit Server VM (build 25.232-b09, mixed mode)
 
 
 
-## 1.2  检测jdk安装包 
+### 检测jdk安装包 
 
 ```shell
 [root@rocketmq-nameserver1 local]# rpm -qa | grep java
@@ -24,7 +30,7 @@ javapackages-tools-3.4.1-11.el7.noarch
 java-1.8.0-openjdk-headless-1.8.0.232.b09-0.el7_7.x86_64
 ```
 
-## 1.3  卸载openjdk 
+### 卸载openjdk 
 
 ```shell
 rpm -e --nodeps tzdata-java-2018c-1.el7.noarch
@@ -37,9 +43,7 @@ rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.232.b09-0.el7_7.x86_64
 yum remove *openjdk*
 ```
 
-
-
-## 1.4 安装新的jdk
+### 安装新的jdk
 
 ```shell
 # 方式一：
@@ -52,9 +56,7 @@ wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2F
 
 ```
 
-
-
-## 1.5 配置环境变量
+### 配置环境变量
 
 vim /etc/profile
 
@@ -65,9 +67,7 @@ PATH=$PATH:$JAVA_HOME/bin
 export PATH JAVA_HOME CLASSPATH
 ```
 
-
-
-## 1.6 重启配置信息并校验
+### 重启配置信息并校验
 
 ```shell
 source /etc/profile

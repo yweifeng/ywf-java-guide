@@ -1,4 +1,10 @@
-### 安装jps
+---
+title: 安装jps
+category: linux
+order: 2
+---
+
+
 
 ```shell
 [root@namenode ~]# jps
@@ -25,8 +31,5 @@ java-1.7.0-openjdk-headless-1.7.0.91-2.6.2.3.el7.x86_64
 10061 NameNode
 10301 DataNode
 10655 SecondaryNameNode
-————————————————
-版权声明：本文为CSDN博主「Leshami」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/leshami/article/details/78562642
 ```
 

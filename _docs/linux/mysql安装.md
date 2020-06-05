@@ -1,4 +1,10 @@
-# mysql安装
+---
+title: mysql安装
+category: linux
+order: 3
+---
+
+
 
 ```shell
 #下载并安装mysql yum
@@ -50,27 +56,27 @@ mysql> grant all privileges on *.* to 'root' @'%' identified by '!QAZ2wsx';
 
 
 
-# 解决centos7使用yum安装mysql 下载速度慢的问题
+### 解决centos7使用yum安装mysql 下载速度慢的问题
 
-1. 备份系统自带yum源配置文件/etc/yum.repos.d/CentOS-Base.repo
+- 备份系统自带yum源配置文件/etc/yum.repos.d/CentOS-Base.repo
 
 ```shell
 mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 ```
 
-2. 下载ailiyun的yum源配置文件到/etc/yum.repos.d/
+- 下载ailiyun的yum源配置文件到/etc/yum.repos.d/
 
 ```shell
 wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
-3. 运行yum makecache生成缓存
+- 运行yum makecache生成缓存
 
 ```shell
 yum makecache
 ```
 
-4. 这时候再更新系统就会看到以下mirrors.aliyun.com信息
+- 这时候再更新系统就会看到以下mirrors.aliyun.com信息
 
 ```shell
 yum -y update
