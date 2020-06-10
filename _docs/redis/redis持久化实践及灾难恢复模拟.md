@@ -1,7 +1,7 @@
 ---
 title: redis持久化实践及灾难恢复模拟
-category: lua
-order: 6
+category: redis
+order: 7
 ---
 
 
