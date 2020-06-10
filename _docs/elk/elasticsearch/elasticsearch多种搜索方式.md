@@ -1,22 +1,27 @@
+---
+title: es多种搜索方式
+category: elasticsearch
+order: 8
+---
+
 <!-- TOC -->
 
-- [elasticsearch多种搜索方式](#elasticsearch多种搜索方式)
-    - [**bulk模拟数据**](#bulk模拟数据)
-    - [query string search](#query-string-search)
-    - [query DSL](#query-dsl)
-    - [filter DSL](#filter-dsl)
-    - [**query 和 filter的区别**](#query-和-filter的区别)
-    - [query filter 组合使用](#query-filter-组合使用)
-    - [full-text search（全文检索）](#full-text-search全文检索)
-        - [提高查询精度](#提高查询精度)
-        - [控制查询精度](#控制查询精度)
-    - [phrase search（短语搜索）](#phrase-search短语搜索)
-    - [highlight search（高亮搜索结果）](#highlight-search高亮搜索结果)
+- [**bulk模拟数据**](#bulk模拟数据)
+- [query string search](#query-string-search)
+- [query DSL](#query-dsl)
+- [filter DSL](#filter-dsl)
+- [**query 和 filter的区别**](#query-和-filter的区别)
+- [query filter 组合使用](#query-filter-组合使用)
+- [full-text search（全文检索）](#full-text-search全文检索)
+  - [提高查询精度](#提高查询精度)
+  - [控制查询精度](#控制查询精度)
+- [phrase search（短语搜索）](#phrase-search短语搜索)
+- [highlight search（高亮搜索结果）](#highlight-search高亮搜索结果)
 
 <!-- /TOC -->
-# elasticsearch多种搜索方式
 
-## **bulk模拟数据**
+
+### **bulk模拟数据**
 
 使用**bulk**批量导入6条数据
 
@@ -39,7 +44,7 @@ POST /_bulk
 
 
 
-## query string search
+### query string search
 
 **搜索全部商品**
 
@@ -259,7 +264,7 @@ GET /goods/product/_search?q=name:shoes&sort=price:desc
 
 
 
-## query DSL
+### query DSL
 
 DSL：Domain Specified Language，特定领域的语言
 http request body：请求体，可以用json的格式来构建查询语法，比较方便，可以构建各种复杂的语法，比query string search强大
@@ -418,7 +423,7 @@ GET /goods/product/_search
 
 
 
-## filter DSL
+### filter DSL
 
 **搜索且售价大于100元的商品**
 
@@ -503,7 +508,7 @@ GET /goods/product/_search
 
 
 
-## **query 和 filter的区别**
+### **query 和 filter的区别**
 
 ```
 query filter在性能上对比：filter是不计算相关性的，同时可以cache。因此，filter速度要快于query。
@@ -519,7 +524,7 @@ query与filter区别如下：
 
 
 
-## query filter 组合使用
+### query filter 组合使用
 
 **搜索且售价大于100元的商品，并且名字包含shoes，按商品价格降序排序**
 
@@ -552,7 +557,7 @@ GET /goods/product/_search
 
 
 
-## full-text search（全文检索）
+### full-text search（全文检索）
 
 **全文检索名称包含lining shoes的商品**
 
@@ -668,7 +673,7 @@ GET /goods/product/_search
 
 
 
-### 提高查询精度
+#### 提高查询精度
 
 match查询接受一个operator参数，该参数的默认值是"**or**"。你可以将它改变为"**and**"来要求所有的词条都需要被匹配：
 
@@ -746,7 +751,7 @@ GET /goods/product/_search
 
 
 
-### 控制查询精度
+#### 控制查询精度
 
 match查询支持**minimum_should_match**参数，它能够让你指定有多少词条必须被匹配才会让该文档被当做一个相关的文档。尽管你能够指定一个词条的绝对数量，但是通常指定一个百分比会更有意义，因为你无法控制用户会输入多少个词条
 
@@ -774,7 +779,7 @@ GET /goods/product/_search
 
 
 
-## phrase search（短语搜索）
+### phrase search（短语搜索）
 
 phrase search，要求输入的搜索串，必须在指定的字段文本中，完全包含一模一样的，才可以算匹配，才能作为结果返回
 
@@ -827,7 +832,7 @@ GET /goods/product/_search
 
 
 
-## highlight search（高亮搜索结果）
+### highlight search（高亮搜索结果）
 
 **查询商品名字包含shoes的商品，高亮显示**
 

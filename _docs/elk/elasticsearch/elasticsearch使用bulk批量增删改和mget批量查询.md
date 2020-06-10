@@ -1,16 +1,10 @@
-<!-- TOC -->
+---
+title: es使用bulk批量增删改和mget批量查询
+category: elasticsearch
+order: 9
+---
 
-- [elasticsearch使用bulk批量增删改和mget批量查询](#elasticsearch使用bulk批量增删改和mget批量查询)
-    - [bulk批量增删改](#bulk批量增删改)
-    - [bulk size最佳大小](#bulk-size最佳大小)
-    - [mget批量查询](#mget批量查询)
-
-<!-- /TOC -->
-# elasticsearch使用bulk批量增删改和mget批量查询
-
-
-
-## bulk批量增删改
+### bulk批量增删改
 
 bulk api对json的语法，有严格的要求，每个json串不能换行，只能放一行，同时一个json串和一个json串之间，必须有一个换行**
 
@@ -149,13 +143,13 @@ POST /_bulk
 
 
 
-## bulk size最佳大小
+### bulk size最佳大小
 
 > bulk request会加载到内存里，如果太大的话，性能反而会下降，因此需要反复尝试一个最佳的bulk size。一般从1000条数据开始，尝试逐渐增加。另外，如果看大小的话，最好是在515MB之间。
 
 
 
-## mget批量查询
+### mget批量查询
 
 - 批量查询的好处
 

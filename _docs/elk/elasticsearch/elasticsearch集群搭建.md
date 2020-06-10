@@ -1,4 +1,10 @@
-# ES集群搭建
+---
+title: ES集群搭建
+category: elasticsearch
+order: 1
+---
+
+
 
 虚拟机环境 **centos7**、**Elasticsearch6.7.1**  
 
@@ -10,7 +16,9 @@
 | 192.168.111.129 | node-2    | true        | true      |
 | 192.168.111.130 | node-3    | true        | true      |
 
-## ES安装
+
+
+### ES安装
 
 ```shell
 # 下载地址 https://www.elastic.co/cn/downloads/past-releases#elasticsearch
@@ -22,7 +30,9 @@ tar -zxvf elasticsearch-6.7.1.tar.gz
 mv elasticsearch-6.7.1 es
 ```
 
-## 创建目录
+
+
+### 创建目录
 
 ```shell
 cd /opt/elk/es
@@ -32,7 +42,9 @@ mkdir data
 mkdir logs
 ```
 
-## 修改elasticsearch配置文件 
+
+
+### 修改elasticsearch配置文件 
 
 - **vim /opt/elk/es/config/elasticsearch.yml**
 
@@ -66,7 +78,9 @@ discovery.zen.ping.unicast.hosts: ["192.168.111.128:9300", "192.168.111.129:9300
 discovery.zen.minimum_master_nodes: 3
 ```
 
-## 调整jvm内存 
+
+
+### 调整jvm内存 
 
 ```shell
 vim /opt/elk/es/config/jvm.options 
@@ -75,7 +89,9 @@ vim /opt/elk/es/config/jvm.options
 -Xmx512m
 ```
 
-## 修改limits.conf
+
+
+### 修改limits.conf
 
 ```shell
 vim /etc/security/limits.conf
@@ -90,7 +106,9 @@ es hard nofile 65536
 * hard nproc 4096
 ```
 
-## 修改sysctl.conf
+
+
+### 修改sysctl.conf
 
 ```shell
 vim /etc/sysctl.conf
@@ -98,13 +116,17 @@ vim /etc/sysctl.conf
 vm.max_map_count=655360
 ```
 
-## 执行sysctl -p
+
+
+### 执行sysctl -p
 
 ```shell
 sysctl -p
 ```
 
-## 拷贝到其他服务器
+
+
+### 拷贝到其他服务器
 
 ```shell
 scp -r /opt/elk/es root@192.168.111.129:/opt/elk
@@ -123,7 +145,7 @@ vim /opt/elk/es/config/elasticsearch.yml
 
 
 
-##  建立用户并授权
+###  建立用户并授权
 
 ```shell
 #(es不能用root运行) 
@@ -133,7 +155,9 @@ useradd es
 chown -R es:es /opt/elk/es
 ```
 
-## 启动应用
+
+
+### 启动应用
 
 ```shell
 # 切换用户为es
@@ -141,7 +165,9 @@ su es
 bin/elasticsearch -d
 ```
 
-## 验证
+
+
+### 验证
 
 浏览器访问 
 
@@ -151,5 +177,5 @@ http://192.168.111.129:9200/
 
 http://192.168.111.130:9200/
 
-![img](img/es08.png)
+![img](../../../images/elasticsearch/es08.png)
 

@@ -1,10 +1,19 @@
-# elasticsearch整合Ik分词
+---
+title: es整合Ik分词
+category: elasticsearch
+order: 3
+---
 
-## IK简介
 
-ElasticSearch（以下简称ES）默认的分词器是标准分词器Standard，如果直接使用在处理中文内容的搜索时，中文词语被分成了一个一个的汉字，因此引入中文分词器IK就能解决这个问题，同时用户可以配置自己的扩展字典、远程扩展字典等。
 
-## IK安装
+### IK简介
+
+> ElasticSearch（以下简称ES）默认的分词器是标准分词器Standard，如果直接使用在处理中文内容的搜索时，中文词语被分成了一个一个的汉字，因此引入中文分词器IK就能解决这个问题，同时用户可以配置自己的扩展字典、远程扩展字典等。
+>
+
+
+
+### IK安装
 
 github 下载与es相同版本的zip安装包[https://github.com/medcl/elasticsearch-analysis-ik/releases](https://github.com/medcl/elasticsearch-analysis-ik/releases)
 
@@ -17,12 +26,16 @@ cd analysis-ik
 unzip elasticsearch-analysis-ik-6.7.1.zip
 ```
 
+
+
 **scp到其他服务器**
 
 ```shell
 scp -r /opt/elk/es/plugins/analysis-ik root@192.168.111.129:/opt/elk/es/plugins
 scp -r /opt/elk/es/plugins/analysis-ik root@192.168.111.130:/opt/elk/es/plugins
 ```
+
+
 
 **重启es集群**
 
@@ -32,7 +45,9 @@ cd /opt/elk/es/bin
 ./elasticsearch -d
 ```
 
-## 验证IK分词
+
+
+### 验证IK分词
 
 ik插件提供了两种分词模式：**ik_max_word**和**ik_smart**：
 
@@ -44,17 +59,17 @@ ik插件提供了两种分词模式：**ik_max_word**和**ik_smart**：
 
 使用**kibana**测试**ik_max_word**
 
-![img](img/es09.png)
+![img](../../../images/elasticsearch/es09.png)
 
 
 
 使用**kibana**测试**ik_smart**
 
-![img](img/es10.png)
+![img](../../../images/elasticsearch/es10.png)
 
 
 
-## 自定义IK分词
+### 自定义IK分词
 
 **关闭es**
 
@@ -112,7 +127,7 @@ scp -r /opt/elk/es/plugins/analysis-ik root@192.168.111.129:/opt/elk/es/plugins
 
 
 
-## 测试自定义IK分词
+### 测试自定义IK分词
 
 **创建索引和设置mappings**
 

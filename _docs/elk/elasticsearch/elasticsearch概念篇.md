@@ -1,28 +1,41 @@
+---
+title: es基础篇
+category: elasticsearch
+order: 6
+---
+
 <!-- TOC -->
 
 - [ES基础篇](#es基础篇)
-    - [ES的功能](#es的功能)
-        - [分布式的搜索引擎和数据分析引擎](#分布式的搜索引擎和数据分析引擎)
-        - [全文检索，结构化检索，数据分析](#全文检索结构化检索数据分析)
-        - [对海量数据进行近实时的处理](#对海量数据进行近实时的处理)
-    - [ES的核心概念](#es的核心概念)
-        - [集群(cluster)](#集群cluster)
-        - [节点(node)](#节点node)
-        - [索引(index)](#索引index)
-        - [类型(type)](#类型type)
-        - [映射(mapping)](#映射mapping)
-        - [文档(document)](#文档document)
-        - [字段(field)](#字段field)
-        - [分片(shard)和副本(replica)](#分片shard和副本replica)
-        - [分段(segment)](#分段segment)
-        - [segment查询](#segment查询)
-        - [segment生成](#segment生成)
-    - [ES的核心机制](#es的核心机制)
-        - [主备机制](#主备机制)
-        - [容错机制](#容错机制)
-        - [刪除或者更新原理](#刪除或者更新原理)
-    - [ES的并发控制](#es的并发控制)
-        - [并发解决方案](#并发解决方案)
+  - [ES的功能](#es的功能)
+    - [分布式的搜索引擎和数据分析引擎](#分布式的搜索引擎和数据分析引擎)
+    - [全文检索，结构化检索，数据分析](#全文检索结构化检索数据分析)
+    - [对海量数据进行近实时的处理](#对海量数据进行近实时的处理)
+  - [ES的核心概念](#es的核心概念)
+    - [集群(cluster)](#集群cluster)
+    - [节点(node)](#节点node)
+    - [索引(index)](#索引index)
+    - [类型(type)](#类型type)
+    - [映射(mapping)](#映射mapping)
+    - [文档(document)](#文档document)
+    - [字段(field)](#字段field)
+    - [分片(shard)和副本(replica)](#分片shard和副本replica)
+    - [分段(segment)](#分段segment)
+    - [segment查询](#segment查询)
+    - [segment生成](#segment生成)
+  - [ES的核心机制](#es的核心机制)
+    - [主备机制](#主备机制)
+    - [容错机制](#容错机制)
+    - [刪除或者更新原理](#刪除或者更新原理)
+  - [ES的并发控制](#es的并发控制)
+    - [并发解决方案](#并发解决方案)
+  - [ES 数据读写流程](#es-数据读写流程)
+    - [es 读数据过程](#es-读数据过程)
+    - [es 搜索流程](#es-搜索流程)
+    - [es写入过程](#es写入过程)
+  - [ES正/倒排索引](#es正倒排索引)
+    - [正排索引和倒排索引简介](#正排索引和倒排索引简介)
+    - [倒排索引](#倒排索引)
 
 <!-- /TOC -->
 
@@ -195,7 +208,7 @@ mapping定义了每个字段的类型、字段所使用的分词器等。相当�
 （4）重启宕机node，master copy replica到该node，使用原有的shard并同步宕机后的修改，green
 ```
 
-![img](img/es01.png)
+![img](../../../images/elasticsearch/es01.png)
 
  **容错步骤:** 
 
@@ -233,7 +246,7 @@ commit point，标识所有新的 segment file，然后打开segment file供搜�
 
  **悲观锁**： 
 
-![img](img/es02.png)
+![img](../../../images/elasticsearch/es02.png)
 
 **悲观锁方案**
 

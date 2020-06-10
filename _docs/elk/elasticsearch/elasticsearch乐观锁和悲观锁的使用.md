@@ -1,24 +1,28 @@
+---
+title: es乐观锁和悲观锁的使用
+category: elasticsearch
+order: 11
+---
+
 <!-- TOC -->
 
-- [elasticsearch乐观锁和悲观锁的使用](#elasticsearch乐观锁和悲观锁的使用)
-    - [乐观锁](#乐观锁)
-        - [内部version](#内部version)
-        - [外部version](#外部version)
-    - [悲观锁](#悲观锁)
-        - [全局锁](#全局锁)
-        - [document锁](#document锁)
-        - [共享锁与排它锁](#共享锁与排它锁)
+- [乐观锁](#乐观锁)
+  - [内部version](#内部version)
+  - [外部version](#外部version)
+- [悲观锁](#悲观锁)
+  - [全局锁](#全局锁)
+  - [document锁](#document锁)
+  - [共享锁与排它锁](#共享锁与排它锁)
 
 <!-- /TOC -->
-# elasticsearch乐观锁和悲观锁的使用
 
 > 多个线程去同时访问es中的一份数据，然后各自去修改之后更新到es，由于线程的先后顺序不同，可能会导致后续的修改覆盖掉之前的修改，显然一些场景下我们是不允许发生这种并发冲突的问题，例如电商库存的修改等
 
 
 
-## 乐观锁
+### 乐观锁
 
-### 内部version
+#### 内部version
 
 在es内部第次一创建document的时候，它的**_version**默认会是1，之后进行的删除和修改的操作_version都会增加1。可以看到删除一个document之后，再进行同一个id的document添加操作，版本号是加1而不是初始化为1，从而可以说明document并不是正真地被物理删除，它的一些版本号信息一样会存在，而是会在某个时刻一起被清除。
 
@@ -26,7 +30,7 @@
 
 
 
-### 外部version
+#### 外部version
 
 **?version=1&version_type=external**
 
@@ -38,9 +42,9 @@
 
 
 
-## 悲观锁
+### 悲观锁
 
-### 全局锁
+#### 全局锁
 
 通过doc来进行对整个index上锁
 
@@ -57,7 +61,7 @@ PUT /lockindex/locktype/global/_create
 
 
 
-### document锁
+#### document锁
 
 粒度更细的锁, 需要通过脚本来实现：
 
@@ -81,7 +85,7 @@ POST /lockindex/lock/1/_update
 
 
 
-### 共享锁与排它锁
+#### 共享锁与排它锁
 
 **共享锁：**数据是共享的，多个线程可以获取同一个数据的共享锁，然后对这个数据执行读操作 
 **排它锁：**只能有一个线程获取排它锁，然后执行更新操作

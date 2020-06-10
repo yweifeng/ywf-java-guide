@@ -1,6 +1,12 @@
-# elasticsearch整合拼音分词
+---
+title: es整合拼音分词
+category: elasticsearch
+order: 4
+---
 
-## 插件安装
+
+
+### 插件安装
 
 github 下载与es相同版本的zip安装包[https://github.com/medcl/elasticsearch-analysis-pinyin/releases](https://github.com/medcl/elasticsearch-analysis-pinyin/releases?)
 
@@ -30,9 +36,9 @@ cd /opt/elk/es/bin
 
 
 
-## 拼音分词 + IK分词混合使用
+### 拼音分词 + IK分词混合使用
 
-### 创建索引，配置两种分词器
+#### 创建索引，配置两种分词器
 
 ```bash
 PUT /blog/
@@ -69,7 +75,7 @@ PUT /blog/
 
 
 
-### **针对索引配置字段映射**
+#### **针对索引配置字段映射**
 
 ```bash
 PUT /blog/_mapping/article
@@ -109,7 +115,7 @@ PUT /blog/_mapping/article
 
 
 
-### 检查自定义的词语分析器是否生效
+#### 检查自定义的词语分析器是否生效
 
 ```bash
 GET /blog/_analyze
@@ -158,7 +164,7 @@ GET /blog/_analyze
 
 
 
-### 填充一些内容
+#### 填充一些内容
 
 ```bash
 PUT /blog/article/2
@@ -173,7 +179,7 @@ PUT /blog/article/2
 
 
 
-### 按照拼音搜索
+#### 按照拼音搜索
 
 ```bash
 GET /blog/article/_search
@@ -222,7 +228,7 @@ GET /blog/article/_search
 
 
 
-### 按照中文名进行搜索
+#### 按照中文名进行搜索
 
 ```bash
 GET /blog/article/_search
@@ -237,7 +243,7 @@ GET /blog/article/_search
 
 
 
-### 中文加拼音混合
+#### 中文加拼音混合
 
 ```bash
 GET /blog/article/_search
@@ -288,7 +294,7 @@ GET /blog/article/_search
 
 
 
-### 通过 validate-query API 可以帮助理解查询是如何执行的
+#### 通过 validate-query API 可以帮助理解查询是如何执行的
 
 ```bash
 GET /blog/article/_validate/query?explain

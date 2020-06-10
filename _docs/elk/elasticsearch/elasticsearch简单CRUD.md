@@ -1,6 +1,27 @@
-# elasticsearch简单的CRUD
+---
+title: es索引管理和CRUD
+category: elasticsearch
+order: 7
+---
 
-## 创建索引
+<!-- TOC -->
+
+- [创建索引](#创建索引)
+- [修改索引副本数量](#修改索引副本数量)
+- [查询索引分片信息](#查询索引分片信息)
+- [查看索引mapping](#查看索引mapping)
+- [新建索引mapping](#新建索引mapping)
+- [简单的CRUD](#简单的crud)
+  - [新增数据](#新增数据)
+  - [查询数据](#查询数据)
+  - [修改数据](#修改数据)
+    - [**方式一：全量替换**](#方式一全量替换)
+    - [**方式二：局部修改**](#方式二局部修改)
+  - [删除数据](#删除数据)
+
+<!-- /TOC -->
+
+### 创建索引
 
 创建 school索引，设置3个**主分片**（number_of_shards），每个主分片有3个**副本**（number_of_replicas）
 
@@ -29,7 +50,7 @@ PUT /goods
 
 
 
-## 修改索引副本数量
+### 修改索引副本数量
 
 ```bash
 PUT /goods/_settings
@@ -40,7 +61,7 @@ PUT /goods/_settings
 
 
 
-## 查询索引分片信息
+### 查询索引分片信息
 
 ```bash
 GET /goods/_search_shards
@@ -198,7 +219,7 @@ GET /goods/_search_shards
 
 
 
-## 查看索引mapping
+### 查看索引mapping
 
 ```bash
 GET /goods/_mapping
@@ -218,7 +239,7 @@ GET /goods/_mapping
 
 
 
-## 新建索引mapping
+### 新建索引mapping
 
 ```bash
 POST goods/product/_mapping?pretty
@@ -254,9 +275,9 @@ POST goods/product/_mapping?pretty
 
 
 
-## 简单的CRUD
+### 简单的CRUD
 
-### 新增数据
+#### 新增数据
 
 ```bash
 PUT /goods/product/1
@@ -291,7 +312,7 @@ PUT /goods/product/1
 
 
 
-## 查询数据
+#### 查询数据
 
 ```bash
 GET /goods/product/1
@@ -321,9 +342,9 @@ GET /goods/product/1
 
 
 
-### 修改数据
+#### 修改数据
 
-#### **方式一：全量替换**
+##### **方式一：全量替换**
 
 ```bash
 PUT /goods/product/1
@@ -358,7 +379,7 @@ PUT /goods/product/1
 
 
 
-#### **方式二：局部修改**
+##### **方式二：局部修改**
 
 ```bash
 POST /goods/product/1/_update
@@ -390,7 +411,7 @@ POST /goods/product/1/_update
 
 
 
-### 删除数据
+#### 删除数据
 
 ```bash
 DELETE /goods/product/1
