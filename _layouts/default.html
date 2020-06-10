@@ -63,9 +63,10 @@
 				color: #d9363e;
 			}
 			.nav-to-top {
-				position:absolute;
+				position: fixed;
 				line-height: 1.499;
-				position: relative;
+				right: 20px;
+				z-index: 99999;
 				display: inline-block;
 				font-weight: 400;
 				white-space: nowrap;
@@ -80,12 +81,16 @@
 				user-select: none;
 				touch-action: manipulation;
 				height: 32px;
+				line-height: 32px;
 				padding: 0 15px;
 				font-size: 14px;
 				border-radius: 4px;
 				color: rgba(0,0,0,.65);
 				background-color: #fff;
-				border: 1px solid #d9d9d9;
+				border: 1px solid #3583d6;
+				bottom: 60px;
+				background: #3583d6;
+				color: #ffffff;
 			}
 		</style>
 	</head>
@@ -144,13 +149,16 @@
 				{{ content }}
 			</article>
 		</section>
-		<span class="nav-to-top">
+		<span class="nav-to-top" id="nav-to-top">
 			返回顶部
 		</span>
 
 		<script>
 			document.getElementById("open-nav").addEventListener("click", function () {
 				document.body.classList.toggle("nav-open");
+			});
+			document.getElementById("nav-to-top").addEventListener("click", function () {
+				scrollTo(0,0);
 			});
 		</script>
 
