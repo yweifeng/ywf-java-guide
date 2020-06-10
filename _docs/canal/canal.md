@@ -1,6 +1,6 @@
 ---
 title: canal
-category: canal
+category: 其他
 order: 1
 ---
 
