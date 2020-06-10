@@ -4,8 +4,6 @@ category: mysql
 order: 4
 ---
 
-
-
 ### 配置schema.xml
 
 ```xml

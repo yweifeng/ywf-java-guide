@@ -4,8 +4,6 @@ category: mysql
 order: 3
 ---
 
-
-
 ### 下载和安装mycat
 
 ```shell
