@@ -1,5 +1,5 @@
 ---
-title: ES集群搭建
+title: es集群搭建
 category: elasticsearch
 order: 1
 ---
