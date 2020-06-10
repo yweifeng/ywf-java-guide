@@ -1,7 +1,7 @@
 ---
 title: zookeeper相关知识
 category: zookeeper
-order: 3
+order: 2
 ---
 
 

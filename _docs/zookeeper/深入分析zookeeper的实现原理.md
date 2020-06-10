@@ -1,7 +1,7 @@
 ---
 title: 深入分析zookeeper的实现原理
 category: zookeeper
-order: 4
+order: 3
 ---
 
 

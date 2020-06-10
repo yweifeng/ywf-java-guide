@@ -1,7 +1,7 @@
 ---
 title: zookeeper分布式锁
 category: zookeeper
-order: 2
+order: 4
 ---
 
 
