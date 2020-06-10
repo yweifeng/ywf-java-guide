@@ -2,5 +2,6 @@
 title: canal
 category: canal
 order: 1
-url: https://github.com/alibaba/canal
 ---
+
+> github地址：https://github.com/alibaba/canal
