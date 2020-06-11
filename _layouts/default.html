@@ -73,8 +73,8 @@
 				list-style: none;
 				font-feature-settings: "tnum";
 				position: fixed;
-				right: 100px;
-				bottom: 50px;
+				right: 70px;
+				bottom: 80px;
 				z-index: 10;
 				width: 40px;
 				height: 40px;
@@ -156,7 +156,7 @@
 				{{ content }}
 			</article>
 		</section>
-		<div class="nav-back-top">
+		<div class="nav-back-top" id="nav-back-top">
 			<div class="nav-back-top-content">
 				<div class="nav-back-top-icon"></div>
 			</div>
@@ -166,7 +166,7 @@
 			document.getElementById("open-nav").addEventListener("click", function () {
 				document.body.classList.toggle("nav-open");
 			});
-			document.getElementById("nav-to-top").addEventListener("click", function () {
+			document.getElementById("nav-back-top").addEventListener("click", function () {
 				scrollTo(0,0);
 			});
 		</script>
