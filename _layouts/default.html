@@ -62,35 +62,42 @@
 			a:hover {
 				color: #d9363e;
 			}
-			.nav-to-top {
-				position: fixed;
-				line-height: 1.499;
-				right: 20px;
-				z-index: 99999;
-				display: inline-block;
-				font-weight: 400;
-				white-space: nowrap;
-				text-align: center;
-				background-image: none;
-				box-shadow: 0 2px 0 rgba(0,0,0,.015);
-				cursor: pointer;
-				transition: all .3s cubic-bezier(.645,.045,.355,1);
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
-				touch-action: manipulation;
-				height: 32px;
-				line-height: 32px;
-				padding: 0 15px;
-				font-size: 14px;
-				border-radius: 4px;
+			.nav-back-top {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
 				color: rgba(0,0,0,.65);
-				background-color: #fff;
-				border: 1px solid #3583d6;
-				bottom: 60px;
-				background: #3583d6;
-				color: #ffffff;
+				font-size: 14px;
+				font-variant: tabular-nums;
+				line-height: 1.5;
+				list-style: none;
+				font-feature-settings: "tnum";
+				position: fixed;
+				right: 100px;
+				bottom: 50px;
+				z-index: 10;
+				width: 40px;
+				height: 40px;
+				cursor: pointer;
+			}
+			.nav-back-top-content {
+				width: 40px;
+				height: 40px;
+				overflow: hidden;
+				color: #fff;
+				text-align: center;
+				background-color: rgba(0,0,0,.45);
+				border-radius: 20px;
+				transition: all .3s cubic-bezier(.645,.045,.355,1);
+			}
+			.nav-back-top-content:hover {
+				background-color: rgba(0,0,0,.65);
+			}
+			.nav-back-top-icon {
+				width: 14px;
+				height: 16px;
+				margin: 12px auto;
+				background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAoCAYAAACWwljjAAAABGdBTUEAALGPC/xhBQAAAbtJREFUWAntmMtKw0AUhhMvS5cuxILgQlRUpIggIoKIIoigG1eC+AA+jo+i6FIXBfeuXIgoeKVeitVWJX5HWhhDksnUpp3FDPyZk3Nm5nycmZKkXhAEOXSA3lG7muTeRzmfy6HneUvIhnYkQK+Q9NhAA0Opg0vBEhjBKHiyb8iGMyQMOYuK41BcBSypAL+MYXSKjtFAW7EAGEO3qN4uMQbbAkXiSfRQJ1H6a+yhlkKRcAoVFYiweYNjtCVQJJpBz2GCiPt7fBOZQpFgDpUikse5HgnkM4Fi4QX0Fpc5wf9EbLqpUCy4jMoJSXWhFwbMNgWKhVbRhy5jirhs9fy/oFhgHVVTJEs7RLZ8sSEoJm6iz7SZDMbJ+/OKERQTttCXQRLToRUmrKWCYuA2+jbN0MB4OQobYShfdTCgn/sL1K36M7TLrN3n+758aPy2rrpR6+/od5E8tf/A1uLS9aId5T7J3CNYihkQ4D9PiMdMC7mp4rjB9kjFjZp8BlnVHJBuO1yFXIV0FdDF3RlyFdJVQBdv5AxVdIsq8apiZ2PyYO1EVykesGfZEESsCkweyR8MUW+V8uJ1gkYipmpdP1pm2aJVPEGzAAAAAElFTkSuQmCC) 100%/100% no-repeat;
 			}
 		</style>
 	</head>
@@ -149,9 +156,11 @@
 				{{ content }}
 			</article>
 		</section>
-		<span class="nav-to-top" id="nav-to-top">
-			返回顶部
-		</span>
+		<div class="nav-back-top">
+			<div class="nav-back-top-content">
+				<div class="nav-back-top-icon"></div>
+			</div>
+		</div>
 
 		<script>
 			document.getElementById("open-nav").addEventListener("click", function () {
