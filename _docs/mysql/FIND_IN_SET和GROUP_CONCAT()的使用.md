@@ -1,5 +1,5 @@
 ---
-title: FIND_IN_SET和GROUP_CONCAT()
+title: FIND_IN_SET 和 GROUP_CONCAT()
 category: mysql
 order: 5
 ---
