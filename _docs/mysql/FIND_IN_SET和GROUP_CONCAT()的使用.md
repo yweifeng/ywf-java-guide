@@ -38,7 +38,7 @@ GROUP BY p.id
 
 
 
-那 mysql中FIND_IN_SET（）和GROUP_CONCAT() 分别是什么意思呢？
+那 mysql中FIND_IN_SET()和GROUP_CONCAT() 分别是什么意思呢？
 
 ### FIND_IN_SET()
 
