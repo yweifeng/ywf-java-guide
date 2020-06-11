@@ -6,7 +6,7 @@ order: 5
 
 
 
-> **场景**：当我们使用mysql数据库，查询一张的数据，其中的一列存放的是是另一张表id用“，”拼接的字符
+> **场景**：当我们使用mysql数据库，查询一张的数据，其中的一列存放的是是另一张表id用","拼接的字符
 
 
 
@@ -42,22 +42,23 @@ GROUP BY p.id
 
 ### FIND_IN_SET()
 
- **语法:**  FIND_IN_SET(str,strlist)
+ **语法:  FIND_IN_SET(str,strlist)**
 
- **定义： **
+ **定义：** 
 
 - 如果字符串str在由N子链组成的字符串列表中，则返回值范围在1-N之间
+  
   - 如：select FIND_IN_SET('c','a,b,c,d') 返回值为 3
 - 如果str不在strlist中或者strlist为空字符串，则返回值为 0
-  - 如：select FIND_IN_SET('e','a,b,c,d') 返回值为 0
-
+  
+- 如：select FIND_IN_SET('e','a,b,c,d') 返回值为 0
+  
 - select FIND_IN_SET('e','') 返回值为 0
 
 - 如果任意一个参数为NULL，返回NULL
   - 如：select FIND_IN_SET('e',NULL)，返回值为NULL
-  - 
-
-  **使用**：在下面表中，如果我们想查询人员爱好弹琴的所有人员的话，该怎么查询呢？
+  
+**使用**：在下面表中，如果我们想查询人员爱好弹琴的所有人员的话，该怎么查询呢？
 
 ![img](../../images/mysql/mysql11.png)
 
