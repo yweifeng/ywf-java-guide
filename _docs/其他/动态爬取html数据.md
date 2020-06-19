@@ -214,20 +214,21 @@ public class CrawConfiguration {
 
 
 
-### CrawHandle.java
+### HtmlCrawHandle.java
 
 ```java
 package com.crawling.handle;
 
+import java.util.List;
 import java.util.Map;
 
-public interface CrawHandle {
+public interface HtmlCrawHandle {
 
     /**
-     * 数据爬取
-     * @param html
+     * 数据处理
+     * @param result
      */
-    void craw(Map<String, Object> html);
+    void handle(List<Map<String, String>> result);
 }
 
 ```
@@ -239,12 +240,10 @@ public interface CrawHandle {
 ```java
 package com.crawling.handle.html;
 
-import com.crawling.handle.CrawHandle;
-import com.crawling.utils.HtmlCrawUtil;
+import com.crawling.handle.HtmlCrawHandle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -254,20 +253,11 @@ import java.util.regex.Pattern;
 /**
  * 新闻类数据处理
  */
-public class NewsHandleImpl implements CrawHandle {
+public class NewsHandleImpl implements HtmlCrawHandle {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public void craw(Map<String, Object> html) {
-        try {
-            List<Map<String, String>> result = HtmlCrawUtil.crawGet(html);
-            handle(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void handle(List<Map<String, String>> data) {
+    public void handle(List<Map<String, String>> data) {
         logger.info("爬取结果：" + data);
         // 数据处理， 如图片存入oss等操作
         for (Map<String, String> map : data) {
@@ -338,22 +328,24 @@ public class NewsHandleImpl implements CrawHandle {
 
 
 
-### CrawThread.java
+### HtmlCrawThread.java
 
 ```java
 package com.crawling.thread;
 
+import com.crawling.utils.HtmlCrawUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
-public class CrawThread extends Thread {
+public class HtmlCrawThread extends Thread {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private Map<String, Object> map;
 
-    public CrawThread(Map<String, Object> map) {
+    public HtmlCrawThread(Map<String, Object> map) {
         this.map = map;
     }
 
@@ -363,9 +355,10 @@ public class CrawThread extends Thread {
         if (classObj != null) {
             String handleClass = (String) classObj;
             try {
+                List<Map<String, String>> result = HtmlCrawUtil.crawGet(map);
                 Class<?> clazz = Class.forName(handleClass);
-                Method handle = clazz.getDeclaredMethod("craw", Map.class);
-                handle.invoke(clazz.newInstance(), map);
+                Method handle = clazz.getDeclaredMethod("handle", List.class);
+                handle.invoke(clazz.newInstance(), result);
             } catch (Exception e) {{
                 e.printStackTrace();
             }}
