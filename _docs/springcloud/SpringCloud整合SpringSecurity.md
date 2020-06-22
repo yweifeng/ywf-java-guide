@@ -1,5 +1,5 @@
 ---
-title: Springcloud整合Spring Security
+title: SpringCloud整合Spring Security
 category: springcloud
 order: 10
 ---
