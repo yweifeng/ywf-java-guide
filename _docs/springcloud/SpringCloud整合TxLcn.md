@@ -1,5 +1,5 @@
 ---
-title: SpringBoot整合txlcn
+title: SpringCloud整合txlcn
 category: springcloud
 order: 8
 ---
