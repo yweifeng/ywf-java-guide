@@ -22,7 +22,7 @@ order: 2
 
 先来看一个B+树，其高度为2，每页可以放4条记录，扇出为5。
 
-![img](img/mysql02.png)
+![img](../../images/mysql/mysql02.png)
 
 图：一颗高度为2的B+树
 
@@ -32,7 +32,7 @@ B+树索引使用二分法查找，也称折半查找法，基本思想就是：
 
 如图所示，从有序列表中查找 48，只需要3步：
 
-![img](img/mysql03.png)
+![img](../../images/mysql/mysql03.png)
 
 
 
@@ -52,21 +52,21 @@ B+树的插入为了保持树的平衡，需要做大量的页（叶子节点）
 
 **图：一颗高度为2的B+树**
 
-![img](img/mysql04.png)
+![img](../../images/mysql/mysql04.png)
 
 **我们用实例来分析B+树的插入。**
 
 （1）我们插入28这个键值，发现当前Leaf Page和Index Page都没有满，我们直接插入就可以了。
 
-![img](img/mysql05.png)
+![img](../../images/mysql/mysql05.png)
 
 （2）这次我们再插入一条70这个键值，这时原先的Leaf Page已经满了，但是Index Page还没有满，**符合表（B+树 插入的三种情况）的第二种情况**，这时插入Leaf Page后的情况为**50、55、60、65、70**。我们根据**中间的值60拆分叶节点**。将**中间节点放入到Index Page**中。
 
-![img](img/mysql06.png)
+![img](../../images/mysql/mysql06.png)
 
 （3）因为图片显示的关系，这次我没有能在各叶节点加上双向链表指针。最后我们来插入记录95，**这时符合表（B+树 插入的三种情况）讨论的第三种情况**，即Leaf Page和Index Page都满了，这时需要做两次拆分。
 
-![img](img/mysql07.png)
+![img](../../images/mysql/mysql07.png)
 
 可以看到，不管怎么变化，B+树总是会保持平衡。但是为了保持平衡，对于新插入的键值可能需要做大量的拆分页（split）操作，而B+树主要用于磁盘，因此页的拆分意味着磁盘的操作，应该在可能的情况下尽量减少页的拆分。因此，B+树提供了旋转（rotation）的功能。
 
